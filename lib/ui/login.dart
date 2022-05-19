@@ -1,10 +1,11 @@
 import 'dart:io' show Platform;
 
 import 'package:flutter/material.dart';
+import 'package:untitled2/ui/feedPage.dart';
 
 
-import 'package:cs310/util/colors.dart';
-import 'package:cs310/util/styles.dart';
+import 'package:untitled2/util/colors.dart';
+import 'package:untitled2/util/styles.dart';
 
 class Login extends StatefulWidget {
   const Login({Key? key}) : super(key: key);
@@ -151,10 +152,12 @@ class _LoginState extends State<Login> {
                       child: FlatButton(
                         color: AppColors.buttonColor,
                         onPressed: () {
-                          if(_formKey.currentState!.validate()) {
+                          Navigator.pushNamedAndRemoveUntil(context, feedPage.routeName, (route) => false);
+                          /*if(_formKey.currentState!.validate()) {
                             _formKey.currentState!.save();
+
                             //database check
-                          }
+                          }*/
 
                         },
                         child: Text("Login",
@@ -172,7 +175,9 @@ class _LoginState extends State<Login> {
 
           ),
         ),
+
       )
+
     );
   }
 }

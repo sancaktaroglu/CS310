@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import 'package:cs310/util/colors.dart';
-import 'package:cs310/util/styles.dart';
+import 'package:untitled2/util/colors.dart';
+import 'package:untitled2/util/styles.dart';
 
 class Change_Password extends StatefulWidget {
   const Change_Password({Key? key}) : super(key: key);
@@ -153,6 +153,40 @@ class _Change_PasswordState extends State<Change_Password> {
 
           ),
         ),
+
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'Home',
+            backgroundColor: Colors.orange,
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.search),
+            label: 'Search',
+            backgroundColor: Colors.orange,
+
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.pin_drop),
+            label: 'Map',
+            backgroundColor: Colors.orange,
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.camera_alt_outlined),
+            label: 'Camera',
+            backgroundColor: Colors.orange,
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.person),
+            label: 'Profile',
+            backgroundColor: Colors.orange,
+
+          ),
+        ],
+        //onTap: ONTAP,
       ),
     );
   }

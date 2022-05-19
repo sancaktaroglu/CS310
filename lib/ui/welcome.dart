@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 
-import 'package:cs310/util/colors.dart';
-import 'package:cs310/util/styles.dart';
+import 'package:untitled2/util/colors.dart';
+import 'package:untitled2/util/styles.dart';
 
 class Welcome extends StatelessWidget {
   const Welcome({Key? key}) : super(key: key);
+
 
   @override
   Widget build(BuildContext context) {
@@ -98,6 +99,7 @@ class Welcome extends StatelessWidget {
               ],
             ),
           )),
+
     );
   }
 }

@@ -3,8 +3,8 @@ import 'dart:io' show Platform;
 import 'package:flutter/material.dart';
 
 
-import 'package:cs310/util/colors.dart';
-import 'package:cs310/util/styles.dart';
+import 'package:untitled2/util/colors.dart';
+import 'package:untitled2/util/styles.dart';
 
 
 class SignUp extends StatefulWidget {
@@ -250,10 +250,9 @@ class _SignUpState extends State<SignUp> {
                           _formKey.currentState!.save();
                           //database check
                         }
-                        Navigator.pushNamed(context, '/profileEdit');
 
                       },
-                      child: Text("Login",
+                      child: Text("Sign Up",
                         style: WelcomeButtonTextStyle,),
                     )
 
@@ -268,6 +267,7 @@ class _SignUpState extends State<SignUp> {
 
         ),
       ),
+
     );
   }
 }

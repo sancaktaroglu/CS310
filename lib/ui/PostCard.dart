@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:hotpins/model/Posts.dart';
-import 'package:hotpins/util/styles.dart';
-import 'package:hotpins/util/colors.dart';
+import 'package:untitled2/model/Posts.dart';
+import 'package:untitled2/util/styles.dart';
+import 'package:untitled2/util/colors.dart';
 
 class PostCard extends StatelessWidget {
+
+  static const String routeName = "/postcard";
 
   final Post post;
   final VoidCallback delete;

@@ -3,8 +3,8 @@ import 'dart:io' show Platform;
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 
-import 'package:cs310/util/colors.dart';
-import 'package:cs310/util/styles.dart';
+import 'package:untitled2/util/colors.dart';
+import 'package:untitled2/util/styles.dart';
 
   Future<void> showInfoDialog(String title, String message, BuildContext context) async {
     bool isAndroid = Platform.isAndroid;
