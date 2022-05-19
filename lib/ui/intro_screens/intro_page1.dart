@@ -8,7 +8,7 @@ class IntroPage1 extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(children: [
       const SizedBox(height: 50,),
-      Padding(padding: EdgeInsets.all(16.0),child: Container(child: Lottie.network('https://assets1.lottiefiles.com/packages/lf20_z1ts6ce4.json'))),
+      Padding(padding: EdgeInsets.all(16.0),child: Container(child: Lottie.asset('86513-location-forked.json'))),
       Text("Discover New Events and Places" ,style: TextStyle(
           color: Colors.grey[800],
           fontWeight: FontWeight.bold,

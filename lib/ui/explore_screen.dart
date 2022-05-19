@@ -52,7 +52,7 @@ class _exploreScreenState extends State<exploreScreen> {
     }
     return Scaffold(
         appBar: AppBar(
-          backgroundColor: Colors.orange,
+          backgroundColor: AppColors.appbarColor,
           title: Container(
             decoration: BoxDecoration(color: Colors.orange.shade200,
                 borderRadius: BorderRadius.circular(30)),
@@ -124,28 +124,28 @@ class _exploreScreenState extends State<exploreScreen> {
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
             label: 'Home',
-            backgroundColor: Colors.orange,
+            backgroundColor: AppColors.appbarColor,
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.search),
             label: 'Search',
-            backgroundColor: Colors.orange,
+            backgroundColor: AppColors.appbarColor,
 
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.pin_drop),
             label: 'Map',
-            backgroundColor: Colors.orange,
+            backgroundColor: AppColors.appbarColor,
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.camera_alt_outlined),
             label: 'Camera',
-            backgroundColor: Colors.orange,
+            backgroundColor: AppColors.appbarColor,
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.person),
             label: 'Profile',
-            backgroundColor: Colors.orange,
+            backgroundColor: AppColors.appbarColor,
 
           ),
         ],
