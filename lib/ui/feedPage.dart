@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:untitled2/ui/explore_screen.dart';
+import 'package:untitled2/ui/notifications.dart';
 import 'package:untitled2/ui/profile.dart';
 import 'package:untitled2/ui/profile_edit.dart';
 import 'package:untitled2/util/styles.dart';
@@ -62,9 +63,19 @@ class _feedPageState extends State<feedPage> {
           Padding(
             padding: EdgeInsets.only(right:20.0),
             child: GestureDetector(
+                onTap: () => Navigator.pushNamedAndRemoveUntil(context, Notifications.routeName, (route) => false),
+                child: Icon(
+                  Icons.notification_add,
+                  size: 27,
+                )
+            ),
+          ),
+          Padding(
+            padding: EdgeInsets.only(right:20.0),
+            child: GestureDetector(
                 onTap: () => print("Sa"),
                 child: Icon(
-                  Icons.settings,
+                  Icons.message,
                   size: 27,
                 )
             ),

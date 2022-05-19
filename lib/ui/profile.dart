@@ -7,6 +7,7 @@ import 'package:untitled2/model/user.dart';
 import 'package:untitled2/model/Posts.dart';
 import 'package:untitled2/ui/PostCard.dart';
 import 'package:untitled2/util/dimen.dart';
+import 'package:untitled2/ui/explore_screen.dart';
 
 
 void main() => runApp(const Profile());
@@ -17,6 +18,7 @@ class Profile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     return HomeView();
   }
 }
@@ -54,6 +56,33 @@ class _HomeViewState extends State<HomeView> {
   }
   @override
   Widget build(BuildContext context) {
+    int _selectedIndex = 0;
+
+    void _ONTAP(index) {
+      setState(() {
+        _selectedIndex = index;
+        if(index == 0)
+        {
+          Navigator.pushNamedAndRemoveUntil(context, feedPage.routeName, (route) => false);
+        }
+        else if(index == 1)
+        {
+          Navigator.pushNamedAndRemoveUntil(context, exploreScreen.routeName, (route) => false);
+        }
+        else if(index == 2)
+        {
+          Navigator.pushNamedAndRemoveUntil(context, Profile_Edit.routeName, (route) => false);
+        }
+        else if(index == 3)
+        {
+
+        }
+        else if(index == 4)
+        {
+          Navigator.pushNamedAndRemoveUntil(context, Profile.routeName, (route) => false);
+        }
+      });
+    }
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -238,7 +267,7 @@ class _HomeViewState extends State<HomeView> {
         ),
       ),
       bottomNavigationBar: BottomNavigationBar(
-
+        currentIndex: _selectedIndex,
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
@@ -268,7 +297,7 @@ class _HomeViewState extends State<HomeView> {
 
           ),
         ],
-        //onTap: _ONTAP,
+        onTap: _ONTAP,
       ),
 
     );

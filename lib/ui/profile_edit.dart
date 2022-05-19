@@ -4,7 +4,9 @@ import 'package:untitled2/main.dart';
 import 'package:untitled2/util/colors.dart';
 import 'package:untitled2/util/styles.dart';
 import 'package:untitled2/util/dialog.dart';
-
+import 'package:untitled2/ui/profile.dart';
+import 'package:untitled2/ui/feedPage.dart';
+import 'package:untitled2/ui/explore_screen.dart';
 
 
 class Profile_Edit extends StatefulWidget {
@@ -22,6 +24,33 @@ class _Profile_EditState extends State<Profile_Edit> {
 
   @override
   Widget build(BuildContext context) {
+    int _selectedIndex = 0;
+
+    void _ONTAP(index) {
+      setState(() {
+        _selectedIndex = index;
+        if(index == 0)
+        {
+          Navigator.pushNamedAndRemoveUntil(context, feedPage.routeName, (route) => false);
+        }
+        else if(index == 1)
+        {
+          Navigator.pushNamedAndRemoveUntil(context, exploreScreen.routeName, (route) => false);
+        }
+        else if(index == 2)
+        {
+          Navigator.pushNamedAndRemoveUntil(context, Profile_Edit.routeName, (route) => false);
+        }
+        else if(index == 3)
+        {
+
+        }
+        else if(index == 4)
+        {
+          Navigator.pushNamedAndRemoveUntil(context, Profile.routeName, (route) => false);
+        }
+      });
+    }
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -113,7 +142,7 @@ class _Profile_EditState extends State<Profile_Edit> {
 
       ),
       bottomNavigationBar: BottomNavigationBar(
-
+        currentIndex: _selectedIndex,
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
@@ -143,7 +172,7 @@ class _Profile_EditState extends State<Profile_Edit> {
 
           ),
         ],
-        //onTap: ONTAP,
+        onTap: _ONTAP,
       ),
 
 

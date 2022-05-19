@@ -1,12 +1,48 @@
 import 'package:flutter/material.dart';
 import 'package:untitled2/util/dimen.dart';
+import 'package:untitled2/ui/profile.dart';
+import 'package:untitled2/ui/profile_edit.dart';
+import 'package:untitled2/ui/explore_screen.dart';
+import 'package:untitled2/ui/feedPage.dart';
 
-class Notifications extends StatelessWidget {
+class Notifications extends StatefulWidget {
   const Notifications({Key? key}) : super(key: key);
   static const String routeName = "/notificaton";
 
   @override
+  State<Notifications> createState() => _NotificationsState();
+}
+
+class _NotificationsState extends State<Notifications> {
+  @override
   Widget build(BuildContext context) {
+    int _selectedIndex = 0;
+
+    void _ONTAP(index) {
+      setState(() {
+        _selectedIndex = index;
+        if(index == 0)
+        {
+          Navigator.pushNamedAndRemoveUntil(context, feedPage.routeName, (route) => false);
+        }
+        else if(index == 1)
+        {
+          Navigator.pushNamedAndRemoveUntil(context, exploreScreen.routeName, (route) => false);
+        }
+        else if(index == 2)
+        {
+          Navigator.pushNamedAndRemoveUntil(context, Profile_Edit.routeName, (route) => false);
+        }
+        else if(index == 3)
+        {
+
+        }
+        else if(index == 4)
+        {
+          Navigator.pushNamedAndRemoveUntil(context, Profile.routeName, (route) => false);
+        }
+      });
+    }
     SizeConfig().init(context);
     return Scaffold(
       backgroundColor: Color.fromARGB(255, 235, 229, 229),
@@ -260,7 +296,7 @@ class Notifications extends StatelessWidget {
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
-
+        currentIndex: _selectedIndex,
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
@@ -290,7 +326,7 @@ class Notifications extends StatelessWidget {
 
           ),
         ],
-        //onTap: ONTAP,
+        onTap: _ONTAP,
       ),
     );
   }

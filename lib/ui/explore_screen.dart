@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:untitled2/util/colors.dart';
+import 'package:untitled2/ui/profile.dart';
+import 'package:untitled2/ui/profile_edit.dart';
+import 'package:untitled2/ui/feedPage.dart';
 
 class exploreScreen extends StatefulWidget {
 
@@ -20,6 +23,33 @@ class _exploreScreenState extends State<exploreScreen> {
   ];
   @override
   Widget build(BuildContext context) {
+    int _selectedIndex = 0;
+
+    void _ONTAP(index) {
+      setState(() {
+        _selectedIndex = index;
+        if(index == 0)
+        {
+          Navigator.pushNamedAndRemoveUntil(context, feedPage.routeName, (route) => false);
+        }
+        else if(index == 1)
+        {
+          Navigator.pushNamedAndRemoveUntil(context, exploreScreen.routeName, (route) => false);
+        }
+        else if(index == 2)
+        {
+          Navigator.pushNamedAndRemoveUntil(context, Profile_Edit.routeName, (route) => false);
+        }
+        else if(index == 3)
+        {
+
+        }
+        else if(index == 4)
+        {
+          Navigator.pushNamedAndRemoveUntil(context, Profile.routeName, (route) => false);
+        }
+      });
+    }
     return Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.orange,
@@ -89,7 +119,7 @@ class _exploreScreenState extends State<exploreScreen> {
               );
             }),
       bottomNavigationBar: BottomNavigationBar(
-
+        currentIndex: _selectedIndex,
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
@@ -119,7 +149,7 @@ class _exploreScreenState extends State<exploreScreen> {
 
           ),
         ],
-        //onTap: ONTAP,
+        onTap: _ONTAP,
       ),
     );
   }
