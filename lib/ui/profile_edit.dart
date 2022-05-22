@@ -3,6 +3,7 @@ import 'package:untitled2/ui/profile.dart';
 
 
 import 'package:untitled2/util/colors.dart';
+import 'package:untitled2/util/dimen.dart';
 import 'package:untitled2/util/styles.dart';
 import 'package:untitled2/util/dialog.dart';
 import 'package:untitled2/util/appBar.dart';
@@ -54,7 +55,7 @@ class _ProfileEditState extends State<ProfileEdit> {
         }
       });
     }
-
+    SizeConfig().init(context);
     return Scaffold(
       appBar: welcomeBar("Settings"),
 
@@ -65,8 +66,8 @@ class _ProfileEditState extends State<ProfileEdit> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Container(
-              height: 55,
-              margin: const EdgeInsets.symmetric(horizontal: 43),
+              height: SizeConfig.blockSizeVertical*7,
+              margin: EdgeInsets.symmetric(horizontal: SizeConfig.blockSizeHorizontal*10),
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(80),
                 child: FlatButton(
@@ -82,8 +83,8 @@ class _ProfileEditState extends State<ProfileEdit> {
               ),
             ),
             Container(
-              height: 55,
-              margin: const EdgeInsets.symmetric(horizontal: 43),
+              height: SizeConfig.blockSizeVertical*7,
+              margin: EdgeInsets.symmetric(horizontal: SizeConfig.blockSizeHorizontal*10),
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(80),
                 child: Container(
@@ -111,8 +112,8 @@ class _ProfileEditState extends State<ProfileEdit> {
             ),
             ),
             Container(
-              height: 55,
-              margin: const EdgeInsets.symmetric(horizontal: 43),
+              height: SizeConfig.blockSizeVertical*7,
+              margin: EdgeInsets.symmetric(horizontal: SizeConfig.blockSizeHorizontal*10),
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(80),
                 child: FlatButton(
@@ -137,28 +138,28 @@ class _ProfileEditState extends State<ProfileEdit> {
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
             label: 'Home',
-            backgroundColor: Colors.orange,
+            backgroundColor: AppColors.mainColor,
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.search),
             label: 'Search',
-            backgroundColor: Colors.orange,
+
 
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.pin_drop),
             label: 'Map',
-            backgroundColor: Colors.orange,
+
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.camera_alt_outlined),
             label: 'Camera',
-            backgroundColor: Colors.orange,
+
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.person),
             label: 'Profile',
-            backgroundColor: Colors.orange,
+
 
           ),
         ],

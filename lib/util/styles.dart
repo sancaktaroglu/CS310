@@ -18,7 +18,6 @@ final onBoardingTextStyle = GoogleFonts.nunito(
   fontSize: 25,
   letterSpacing: -0.2,
 );
-
 final onBoardingTextStyle2 = GoogleFonts.nunito(
   color: AppColors.onBoardingColor,
   fontWeight: FontWeight.bold,
@@ -54,4 +53,23 @@ final searchTextStyle = GoogleFonts.nunito(
   color: AppColors.textColor,
   fontWeight: FontWeight.bold,
   fontSize: 35,
+);
+
+final cardTextStyle = GoogleFonts.nunito(
+  color: AppColors.textColor,
+  fontWeight: FontWeight.w300,
+  fontSize: 16,
+);
+
+
+final notifTextStyle = GoogleFonts.nunito(
+  color: AppColors.textColor,
+  fontWeight: FontWeight.bold,
+  fontSize: 18,
+);
+
+final profileTextStyle = GoogleFonts.nunito(
+  color: AppColors.textColor,
+  fontSize: 16,
+  fontWeight: FontWeight.bold,
 );

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:untitled2/util/colors.dart';
 import 'package:untitled2/util/styles.dart';
+import 'package:untitled2/util/dimen.dart';
 
 AppBar welcomeBar(String text) {
   return AppBar(
@@ -23,6 +24,7 @@ AppBar welcomeBar(String text) {
 }
 
 AppBar pageBar(BuildContext context, String routeName){
+  SizeConfig().init(context);
   return AppBar(
     centerTitle: true,
     elevation: 10,
@@ -39,7 +41,7 @@ AppBar pageBar(BuildContext context, String routeName){
     ),
     actions: [
       Padding(
-        padding: const EdgeInsets.only(right:20.0),
+        padding: EdgeInsets.only(right: SizeConfig.blockSizeHorizontal*5),
         child: GestureDetector(
             onTap: () => Navigator.pushNamedAndRemoveUntil(context, routeName, (route) => false),
             child: const Icon(
@@ -49,7 +51,7 @@ AppBar pageBar(BuildContext context, String routeName){
         ),
       ),
       Padding(
-        padding: const EdgeInsets.only(right:20.0),
+        padding: EdgeInsets.only(right: SizeConfig.blockSizeHorizontal*5),
         child: GestureDetector(
             onTap: () => {},
             child: const Icon(

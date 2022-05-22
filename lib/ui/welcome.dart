@@ -17,14 +17,14 @@ class Welcome extends StatelessWidget {
       body: SafeArea(
           maintainBottomViewPadding: false,
           child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 60, horizontal: 16),
+            padding: EdgeInsets.symmetric(vertical: SizeConfig.screenHeight/13, horizontal: SizeConfig.screenWidth/18),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 Center(
                   child: Container(
                     height: SizeConfig.screenHeight/3,
-                    margin: const EdgeInsets.only(right: 50),
+                    margin: EdgeInsets.only(right: SizeConfig.screenWidth/6),
                     child: Image.network(
                       "http://assets.stickpng.com/images/58889201bc2fc2ef3a1860a7.png",
                     ),
@@ -33,7 +33,7 @@ class Welcome extends StatelessWidget {
                 SizedBox(height: SizeConfig.screenHeight/15),
                 Container(
                   height: SizeConfig.screenHeight/15,
-                  margin: const EdgeInsets.symmetric(horizontal: 43),
+                  margin: EdgeInsets.symmetric(horizontal: SizeConfig.blockSizeHorizontal*10),
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(80),
                     child: FlatButton(
@@ -51,7 +51,7 @@ class Welcome extends StatelessWidget {
                 SizedBox(height: SizeConfig.screenHeight/20),
                 Container(
                   height: SizeConfig.screenHeight/15,
-                  margin: const EdgeInsets.symmetric(horizontal: 43),
+                  margin: EdgeInsets.symmetric(horizontal: SizeConfig.blockSizeHorizontal*10),
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(80),
                     child: FlatButton(

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:untitled2/classes/notif_card.dart';
+import 'package:untitled2/model/notif.dart';
 import 'package:untitled2/util/colors.dart';
 import 'package:untitled2/util/appBar.dart';
 import 'package:untitled2/util/dimen.dart';
@@ -46,251 +48,52 @@ class _NotificationsState extends State<Notifications> {
       });
     }
     SizeConfig().init(context);
+    String like = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSLudBUAQNGPerdvGD3gHqObUr1mYm7lk383w&usqp=CAU';
+    String comment = 'https://www.nicepng.com/png/detail/207-2078186_comment-free-icon-comment-free-download.png';
+    Notif x = Notif(
+      userId: "1",
+      otherUserId: "2",
+      notifType: 2,
+      postId: "3",
+    );
     return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 235, 229, 229),
+      backgroundColor: AppColors.mainColor,
       appBar: welcomeBar("Notifications"),
       body: ListView(
         children: <Widget>[
-          Card(
-              color: AppColors.headingColor,
-              child: Padding(
-                padding: const EdgeInsets.all(15.0),
-                child: Row(
-                  children: <Widget>[
-                    Image(
-                      image: const NetworkImage(
-                          'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSLudBUAQNGPerdvGD3gHqObUr1mYm7lk383w&usqp=CAU'),
-                      width: SizeConfig.screenWidth * 0.06,
-                      height: SizeConfig.screenHeight * 0.06,
-                    ),
-                    SizedBox(width: SizeConfig.screenWidth * 0.03),
-                    Container(
-                      width: SizeConfig.screenWidth * 0.8,
-                      child: const Text(
-                        "AhseniHamza liked your post!",
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 18.0),
-                      ),
-                    ),
-                  ],
-                ),
-              )),
-          Card(
-              color: Colors.white,
-              child: Padding(
-                padding: const EdgeInsets.all(15.0),
-                child: Row(
-                  children: <Widget>[
-                    Image(
-                      image: const NetworkImage(
-                          'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSLudBUAQNGPerdvGD3gHqObUr1mYm7lk383w&usqp=CAU'),
-                      width: SizeConfig.screenWidth * 0.06,
-                      height: SizeConfig.screenHeight * 0.06,
-                    ),
-                    SizedBox(width: SizeConfig.screenWidth * 0.03),
-                    Container(
-                      width: SizeConfig.screenWidth * 0.8,
-                      child: const Text(
-                        "Aas liked your post!",
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 18.0),
-                      ),
-                    ),
-                  ],
-                ),
-              )),
-          Card(
-              color: Colors.white,
-              child: Padding(
-                padding: const EdgeInsets.all(15.0),
-                child: Row(
-                  children: <Widget>[
-                    Image(
-                      image: const NetworkImage(
-                          'https://www.nicepng.com/png/detail/207-2078186_comment-free-icon-comment-free-download.png'),
-                      width: SizeConfig.screenWidth * 0.06,
-                      height: SizeConfig.screenHeight * 0.06,
-                    ),
-                    SizedBox(width: SizeConfig.screenWidth * 0.03),
-                    Container(
-                      width: SizeConfig.screenWidth * 0.8,
-                      child: const Text(
-                        "AhseniHamza commented on your post!",
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 18.0),
-                      ),
-                    ),
-                  ],
-                ),
-              )),
-          Card(
-              color: Colors.white,
-              child: Padding(
-                padding: const EdgeInsets.all(15.0),
-                child: Row(
-                  children: <Widget>[
-                    Image(
-                      image: const NetworkImage(
-                          'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSLudBUAQNGPerdvGD3gHqObUr1mYm7lk383w&usqp=CAU'),
-                      width: SizeConfig.screenWidth * 0.06,
-                      height: SizeConfig.screenHeight * 0.06,
-                    ),
-                    SizedBox(width: SizeConfig.screenWidth * 0.03),
-                    Container(
-                      width: SizeConfig.screenWidth * 0.8,
-                      child: const Text(
-                        "AhseniHamza liked your post!",
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 18.0),
-                      ),
-                    ),
-                  ],
-                ),
-              )),
-          Card(
-              color: Colors.white,
-              child: Padding(
-                padding: const EdgeInsets.all(15.0),
-                child: Row(
-                  children: <Widget>[
-                    Image(
-                      image: const NetworkImage(
-                          'https://www.nicepng.com/png/detail/207-2078186_comment-free-icon-comment-free-download.png'),
-                      width: SizeConfig.screenWidth * 0.06,
-                      height: SizeConfig.screenHeight * 0.06,
-                    ),
-                    SizedBox(width: SizeConfig.screenWidth * 0.03),
-                    Container(
-                      width: SizeConfig.screenWidth * 0.8,
-                      child: const Text(
-                        "AhseniHamza commented on your post!",
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 18.0),
-                      ),
-                    ),
-                  ],
-                ),
-              )),
-          Card(
-              color: Colors.white,
-              child: Padding(
-                padding: const EdgeInsets.all(15.0),
-                child: Row(
-                  children: <Widget>[
-                    Image(
-                      image: const NetworkImage(
-                          'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSLudBUAQNGPerdvGD3gHqObUr1mYm7lk383w&usqp=CAU'),
-                      width: SizeConfig.screenWidth * 0.06,
-                      height: SizeConfig.screenHeight * 0.06,
-                    ),
-                    SizedBox(width: SizeConfig.screenWidth * 0.03),
-                    Container(
-                      width: SizeConfig.screenWidth * 0.8,
-                      child: const Text(
-                        "AhseniHamza liked your post!",
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 18.0),
-                      ),
-                    ),
-                  ],
-                ),
-              )),
-          Card(
-              color: Colors.white,
-              child: Padding(
-                padding: const EdgeInsets.all(15.0),
-                child: Row(
-                  children: <Widget>[
-                    Image(
-                      image: const NetworkImage(
-                          'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSLudBUAQNGPerdvGD3gHqObUr1mYm7lk383w&usqp=CAU'),
-                      width: SizeConfig.screenWidth * 0.06,
-                      height: SizeConfig.screenHeight * 0.06,
-                    ),
-                    SizedBox(width: SizeConfig.screenWidth * 0.03),
-                    Container(
-                      width: SizeConfig.screenWidth * 0.8,
-                      child: const Text(
-                        "AhseniHamza liked your post!",
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 18.0),
-                      ),
-                    ),
-                  ],
-                ),
-              )),
-          Card(
-              color: Colors.white,
-              child: Padding(
-                padding: const EdgeInsets.all(15.0),
-                child: Row(
-                  children: <Widget>[
-                    Image(
-                      image: const NetworkImage(
-                          'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSLudBUAQNGPerdvGD3gHqObUr1mYm7lk383w&usqp=CAU'),
-                      width: SizeConfig.screenWidth * 0.06,
-                      height: SizeConfig.screenHeight * 0.06,
-                    ),
-                    SizedBox(width: SizeConfig.screenWidth * 0.03),
-                    Container(
-                      width: SizeConfig.screenWidth * 0.8,
-                      child: const Text(
-                        "Aas liked your post!",
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 18.0),
-                      ),
-                    ),
-                  ],
-                ),
-              )),
-          Card(
-              color: Colors.white,
-              child: Padding(
-                padding: const EdgeInsets.all(15.0),
-                child: Row(
-                  children: <Widget>[
-                    Image(
-                      image: const NetworkImage(
-                          'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSLudBUAQNGPerdvGD3gHqObUr1mYm7lk383w&usqp=CAU'),
-                      width: SizeConfig.screenWidth * 0.06,
-                      height: SizeConfig.screenHeight * 0.06,
-                    ),
-                    SizedBox(width: SizeConfig.screenWidth * 0.03),
-                    Container(
-                      width: SizeConfig.screenWidth * 0.8,
-                      child: const Text(
-                        "Aas liked your post!",
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 18.0),
-                      ),
-                    ),
-                  ],
-                ),
-              )),
-          Card(
-              color: Colors.white,
-              child: Padding(
-                padding: const EdgeInsets.all(15.0),
-                child: Row(
-                  children: <Widget>[
-                    Image(
-                      image: const NetworkImage(
-                          'https://www.nicepng.com/png/detail/207-2078186_comment-free-icon-comment-free-download.png'),
-                      width: SizeConfig.screenWidth * 0.06,
-                      height: SizeConfig.screenHeight * 0.06,
-                    ),
-                    SizedBox(width: SizeConfig.screenWidth * 0.03),
-                    Container(
-                      width: SizeConfig.screenWidth * 0.8,
-                      child: const Text(
-                        "AhseniHamza commented on your post!",
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 18.0),
-                      ),
-                    ),
-                  ],
-                ),
-              )),
+          notifCard(like,
+              "AhseniHamza liked your post!",
+            x
+          ),
+          notifCard(like,
+              "Aas liked your post!",
+            x
+          ),
+          notifCard(comment,
+              "AhseniHamza commented on your post!",
+            x
+          ),
+          notifCard(like,
+            "AhseniHamza liked your post!",
+            x
+          ),
+          notifCard(comment,
+              "AhseniHamza commented on your post!",
+            x
+          ),
+          notifCard(like,
+              "AhseniHamza liked your post!",
+            x
+          ),
+          notifCard(like,
+              "AhseniHamza liked your post!",
+            x
+          ),
+          notifCard(like,
+              "Aas liked your post!",
+            x
+          ),
+
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
@@ -299,28 +102,28 @@ class _NotificationsState extends State<Notifications> {
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
             label: 'Home',
-            backgroundColor: Colors.orange,
+            backgroundColor: AppColors.mainColor,
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.search),
             label: 'Search',
-            backgroundColor: Colors.orange,
+
 
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.pin_drop),
             label: 'Map',
-            backgroundColor: Colors.orange,
+
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.camera_alt_outlined),
             label: 'Camera',
-            backgroundColor: Colors.orange,
+
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.person),
             label: 'Profile',
-            backgroundColor: Colors.orange,
+
 
           ),
         ],

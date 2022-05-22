@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:untitled2/util/colors.dart';
 import 'package:untitled2/util/styles.dart';
+import 'package:untitled2/util/dimen.dart';
 import 'package:untitled2/ui/profile.dart';
 import 'package:untitled2/ui/FeedPage.dart';
 
@@ -24,6 +25,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
   ];
   @override
   Widget build(BuildContext context) {
+    SizeConfig().init(context);
     int selectedIndex = 0;
 
     void onTap(index) {
@@ -54,9 +56,9 @@ class _ExploreScreenState extends State<ExploreScreen> {
 
     return Scaffold(
         appBar: AppBar(
-          backgroundColor: AppColors.appbarColor,
+          backgroundColor: AppColors.mainColor,
           title: Container(
-            decoration: BoxDecoration(color: AppColors.primary,
+            decoration: BoxDecoration(color: AppColors.headingColor,
                 borderRadius: BorderRadius.circular(30)),
             child: TextField(
               onChanged: (value){
@@ -65,12 +67,12 @@ class _ExploreScreenState extends State<ExploreScreen> {
                 });
               },
               controller: _textEditingController,
-              decoration: const InputDecoration(
+              decoration: InputDecoration(
                   border: InputBorder.none,
                   errorBorder: InputBorder.none,
                   enabledBorder: InputBorder.none,
                   focusedBorder: InputBorder.none,
-                  contentPadding: EdgeInsets.all(15),
+                  contentPadding: EdgeInsets.all(SizeConfig.blockSizeVertical),
                   hintText: 'Search'
 
               ),
@@ -98,7 +100,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const Icon(Icons.search_off, size: 75,color: Colors.orange,),
+              const Icon(Icons.search_off, size: 75,color: AppColors.mainColor,),
               Text('No results found!', style: searchTextStyle),
             ],
           ),
@@ -107,16 +109,16 @@ class _ExploreScreenState extends State<ExploreScreen> {
             itemCount: _textEditingController!.text.isNotEmpty ? categoriesOnSearch.length: categories.length,
             itemBuilder: (context, index){
               return Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: EdgeInsets.all(SizeConfig.blockSizeVertical*1.5),
                 child: Row(children: [
                   const CircleAvatar(
-                    backgroundColor: Colors.orange,
+                    backgroundColor: AppColors.mainColor,
                     foregroundColor: AppColors.primary,
                     child: Icon(Icons.category),
                   ),
                   const SizedBox(width: 10,),
                   Text(_textEditingController!.text.isNotEmpty ? categoriesOnSearch[index]: categories[index],
-                      style: const TextStyle(fontSize: 25, fontWeight: FontWeight.bold,)),
+                      style: onBoardingTextStyle),
                 ],),
               );
             }),
@@ -126,28 +128,27 @@ class _ExploreScreenState extends State<ExploreScreen> {
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
             label: 'Home',
-            backgroundColor: Colors.orange,
+            backgroundColor: AppColors.mainColor,
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.search),
             label: 'Search',
-            backgroundColor: Colors.orange,
+
 
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.pin_drop),
             label: 'Map',
-            backgroundColor: Colors.orange,
+
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.camera_alt_outlined),
             label: 'Camera',
-            backgroundColor: Colors.orange,
+
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.person),
             label: 'Profile',
-            backgroundColor: Colors.orange,
 
           ),
         ],

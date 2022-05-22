@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:untitled2/util/colors.dart';
 import 'package:untitled2/util/styles.dart';
 import 'package:untitled2/util/appBar.dart';
+import 'package:untitled2/util/dimen.dart';
 
 class ChangePassword extends StatefulWidget {
   const ChangePassword({Key? key}) : super(key: key);
@@ -22,6 +23,7 @@ class _ChangePasswordState extends State<ChangePassword> {
 
   @override
   Widget build(BuildContext context) {
+    SizeConfig().init(context);
     return Scaffold(
       appBar: welcomeBar("Settings"),
       body: SafeArea(
@@ -36,14 +38,14 @@ class _ChangePasswordState extends State<ChangePassword> {
 
 
                 Container(
-                    height: 55,
-                    margin: const EdgeInsets.symmetric(horizontal: 43),
+                    height: SizeConfig.screenHeight/15,
+                    margin: EdgeInsets.symmetric(horizontal: SizeConfig.blockSizeHorizontal*10),
 
                     child: ClipRRect(
                         borderRadius: BorderRadius.circular(80),
                         child: Container(
                           color: AppColors.inputColor,
-                          padding: const EdgeInsets.all(10),
+                          padding: EdgeInsets.all(SizeConfig.blockSizeHorizontal*2),
                           child: TextFormField(
                             cursorColor: AppColors.textColor,
                             decoration: const InputDecoration(
@@ -69,17 +71,17 @@ class _ChangePasswordState extends State<ChangePassword> {
                 ),
 
 
-                const SizedBox(height: 20),
+                SizedBox(height: SizeConfig.blockSizeVertical*3),
 
 
                 Container(
-                    height: 55,
-                    margin: const EdgeInsets.symmetric(horizontal: 43),
+                    height: SizeConfig.screenHeight/15,
+                    margin: EdgeInsets.symmetric(horizontal: SizeConfig.blockSizeHorizontal*10),
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(80),
                       child: Container(
                         color: AppColors.inputColor,
-                        padding: const EdgeInsets.all(10),
+                        padding: EdgeInsets.all(SizeConfig.blockSizeHorizontal*2),
                         child: TextFormField(
                           obscureText: true,
                           cursorColor: AppColors.textColor,
@@ -109,11 +111,11 @@ class _ChangePasswordState extends State<ChangePassword> {
                 ),
 
 
-                const SizedBox(height: 40),
+                SizedBox(height: SizeConfig.blockSizeVertical*4),
 
                 Container(
-                  height: 55,
-                  margin: const EdgeInsets.symmetric(horizontal: 43),
+                  height: SizeConfig.screenHeight/15,
+                  margin: EdgeInsets.symmetric(horizontal: SizeConfig.blockSizeHorizontal*10),
                   child: ClipRRect(
                       borderRadius: BorderRadius.circular(80),
                       child: FlatButton(
@@ -134,7 +136,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                 ),
 
 
-                const SizedBox(height: 40),
+
               ],
             ),
 
@@ -148,28 +150,28 @@ class _ChangePasswordState extends State<ChangePassword> {
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
             label: 'Home',
-            backgroundColor: Colors.orange,
+            backgroundColor: AppColors.mainColor,
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.search),
             label: 'Search',
-            backgroundColor: Colors.orange,
+
 
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.pin_drop),
             label: 'Map',
-            backgroundColor: Colors.orange,
+
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.camera_alt_outlined),
             label: 'Camera',
-            backgroundColor: Colors.orange,
+
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.person),
             label: 'Profile',
-            backgroundColor: Colors.orange,
+
 
           ),
         ],

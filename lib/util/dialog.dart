@@ -56,7 +56,7 @@ import 'package:untitled2/util/styles.dart';
               ),
               actions: [
                 TextButton(
-                  child: Text('OK'),
+                  child: const Text('OK'),
                   onPressed: () {
                     Navigator.of(context).pop();
                   },

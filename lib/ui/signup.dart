@@ -42,12 +42,12 @@ class _SignUpState extends State<SignUp> {
 
               Container(
                   height: SizeConfig.screenHeight/15,
-                  margin: const EdgeInsets.symmetric(horizontal: 43),
+                  margin: EdgeInsets.symmetric(horizontal: SizeConfig.blockSizeHorizontal*11),
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(80),
                     child: Container(
                       color: AppColors.inputColor,
-                      padding: const EdgeInsets.all(10),
+                      padding: EdgeInsets.all(SizeConfig.blockSizeVertical),
                       child: TextFormField(
                         obscureText: true,
                         cursorColor: AppColors.inputColor,
@@ -78,12 +78,12 @@ class _SignUpState extends State<SignUp> {
 
               Container(
                   height: SizeConfig.screenHeight/15,
-                  margin: const EdgeInsets.symmetric(horizontal: 43),
+                  margin: EdgeInsets.symmetric(horizontal: SizeConfig.blockSizeHorizontal*11),
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(80),
                     child: Container(
                       color: AppColors.inputColor,
-                      padding: const EdgeInsets.all(10),
+                      padding: EdgeInsets.all(SizeConfig.blockSizeVertical),
                       child: TextFormField(
                         obscureText: true,
                         cursorColor: AppColors.textColor,
@@ -115,12 +115,12 @@ class _SignUpState extends State<SignUp> {
 
               Container(
                   height: SizeConfig.screenHeight/15,
-                  margin: const EdgeInsets.symmetric(horizontal: 43),
+                  margin: EdgeInsets.symmetric(horizontal: SizeConfig.blockSizeHorizontal*11),
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(80),
                     child: Container(
                       color: AppColors.inputColor,
-                      padding: const EdgeInsets.all(10),
+                      padding: EdgeInsets.all(SizeConfig.blockSizeVertical),
                       child: TextFormField(
                         obscureText: true,
                         cursorColor: AppColors.textColor,
@@ -153,13 +153,13 @@ class _SignUpState extends State<SignUp> {
 
               Container(
                   height: SizeConfig.screenHeight/15,
-                  margin: const EdgeInsets.symmetric(horizontal: 43),
+                  margin: EdgeInsets.symmetric(horizontal: SizeConfig.blockSizeHorizontal*11),
 
                   child: ClipRRect(
                       borderRadius: BorderRadius.circular(80),
                       child: Container(
                         color: AppColors.inputColor,
-                        padding: const EdgeInsets.all(10),
+                        padding: EdgeInsets.all(SizeConfig.blockSizeVertical),
                         child: TextFormField(
                           cursorColor: AppColors.textColor,
                           decoration: const InputDecoration(
@@ -186,12 +186,12 @@ class _SignUpState extends State<SignUp> {
 
               Container(
                   height: SizeConfig.screenHeight/15,
-                  margin: const EdgeInsets.symmetric(horizontal: 43),
+                  margin: EdgeInsets.symmetric(horizontal: SizeConfig.blockSizeHorizontal*11),
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(80),
                     child: Container(
                       color: AppColors.inputColor,
-                      padding: const EdgeInsets.all(10),
+                      padding: EdgeInsets.all(SizeConfig.blockSizeVertical),
                       child: TextFormField(
                         obscureText: true,
                         cursorColor: AppColors.textColor,
@@ -225,7 +225,7 @@ class _SignUpState extends State<SignUp> {
 
               Container(
                 height: SizeConfig.screenHeight/15,
-                margin: const EdgeInsets.symmetric(horizontal: 43),
+                margin: EdgeInsets.symmetric(horizontal: SizeConfig.blockSizeHorizontal*11),
                 child: ClipRRect(
                     borderRadius: BorderRadius.circular(80),
                     child: FlatButton(

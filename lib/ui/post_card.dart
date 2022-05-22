@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:untitled2/model/Posts.dart';
+import 'package:untitled2/util/colors.dart';
 import 'package:untitled2/util/styles.dart';
+import 'package:untitled2/util/dimen.dart';
 
 class PostCard extends StatelessWidget {
 
@@ -13,11 +15,13 @@ class PostCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    SizeConfig().init(context);
     return Card(
-      margin: const EdgeInsets.fromLTRB(0, 16, 12, 8),
+      color: AppColors.headingColor,
+      margin: EdgeInsets.all(SizeConfig.blockSizeVertical),
 
       child: Padding(
-        padding: const EdgeInsets.fromLTRB(10, 0, 10, 20),
+        padding: EdgeInsets.all(SizeConfig.blockSizeVertical),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
@@ -31,9 +35,9 @@ class PostCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Container(
-                  height: 100,
-                  width: 120,
-                  margin: const EdgeInsets.all(8),
+                  height: SizeConfig.screenHeight/8,
+                  width: SizeConfig.screenWidth/3.5,
+                  margin:  EdgeInsets.all(SizeConfig.blockSizeHorizontal),
                   child: Image.network("https://mimarlikdukkani.com/wp-content/uploads/2018/09/starbucks_sabanc%C4%B1-25.jpg"),
                 ), 
 
@@ -48,40 +52,36 @@ class PostCard extends StatelessWidget {
                           icon: const Icon(
                             Icons.thumb_up,
                             size: 18,
-                            color: Colors.orange,
+                            color: AppColors.mainColor,
                           ),
                           label: Text(
-                              post.likes.toString(),
-                              style: const TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w300,
-                                color: Colors.black,
-                              )
+                              post.likes.length.toString(),
+                              style: cardTextStyle
                           ),
                         ),
 
-                        const SizedBox(width: 10),
+                        SizedBox(width: SizeConfig.blockSizeVertical*2),
 
                         const Icon(
                           Icons.comment,
                           size: 18,
-                          color: Colors.orange,
+                          color: AppColors.mainColor,
                         ),
+
+                        SizedBox(width: SizeConfig.blockSizeVertical,),
 
                         Text(
-                            post.comments.toString(),
-                            style: const TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w300,
-                              color: Colors.black,
-                            )
+                            post.comments.length.toString(),
+                            style: cardTextStyle
                         ),
 
-                        const SizedBox(width: 8),
+                        SizedBox(width: SizeConfig.blockSizeVertical),
+
+
                         IconButton(
                           iconSize: 18,
                           onPressed: delete,
-                          icon: const Icon(Icons.pin_drop, size: 14, color: Colors.red),
+                          icon: const Icon(Icons.pin_drop, size: 14, color: AppColors.primary),
 
                         ),
                       ],
@@ -89,7 +89,7 @@ class PostCard extends StatelessWidget {
                     IconButton(
                       iconSize: 18,
                       onPressed: delete,
-                      icon: const Icon(Icons.delete, size: 14, color: Colors.red,),
+                      icon: const Icon(Icons.delete, size: 14, color: AppColors.primary),
                     ),
 
                   ],

@@ -46,13 +46,12 @@ class _LoginState extends State<Login> {
 
                 Container(
                     height: SizeConfig.screenHeight/15,
-                    margin: const EdgeInsets.symmetric(horizontal: 43),
-
+                    margin: EdgeInsets.symmetric(horizontal: SizeConfig.blockSizeHorizontal*10),
                     child: ClipRRect(
                         borderRadius: BorderRadius.circular(80),
                         child: Container(
                           color: AppColors.inputColor,
-                          padding: const EdgeInsets.all(10),
+                          padding:  EdgeInsets.all(SizeConfig.blockSizeHorizontal),
                           child: TextFormField(
                             cursorColor: AppColors.textColor,
                             decoration: const InputDecoration(
@@ -86,12 +85,12 @@ class _LoginState extends State<Login> {
 
                 Container(
                     height: SizeConfig.screenHeight/15,
-                    margin: const EdgeInsets.symmetric(horizontal: 43),
+                    margin: EdgeInsets.symmetric(horizontal: SizeConfig.blockSizeHorizontal*10),
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(80),
                       child: Container(
                         color: AppColors.inputColor,
-                        padding: const EdgeInsets.all(10),
+                        padding: EdgeInsets.all(SizeConfig.blockSizeHorizontal),
                         child: TextFormField(
                           obscureText: true,
                           cursorColor: AppColors.textColor,
@@ -129,7 +128,7 @@ class _LoginState extends State<Login> {
 
                 Container(
                   height: SizeConfig.screenHeight/15,
-                  margin: const EdgeInsets.symmetric(horizontal: 43),
+                  margin: EdgeInsets.symmetric(horizontal: SizeConfig.blockSizeHorizontal*10),
                   child: ClipRRect(
                       borderRadius: BorderRadius.circular(80),
                       child: FlatButton(
