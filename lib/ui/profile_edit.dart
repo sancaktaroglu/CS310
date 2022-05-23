@@ -1,45 +1,49 @@
 import 'package:flutter/material.dart';
+import 'package:untitled2/ui/profile.dart';
 
-import 'package:untitled2/main.dart';
+
 import 'package:untitled2/util/colors.dart';
+import 'package:untitled2/util/dimen.dart';
 import 'package:untitled2/util/styles.dart';
 import 'package:untitled2/util/dialog.dart';
-import 'package:untitled2/ui/profile.dart';
-import 'package:untitled2/ui/feedPage.dart';
-import 'package:untitled2/ui/explore_screen.dart';
+import 'package:untitled2/util/appBar.dart';
+
+import 'FeedPage.dart';
+import 'explore_screen.dart';
 
 
-class Profile_Edit extends StatefulWidget {
-  const Profile_Edit({Key? key}) : super(key: key);
+
+class ProfileEdit extends StatefulWidget {
+  const ProfileEdit({Key? key}) : super(key: key);
 
   @override
-  State<Profile_Edit> createState() => _Profile_EditState();
+  State<ProfileEdit> createState() => _ProfileEditState();
 
   static const String routeName = "/profileEdit";
 }
 
-class _Profile_EditState extends State<Profile_Edit> {
+class _ProfileEditState extends State<ProfileEdit> {
 
   bool value = false;
 
   @override
   Widget build(BuildContext context) {
-    int _selectedIndex = 0;
+    int selectedIndex = 0;
 
-    void _ONTAP(index) {
+    void onTap(index) {
       setState(() {
-        _selectedIndex = index;
+        selectedIndex = index;
         if(index == 0)
         {
-          Navigator.pushNamedAndRemoveUntil(context, feedPage.routeName, (route) => false);
+          Navigator.pushNamedAndRemoveUntil(context, FeedPage.routeName, (route) => false);
         }
         else if(index == 1)
         {
-          Navigator.pushNamedAndRemoveUntil(context, exploreScreen.routeName, (route) => false);
+          Navigator.pushNamedAndRemoveUntil(context, ExploreScreen.routeName, (route) => false);
         }
         else if(index == 2)
         {
-          Navigator.pushNamedAndRemoveUntil(context, Profile_Edit.routeName, (route) => false);
+          Navigator.pushNamedAndRemoveUntil(context, ProfileEdit.routeName, (route) => false);
         }
         else if(index == 3)
         {
@@ -51,22 +55,9 @@ class _Profile_EditState extends State<Profile_Edit> {
         }
       });
     }
+    SizeConfig().init(context);
     return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        elevation: 10,
-        title: Text("Settings",
-        style: HeadingTextStyle,),
-        flexibleSpace: Container(
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-                colors: <Color>[AppColors.primary, AppColors.secondary],
-            ),
-          ),
-        ),
-      ),
+      appBar: welcomeBar("Settings"),
 
       body: SafeArea(
         maintainBottomViewPadding: false,
@@ -75,8 +66,8 @@ class _Profile_EditState extends State<Profile_Edit> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Container(
-              height: 55,
-              margin: EdgeInsets.symmetric(horizontal: 43),
+              height: SizeConfig.blockSizeVertical*7,
+              margin: EdgeInsets.symmetric(horizontal: SizeConfig.blockSizeHorizontal*10),
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(80),
                 child: FlatButton(
@@ -86,14 +77,14 @@ class _Profile_EditState extends State<Profile_Edit> {
                   },
                   child: Text(
                     "Change Password",
-                    style: WelcomeButtonTextStyle,
+                    style: welcomeButtonTextStyle,
                   ),
                 ),
               ),
             ),
             Container(
-              height: 55,
-              margin: EdgeInsets.symmetric(horizontal: 43),
+              height: SizeConfig.blockSizeVertical*7,
+              margin: EdgeInsets.symmetric(horizontal: SizeConfig.blockSizeHorizontal*10),
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(80),
                 child: Container(
@@ -104,7 +95,7 @@ class _Profile_EditState extends State<Profile_Edit> {
                       Container(
                         child: Text(
                           "Private",
-                          style: WelcomeButtonTextStyle,
+                          style: welcomeButtonTextStyle,
                         ),
                       ),
                       Switch(
@@ -121,8 +112,8 @@ class _Profile_EditState extends State<Profile_Edit> {
             ),
             ),
             Container(
-              height: 55,
-              margin: EdgeInsets.symmetric(horizontal: 43),
+              height: SizeConfig.blockSizeVertical*7,
+              margin: EdgeInsets.symmetric(horizontal: SizeConfig.blockSizeHorizontal*10),
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(80),
                 child: FlatButton(
@@ -132,7 +123,7 @@ class _Profile_EditState extends State<Profile_Edit> {
                   },
                   child: Text(
                     "Delete Account",
-                    style: WelcomeButtonTextStyle,
+                    style: welcomeButtonTextStyle,
                   ),
                 ),
               ),
@@ -142,38 +133,38 @@ class _Profile_EditState extends State<Profile_Edit> {
 
       ),
       bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _selectedIndex,
+        currentIndex: selectedIndex,
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
             label: 'Home',
-            backgroundColor: Colors.orange,
+            backgroundColor: AppColors.mainColor,
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.search),
             label: 'Search',
-            backgroundColor: Colors.orange,
+
 
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.pin_drop),
             label: 'Map',
-            backgroundColor: Colors.orange,
+
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.camera_alt_outlined),
             label: 'Camera',
-            backgroundColor: Colors.orange,
+
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.person),
             label: 'Profile',
-            backgroundColor: Colors.orange,
+
 
           ),
         ],
-        onTap: _ONTAP,
-      ),
+        onTap: onTap,
+      )
 
 
 

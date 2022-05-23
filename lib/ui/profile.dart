@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:untitled2/ui/feedPage.dart';
+import 'package:untitled2/model/notif.dart';
+import 'package:untitled2/ui/explore_screen.dart';
 import 'package:untitled2/ui/profile_edit.dart';
 import 'package:untitled2/util/colors.dart';
 import 'package:untitled2/util/styles.dart';
+import 'package:untitled2/util/dimen.dart';
 import 'package:untitled2/model/user.dart';
 import 'package:untitled2/model/Posts.dart';
-import 'package:untitled2/ui/PostCard.dart';
-import 'package:untitled2/util/dimen.dart';
-import 'package:untitled2/ui/explore_screen.dart';
+import 'package:untitled2/ui/post_card.dart';
+import 'FeedPage.dart';
+
+
+
 
 
 void main() => runApp(const Profile());
@@ -18,11 +22,11 @@ class Profile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
-    return HomeView();
+    SizeConfig().init(context);
+    return const HomeView();
   }
 }
-int _selectedIndex = 0 ;
+
 class HomeView extends StatefulWidget {
   const HomeView({Key? key}) : super(key: key);
 
@@ -32,46 +36,158 @@ class HomeView extends StatefulWidget {
 
 class _HomeViewState extends State<HomeView> {
 
+
   void _goSettingPage(){
-    Navigator.pushNamedAndRemoveUntil(context, Profile_Edit.routeName, (route) => false);
+    Navigator.pushNamedAndRemoveUntil(context, ProfileEdit.routeName, (route) => false);
   }
 
-  User user1  = User(follower: 120, username: "Sarp Sarginoglu", following: 100, posts: 10, );
-  List<Post> posts = [
-    Post(text: 'Starbucks', date: 'January 20', likes: 3242, comments: 0),
-    Post(text: 'Macfit', date: 'February 22', likes: 23534, comments: 200),
-    Post(text: 'Cemal Usta', date: 'June 11', likes: 2313, comments: 12),
-    Post(text: 'Fasshane', date: 'March 32', likes: 1231, comments: 10),
-  ];
+
+  User user1  = User(
+    follower: ["asd", "asdfas"],
+    following: ["adfas", "asdfasd"],
+    posts: [
+  Post(text: 'Starbucks',
+  date: 'January 20',
+  likes: ["aasd", "asdfas"],
+  dislikes: ["saldf", "asdfasd"],
+  comments: ["asdfas", "asdf"],
+  location: "Kadıköy",
+  picture: "link",
+  topic: "asdfa",
+  userId: "asdfasd",
+  postingTime: "sadfsd"
+
+  ),
+
+  Post(text: 'Starbucks',
+  date: 'January 20',
+  likes: ["aasd", "asdfas"],
+  dislikes: ["saldf", "asdfasd"],
+  comments: ["asdfas", "asdf"],
+  location: "Kadıköy",
+  picture: "link",
+  topic: "asdfa",
+  userId: "asdfasd",
+  postingTime: "sadfsd"
+
+  ),
+
+  Post(text: 'Starbucks',
+  date: 'January 20',
+  likes: ["aasd", "asdfas"],
+  dislikes: ["saldf", "asdfasd"],
+  comments: ["asdfas", "asdf"],
+  location: "Kadıköy",
+  picture: "link",
+  topic: "asdfa",
+  userId: "asdfasd",
+  postingTime: "sadfsd"
+
+  ),
+
+  ],
+  userId: "asdfas",
+  username:  "asdfasdf",
+  email: "asdfas@sabanciuniv.edu",
+  private: false,
+  password: "asdfasd",
+  fullName: "asdfasd asdvfasd",
+  bio: "Sabancı Uni",
+  bookmark: [
+  Post(text: 'Starbucks',
+  date: 'January 20',
+  likes: ["aasd", "asdfas"],
+  dislikes: ["saldf", "asdfasd"],
+  comments: ["asdfas", "asdf"],
+  location: "Kadıköy",
+  picture: "link",
+  topic: "asdfa",
+  userId: "asdfasd",
+  postingTime: "sadfsd"
+
+  ),
+
+  Post(text: 'Starbucks',
+  date: 'January 20',
+  likes: ["aasd", "asdfas"],
+  dislikes: ["saldf", "asdfasd"],
+  comments: ["asdfas", "asdf"],
+  location: "Kadıköy",
+  picture: "link",
+  topic: "asdfa",
+  userId: "asdfasd",
+  postingTime: "sadfsd"
+
+  ),
+
+  Post(text: 'Starbucks',
+  date: 'January 20',
+  likes: ["aasd", "asdfas"],
+  dislikes: ["saldf", "asdfasd"],
+  comments: ["asdfas", "asdf"],
+  location: "Kadıköy",
+  picture: "link",
+  topic: "asdfa",
+  userId: "asdfasd",
+  postingTime: "sadfsd"
+
+  ),
+
+  ],
+
+  notifications: [
+  Notif(
+  userId: "1",
+  otherUserId: "2",
+  notifType: 2,
+  postId: "3",
+  ),
+  Notif(
+  userId: "1",
+  otherUserId: "2",
+  notifType: 2,
+  postId: "3",
+  ),
+  Notif(
+  userId: "1",
+  otherUserId: "2",
+  notifType: 2,
+  postId: "3",
+  ),
+  ],
+
+  );
+
   void deletePost(Post post) {
     setState(() {
-      posts.remove(post);
+      user1.posts.remove(post);
     });
   }
 
   void LikeIncrementer(Post post){
     setState(() {
-      post.likes++;
+      int index = user1.posts.indexOf(post);
+      user1.posts[index].likes.add("asfasd");
     });
   }
   @override
   Widget build(BuildContext context) {
-    int _selectedIndex = 0;
+    int selectedIndex = 0;
 
-    void _ONTAP(index) {
+    void onTap(index) {
       setState(() {
-        _selectedIndex = index;
+        selectedIndex = index;
         if(index == 0)
         {
-          Navigator.pushNamedAndRemoveUntil(context, feedPage.routeName, (route) => false);
+          Navigator.pushNamedAndRemoveUntil(context, FeedPage.routeName, (route) => false);
         }
         else if(index == 1)
         {
-          Navigator.pushNamedAndRemoveUntil(context, exploreScreen.routeName, (route) => false);
+          Navigator.pushNamedAndRemoveUntil(context, ExploreScreen.routeName, (route) => false);
         }
         else if(index == 2)
         {
-          Navigator.pushNamedAndRemoveUntil(context, Profile_Edit.routeName, (route) => false);
+          Navigator.pushNamedAndRemoveUntil(context, ProfileEdit.routeName, (route) => false);
         }
         else if(index == 3)
         {
@@ -88,9 +204,9 @@ class _HomeViewState extends State<HomeView> {
         centerTitle: true,
         elevation: 10,
         title: Text("Hot Pins",
-            style: HeadingTextStyle),
+            style: headingTextStyle),
         flexibleSpace: Container(
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
               gradient: LinearGradient(
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
@@ -100,10 +216,10 @@ class _HomeViewState extends State<HomeView> {
         ),
         actions: [
           Padding(
-            padding: EdgeInsets.only(right:20.0),
+            padding:  EdgeInsets.only(right: SizeConfig.blockSizeVertical*2),
             child: GestureDetector(
                 onTap: _goSettingPage,
-                child: Icon(
+                child: const Icon(
                   Icons.settings,
                   size: 27,
                 )
@@ -114,7 +230,7 @@ class _HomeViewState extends State<HomeView> {
       body: SingleChildScrollView(
         child: SafeArea(
           child: Padding(
-            padding: const EdgeInsets.fromLTRB(17, 0, 0, 0),
+            padding: EdgeInsets.only(left: SizeConfig.blockSizeVertical),
             child: Column(
               children: [
                 Row(
@@ -122,24 +238,23 @@ class _HomeViewState extends State<HomeView> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Padding(
-                        padding: const EdgeInsets.fromLTRB(1, 15, 30, 0),
+                        padding: EdgeInsets.fromLTRB(0, SizeConfig.blockSizeVertical*4, SizeConfig.blockSizeHorizontal*7, 0),
                         child: CircleAvatar(
-                          backgroundColor: Colors.white,
+                          radius: 60,
                           child: ClipOval(
                             child: Image.network(
                               'https://images.nightcafe.studio//assets/profile.png?tr=w-1600,c-at_max',
                               fit: BoxFit.fill,
-                              width: 150,
+                              width: SizeConfig.screenWidth/3,
                             ),
                           ),
-                          radius: 60,
                         ),
                       ),
 
                       Column(
                         children: [
                           Padding(
-                            padding: const EdgeInsets.fromLTRB(0, 30, 10, 0),
+                            padding: EdgeInsets.fromLTRB(0, SizeConfig.blockSizeVertical*4, SizeConfig.blockSizeHorizontal*5, 0),
                             child: Row(
                               crossAxisAlignment: CrossAxisAlignment.end,
 
@@ -147,7 +262,7 @@ class _HomeViewState extends State<HomeView> {
 
                                 Text(
                                   user1.username,
-                                  style: ProfileNameTextStyle,
+                                  style: profileNameTextStyle,
                                 ),
 
                               ],
@@ -162,61 +277,43 @@ class _HomeViewState extends State<HomeView> {
                               Column(
                                 mainAxisAlignment: MainAxisAlignment.start,
 
-                                children: const [
+                                children: [
                                   Padding(
-                                    padding: const EdgeInsets.fromLTRB(0, 24, 0, 0),
+                                    padding: EdgeInsets.only(top: SizeConfig.blockSizeVertical*2),
                                     child: Text(
-                                      "300",
-                                      style: TextStyle(
-                                        fontSize: 20,
-                                        color: Colors.black,
-                                      ),
+                                      user1.posts.length.toString(),
+                                      style: profileTextStyle
                                     ),
                                   ),
                                   Text('Posts',
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.black,
-                                    ),
+                                    style: profileTextStyle
                                   )
                                 ],
                               ),
-                              SizedBox(width: 20),
+                              SizedBox(width: SizeConfig.blockSizeHorizontal*5),
                               Column(
                                 mainAxisAlignment: MainAxisAlignment.start,
-                                children: const [
+                                children: [
                                   Padding(
-                                    padding: EdgeInsets.fromLTRB(0, 24, 0, 0),
-                                    child: Text('900',
-                                      style: TextStyle(
-                                        fontSize: 20,
-                                        color: Colors.black,
-                                      ),),
+                                    padding: EdgeInsets.only(top: SizeConfig.blockSizeVertical*2),
+                                    child: Text(user1.follower.length.toString(),
+                                      style: profileTextStyle),
                                   ),
                                   Text('Follower',
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.black,
-                                    ),)
+                                    style: profileTextStyle)
                                 ],
                               ),
-                              SizedBox(width: 20),
+                              SizedBox(width: SizeConfig.blockSizeHorizontal*5),
                               Column(
                                 mainAxisAlignment: MainAxisAlignment.start,
-                                children: const [
+                                children:  [
                                   Padding(
-                                    padding: const EdgeInsets.fromLTRB(0, 24, 0, 0),
-                                    child: Text('650',
-                                      style: TextStyle(
-                                        fontSize: 20,
-                                        color: Colors.black,
-                                      ),),
+                                    padding: EdgeInsets.only(top: SizeConfig.blockSizeVertical*2),
+                                    child: Text(user1.following.length.toString(),
+                                      style: profileTextStyle),
                                   ),
                                   Text('Following',
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.black,
-                                    ),)
+                                    style: profileTextStyle)
                                 ],
                               ),
                             ],
@@ -225,19 +322,19 @@ class _HomeViewState extends State<HomeView> {
                           Row(
                             children: [
                               Padding(
-                                padding: const EdgeInsets.only(top: 20),
+                                padding: EdgeInsets.only(top: SizeConfig.blockSizeVertical*2),
                                 child: Container(
-                                  height: 40,
-                                  width: 200,
-                                  margin: EdgeInsets.only(top:20),
+                                  height: SizeConfig.screenHeight/20,
+                                  width: SizeConfig.screenWidth/2,
+                                  margin: EdgeInsets.only(top:SizeConfig.blockSizeVertical*2),
                                   child: ClipRRect(
                                     borderRadius: BorderRadius.circular(80),
                                     child: FlatButton(
-                                      color: Colors.orange[400],
+                                      color: AppColors.mainColor,
                                       onPressed: () {},
                                       child: Text(
                                         "Follow",
-                                        style: LoginText,
+                                        style: loginTextStyle,
 
                                       ),
                                     ),
@@ -251,12 +348,12 @@ class _HomeViewState extends State<HomeView> {
                     ]
                 ),
                 Column(
-                  children: posts.map((post) => PostCard(
+                  children: user1.posts.map((post) => PostCard(
                     post: post,
                     delete: (){
                       deletePost(post);
                     },
-                    increament: (){
+                    increment: (){
                       LikeIncrementer(post);
                     },
                   )).toList(),
@@ -267,38 +364,38 @@ class _HomeViewState extends State<HomeView> {
         ),
       ),
       bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _selectedIndex,
+        currentIndex: selectedIndex,
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
             label: 'Home',
-            backgroundColor: Colors.orange,
+            backgroundColor: AppColors.mainColor,
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.search),
             label: 'Search',
-            backgroundColor: Colors.orange,
+
 
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.pin_drop),
             label: 'Map',
-            backgroundColor: Colors.orange,
+
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.camera_alt_outlined),
             label: 'Camera',
-            backgroundColor: Colors.orange,
+
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.person),
             label: 'Profile',
-            backgroundColor: Colors.orange,
+
 
           ),
         ],
-        onTap: _ONTAP,
-      ),
+        onTap: onTap,
+      )
 
     );
 
