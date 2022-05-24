@@ -37,11 +37,21 @@ dependencies:
   smooth_page_indicator: any
   lottie: any
   shared_preferences: any
-
+  flutter_facebook_auth: ^3.5.0
+  google_sign_in: ^5.2.1
+  email_validator: ^2.0.1
+  firebase_core: ^1.11.0
+  firebase_auth: ^2.0.0
+  firebase_analytics: ^9.1.2
+  firebase_storage: ^10.2.9
+  provider: ^5.0.0
+  cloud_firestore: ^3.1.16
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+
+
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
