@@ -12,6 +12,8 @@ import 'package:untitled2/util/appBar.dart';
 import 'package:untitled2/util/dimen.dart';
 import 'package:untitled2/ui/feedPage.dart';
 
+import '../services/authentication.dart';
+
 class Welcome extends StatefulWidget {
   const Welcome({Key? key}) : super(key: key);
 
@@ -126,8 +128,7 @@ class _WelcomeState extends State<Welcome> {
                         SizedBox(
                         height: SizeConfig.screenHeight/20,
                         child: FlatButton(onPressed: () {
-                          final provider = Provider.of<GoogleSignInProvider>(context, listen:false);
-                          provider.googleLogin();
+                          AuthService().googleSignIn();
                         },
                           child: Image.network("https://cdn-icons-png.flaticon.com/512/2991/2991148.png",fit: BoxFit.fitHeight,),
                         ),

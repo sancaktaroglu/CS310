@@ -90,9 +90,10 @@ class _HomeViewState extends State<HomeView> {
   username:  "asdfasdf",
   email: "asdfas@sabanciuniv.edu",
   private: false,
-  password: "asdfasd",
   fullName: "asdfasd asdvfasd",
   bio: "Sabancı Uni",
+  method: "",
+  profilePic: "",
   bookmark: [
   Post(text: 'Starbucks',
   date: 'January 20',

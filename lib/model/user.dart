@@ -9,11 +9,12 @@ class User {
   String username;
   String email;
   bool private;
-  String password;
   String fullName;
   String bio;
   List <Post> bookmark;
   List <Notif> notifications;
+  String method;
+  String profilePic;
 
 
 
@@ -25,10 +26,11 @@ class User {
     required this.username,
     required this.email,
     required this.private,
-    required this.password,
     required this.fullName,
     required this.bio,
     required this.bookmark,
-    required this.notifications
+    required this.notifications,
+    required this.method,
+    required this.profilePic
   });
 }
