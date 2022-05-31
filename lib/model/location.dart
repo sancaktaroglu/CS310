@@ -18,3 +18,6 @@ class Location {
     required this.city
 });
 }
+
+
+dynamic LocationName = "Please Select a Location";

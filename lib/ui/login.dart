@@ -134,13 +134,17 @@ class _LoginState extends State<Login> {
                       child: FlatButton(
                         color: AppColors.buttonColor,
                         onPressed: () {
-                          Navigator.pushNamedAndRemoveUntil(context, FeedPage.routeName, (route) => false);
-
-                          /*if(_formKey.currentState!.validate()) {
+                          if(_formKey.currentState!.validate()) {
                             _formKey.currentState!.save();
+                            print(username);
+                            print(password);
+                            Navigator.pushNamedAndRemoveUntil(context, FeedPage.routeName, (route) => false);
+
 
                             //database check
-                          }*/
+                          }
+
+
 
                         },
                         child: Text("Login",

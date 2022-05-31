@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:untitled2/model/Posts.dart';
+import 'package:untitled2/ui/create_post_text.dart';
 import 'package:untitled2/ui/notifications.dart';
 import 'package:untitled2/ui/profile.dart';
 import 'package:untitled2/util/appBar.dart';
@@ -55,7 +56,7 @@ class _FeedPageState extends State<FeedPage> {
         }
         else if(index == 3)
         {
-
+          Navigator.pushNamedAndRemoveUntil(context, CreatePostText.routeName, (route) => false);
         }
         else if(index == 4)
         {
