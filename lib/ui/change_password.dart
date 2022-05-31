@@ -1,4 +1,7 @@
+import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
+import 'package:untitled2/services/analytics.dart';
 
 import 'package:untitled2/util/colors.dart';
 import 'package:untitled2/util/styles.dart';
@@ -21,9 +24,12 @@ class _ChangePasswordState extends State<ChangePassword> {
   String newPassword = "";
 
 
+
   @override
   Widget build(BuildContext context) {
+    setCurrentScreen(analytics, "Change Password Page", "change_password.dart") ;
     SizeConfig().init(context);
+    FirebaseCrashlytics.instance.crash();
     return Scaffold(
       appBar: welcomeBar("Settings"),
       body: SafeArea(

@@ -1,10 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:provider/provider.dart';
 import 'package:untitled2/services/google_sign_in.dart';
 import 'package:untitled2/ui/profile.dart';
+import "package:untitled2/services/analytics.dart";
 
 import 'package:untitled2/util/colors.dart';
 import 'package:untitled2/util/styles.dart';
@@ -52,9 +54,11 @@ class _WelcomeState extends State<Welcome> {
     }
 }
 
+
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
+    setCurrentScreen(analytics, "Welcome Page", "welcome.dart") ;
     return Scaffold(
       appBar: welcomeBar("Welcome to Hot Pins"),
       body: StreamBuilder(

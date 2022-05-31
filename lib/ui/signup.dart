@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:untitled2/services/analytics.dart';
 import 'package:untitled2/util/appBar.dart';
 import 'package:untitled2/util/colors.dart';
 import 'package:untitled2/util/dimen.dart';
@@ -28,6 +29,7 @@ class _SignUpState extends State<SignUp> {
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
+    setCurrentScreen(analytics, "Sign Up Page", "signup.dart") ;
     return Scaffold(
       appBar: welcomeBar("Hot Pins"),
 

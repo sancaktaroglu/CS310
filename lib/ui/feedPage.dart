@@ -1,3 +1,4 @@
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:untitled2/model/Posts.dart';
 import 'package:untitled2/ui/notifications.dart';
@@ -6,6 +7,7 @@ import 'package:untitled2/util/appBar.dart';
 import '../util/colors.dart';
 import 'explore_screen.dart';
 import 'package:untitled2/classes/post.dart';
+import "package:untitled2/services/analytics.dart";
 
 
 
@@ -22,6 +24,7 @@ class FeedPage extends StatefulWidget {
 
 
 class _FeedPageState extends State<FeedPage> {
+
   @override
   Widget build(BuildContext context) {
     int selectedIndex = 0;
@@ -64,6 +67,7 @@ class _FeedPageState extends State<FeedPage> {
       });
     }
 
+    setCurrentScreen(analytics, "Feed Page", "feedPage.dart") ;
     return  Scaffold(
       appBar: pageBar(context, Notifications.routeName),
           body: SingleChildScrollView(

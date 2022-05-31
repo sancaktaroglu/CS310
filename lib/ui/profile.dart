@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:untitled2/model/notif.dart';
+import 'package:untitled2/services/analytics.dart';
 import 'package:untitled2/ui/explore_screen.dart';
 import 'package:untitled2/ui/profile_edit.dart';
 import 'package:untitled2/util/colors.dart';
@@ -23,6 +24,7 @@ class Profile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
+    setCurrentScreen(analytics, "Profile Page", "profile.dart") ;
     return const HomeView();
   }
 }
