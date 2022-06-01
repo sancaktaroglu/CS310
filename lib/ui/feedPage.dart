@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:untitled2/model/Posts.dart';
+import 'package:untitled2/ui/add_comment.dart';
 import 'package:untitled2/ui/create_post_text.dart';
+import 'package:untitled2/ui/edit_post.dart';
 import 'package:untitled2/ui/notifications.dart';
 import 'package:untitled2/ui/profile.dart';
 import 'package:untitled2/util/appBar.dart';
@@ -52,6 +54,7 @@ class _FeedPageState extends State<FeedPage> {
         }
         else if(index == 2)
         {
+          Navigator.pushNamedAndRemoveUntil(context, EditPost.routeName, (route) => false);
 
         }
         else if(index == 3)
@@ -76,7 +79,7 @@ class _FeedPageState extends State<FeedPage> {
                     "Mon Nov 13 2022 17:32:10",
                     "McDonald's Kadıköy",
                     "I enjoyed the hamburger but since it was a very crowded restaurant, the timing was very bad and it was a bit cold.",
-                    "https://b.zmtcdn.com/data/pictures/0/5906110/69769ab70089bf3573fcb90c62703640.jpg",
+                    "https://b.zmtcdn.com/data/pictures/0/5906110/69769ab70089bf3573fcb90c62703640.jpg", (){Navigator.pushNamed(context, AddComment.routeName);},
                     context),
                 card(x,
                     "Ali",
@@ -84,7 +87,7 @@ class _FeedPageState extends State<FeedPage> {
                     "Mon Nov 13 2022 17:32:10",
                     "McDonald's Kadıköy",
                     "I enjoyed the hamburger but since it was a very crowded restaurant, the timing was very bad and it was a bit cold.",
-                    "https://b.zmtcdn.com/data/pictures/0/5906110/69769ab70089bf3573fcb90c62703640.jpg",
+                    "https://b.zmtcdn.com/data/pictures/0/5906110/69769ab70089bf3573fcb90c62703640.jpg", (){Navigator.pushNamed(context, AddComment.routeName);},
                     context),
 
 

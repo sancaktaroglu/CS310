@@ -1,7 +1,7 @@
-
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -21,15 +21,63 @@ import 'create_post_photo.dart';
 import 'explore_screen.dart';
 import 'notifications.dart';
 
-class CreatePostText extends StatefulWidget {
-  const CreatePostText({Key? key, }) : super(key: key);
-  static const String routeName = "/createPostText";
+class EditPost extends StatefulWidget {
+  const EditPost({Key? key, }) : super(key: key);
+  static const String routeName = "/editPost";
   @override
-  State<CreatePostText> createState() => _CreatePostTextState();
+  State<EditPost> createState() => _EditPostState();
 
 }
 
-class _CreatePostTextState extends State<CreatePostText> {
+class _EditPostState extends State<EditPost> {
+  Future<void> _showDialog(String title, String message) async {
+    bool isAndroid = Platform.isAndroid;
+    return showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          if(isAndroid) {
+            return AlertDialog(
+              title: Text(title),
+              content: SingleChildScrollView(
+                child: ListBody(
+                  children: [
+                    Text(message),
+                  ],
+                ),
+              ),
+              actions: [
+                TextButton(
+                  child: Text('OK'),
+                  onPressed: () {
+                    Navigator.pushNamedAndRemoveUntil(context, Profile.routeName, (route) => false);
+                  },
+                )
+              ],
+            );
+          } else {
+            return CupertinoAlertDialog(
+              title: Text(title, style: welcomeButtonTextStyle),
+              content: SingleChildScrollView(
+                child: ListBody(
+                  children: [
+                    Text(message, style: welcomeButtonTextStyle),
+                  ],
+                ),
+              ),
+              actions: [
+                TextButton(
+                  child: Text('OK'),
+                  onPressed: () {
+                    Navigator.pushNamedAndRemoveUntil(context, FeedPage.routeName, (route) => false);
+                  },
+                )
+              ],
+            );
+          }
+
+        });
+  }
   late FixedExtentScrollController scrollController;
   final items = [
     "",
@@ -58,9 +106,132 @@ class _CreatePostTextState extends State<CreatePostText> {
       print(e.toString());
     }
   }
+ String currentPostTitle = "";
+  Future getTitle(BuildContext context) async {
+
+    try{
+      FirebaseFirestore db = FirebaseFirestore.instance;
+      final docRef = db.collection("Posts").doc(id);
+      await docRef.get().then(
+            (DocumentSnapshot doc) {
+          final data = doc.data() as Map<String, dynamic>;
+          currentPostTitle = data['title'];
+          setState((){});
+        },
+        onError: (e) => print("Error getting title: $e"),
+      );
+
+    }
+    on FirebaseException catch (e){
+      print('ERROR: ${e.code} - ${e.message}');
+      //switch(e.code){}
+
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
+  String currentPostTopic = "";
+  Future getTopic(BuildContext context) async {
+
+    try{
+      FirebaseFirestore db = FirebaseFirestore.instance;
+      final docRef = db.collection("Posts").doc(id);
+      await docRef.get().then(
+            (DocumentSnapshot doc) {
+          final data = doc.data() as Map<String, dynamic>;
+          currentPostTopic = data['category'];
+          setState((){});
+        },
+        onError: (e) => print("Error getting title: $e"),
+      );
+
+    }
+    on FirebaseException catch (e){
+      print('ERROR: ${e.code} - ${e.message}');
+      //switch(e.code){}
+
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
+  String currentPostLocation = "";
+  Future getLocation(BuildContext context) async {
+
+    try{
+      FirebaseFirestore db = FirebaseFirestore.instance;
+      final docRef = db.collection("Posts").doc(id);
+      await docRef.get().then(
+            (DocumentSnapshot doc) {
+          final data = doc.data() as Map<String, dynamic>;
+          currentPostLocation = data['location'];
+          LocationName = currentPostLocation;
+          setState((){});
+        },
+        onError: (e) => print("Error getting title: $e"),
+      );
+
+    }
+    on FirebaseException catch (e){
+      print('ERROR: ${e.code} - ${e.message}');
+      //switch(e.code){}
+
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
+  String currentPostCaption = "";
+  Future getCaption(BuildContext context) async {
+
+    try{
+      FirebaseFirestore db = FirebaseFirestore.instance;
+      final docRef = db.collection("Posts").doc(id);
+      await docRef.get().then(
+            (DocumentSnapshot doc) {
+          final data = doc.data() as Map<String, dynamic>;
+          currentPostCaption = data['caption'];
+          setState((){});
+        },
+        onError: (e) => print("Error getting title: $e"),
+      );
+
+    }
+    on FirebaseException catch (e){
+      print('ERROR: ${e.code} - ${e.message}');
+      //switch(e.code){}
+
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
+
 
   int selectedListIndex = 0;
+  String id =
+      "8Du360gLWvwPuyEsZuxn";
 
+  Future editPost(BuildContext context) async {
+
+    try{
+      await FirebaseFirestore.instance.collection('Posts').doc(id).update({
+        'category': items[selectedListIndex],
+        'title': title2,
+        'caption': caption2,
+        'location': LocationName,});
+
+      _showDialog("Success","Your post is updated successfully");
+    }
+    on FirebaseException catch (e){
+      print('ERROR: ${e.code} - ${e.message}');
+      //switch(e.code){}
+
+    } catch (e) {
+      print(e.toString());
+    }
+  }
 
 
   File? image;
@@ -109,10 +280,14 @@ class _CreatePostTextState extends State<CreatePostText> {
   }
 
   @override
-  void initState(){
+  void initState() {
     super.initState();
     scrollController = FixedExtentScrollController(initialItem: selectedListIndex);
     getTopics(context);
+    getCaption(context);
+    getTitle(context);
+    getLocation(context);
+    getTopic(context);
   }
 
   @override
@@ -123,7 +298,7 @@ class _CreatePostTextState extends State<CreatePostText> {
   final _formKey = GlobalKey<FormState>();
   String caption2 ="";
   String title2="";
-
+  bool firstLoad = true;
   @override
   Widget build(BuildContext context) {
 
@@ -147,12 +322,12 @@ class _CreatePostTextState extends State<CreatePostText> {
                           padding:  EdgeInsets.all(SizeConfig.blockSizeHorizontal),
                           child: TextFormField(
                             cursorColor: AppColors.textColor,
-                            decoration: const InputDecoration(
+                            decoration:  InputDecoration(
                               icon: Icon(
                                 Icons.title,
                                 color: AppColors.textColor,
                               ),
-                              hintText: "Title",
+                              hintText: currentPostTitle,
                               border: InputBorder.none,
                             ),
 
@@ -181,12 +356,12 @@ class _CreatePostTextState extends State<CreatePostText> {
                         child: TextFormField(
                           maxLines: 3,
                           cursorColor: AppColors.textColor,
-                          decoration: const InputDecoration(
+                          decoration: InputDecoration(
                             icon: Icon(
                               Icons.closed_caption,
                               color: AppColors.textColor,
                             ),
-                            hintText: "Caption",
+                            hintText: currentPostCaption,
                             hintStyle: TextStyle(
                               height: 2.4,
                             ),
@@ -206,7 +381,7 @@ class _CreatePostTextState extends State<CreatePostText> {
 
                 SizedBox(height: SizeConfig.blockSizeHorizontal*6),
 
-                Center(child: Text(items[selectedListIndex],style: TextStyle(fontSize: 24,fontWeight: FontWeight.bold),)),
+                Center(child: firstLoad ? Text("$currentPostTopic",style: TextStyle(fontSize: 24,fontWeight: FontWeight.bold)) : Text(items[selectedListIndex],style: TextStyle(fontSize: 24,fontWeight: FontWeight.bold),)),
 
 
 
@@ -253,7 +428,7 @@ class _CreatePostTextState extends State<CreatePostText> {
                       child: FlatButton(
                         color: AppColors.buttonColor,
                         onPressed: () {
-                            Navigator.pushNamed(context, CreatePostLocation.routeName).then((_) => setState(() {}));
+                          Navigator.pushNamed(context, CreatePostLocation.routeName).then((_) => setState(() {}));
 
                         },
                         child: Text("Select Location",
@@ -271,22 +446,17 @@ class _CreatePostTextState extends State<CreatePostText> {
                   child: ClipRRect(
                       borderRadius: BorderRadius.circular(80),
                       child: FlatButton(
-                        color: AppColors.buttonColor,
+                        color: Colors.green,
                         onPressed: () {
                           _formKey.currentState!.save();
 
-
-
-                          location = LocationName;
-                          caption = caption2;
-                          topic = items[selectedListIndex];
-                          title = title2;
                           print("$topic +++ $location +++ $title +++ $caption");
 
-                          Navigator.pushNamed(context, CreatePostPhoto.routeName);
+                          editPost(context);
+
 
                         },
-                        child: Text("Pick Picture",
+                        child: Text("Update Post",
                           style: welcomeButtonTextStyle,),
                       )
 
@@ -301,38 +471,38 @@ class _CreatePostTextState extends State<CreatePostText> {
           ),
         ),
         bottomNavigationBar: BottomNavigationBar(
-      currentIndex: selectedIndex,
-      items: const <BottomNavigationBarItem>[
-        BottomNavigationBarItem(
-          icon: Icon(Icons.home),
-          label: 'Home',
-          backgroundColor: AppColors.mainColor,
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.search),
-          label: 'Search',
+          currentIndex: selectedIndex,
+          items: const <BottomNavigationBarItem>[
+            BottomNavigationBarItem(
+              icon: Icon(Icons.home),
+              label: 'Home',
+              backgroundColor: AppColors.mainColor,
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.search),
+              label: 'Search',
 
 
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.pin_drop),
-          label: 'Map',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.pin_drop),
+              label: 'Map',
 
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.camera_alt_outlined),
-          label: 'Camera',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.camera_alt_outlined),
+              label: 'Camera',
 
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.person),
-          label: 'Profile',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.person),
+              label: 'Profile',
 
 
-        ),
-      ],
-      onTap: onTap,
-    ));
+            ),
+          ],
+          onTap: onTap,
+        ));
   }
   _navigateAndDisplaySelection(BuildContext context) async {
     final result = await Navigator.push(
@@ -348,17 +518,9 @@ class _CreatePostTextState extends State<CreatePostText> {
       setState(() {});
     }
   }
-  Widget buildPicker() => SizedBox(height: 350,child: CupertinoPicker(scrollController: scrollController,looping : true, itemExtent: 64, onSelectedItemChanged: (index){ setState(()=> this.selectedListIndex = index);
+  Widget buildPicker() => SizedBox(height: 350,child: CupertinoPicker(scrollController: scrollController,looping : true, itemExtent: 64, onSelectedItemChanged: (index){ setState((){this.selectedListIndex = index; firstLoad = false;});
   final item = items[index];
   print('Selected Item: $item');
 
   }, children: items.map((item) =>  Center(child: Text(item, style: TextStyle(fontSize: 32),),)).toList()));
 }
-
-
-
-
-
-
-
-

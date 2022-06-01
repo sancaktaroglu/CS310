@@ -41,6 +41,7 @@ final welcomeButtonTextStyle = GoogleFonts.nunito(
 
 );
 
+
 final profileNameTextStyle = GoogleFonts.nunito(
   color: AppColors.textColor,
   fontWeight: FontWeight.bold,

@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:untitled2/services/google_sign_in.dart';
 import 'package:untitled2/ui/OnBoarding.dart';
+import 'package:untitled2/ui/add_comment.dart';
 //import 'package:untitled2/ui/post_card.dart';
 import 'package:untitled2/ui/change_password.dart';
 import 'package:untitled2/ui/choose_location.dart';
 import 'package:untitled2/ui/create_post_photo.dart';
 import 'package:untitled2/ui/create_post_text.dart';
+import 'package:untitled2/ui/edit_post.dart';
 import 'package:untitled2/ui/explore_screen.dart';
 import 'package:untitled2/ui/feedPage.dart';
 import 'package:untitled2/ui/login.dart';
@@ -49,6 +51,8 @@ class Annotation extends StatelessWidget {
           CreatePostText.routeName: (context) => const CreatePostText(),
           CreatePostLocation.routeName: (context) => const CreatePostLocation(),
           CreatePostPhoto.routeName: (context) => const CreatePostPhoto(),
+          EditPost.routeName: (context) => const EditPost(),
+          AddComment.routeName: (context) => const AddComment(),
 
 
 
