@@ -1,5 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:untitled2/services/authentication.dart';
 import 'package:untitled2/services/google_sign_in.dart';
 import 'package:untitled2/ui/OnBoarding.dart';
 //import 'package:untitled2/ui/post_card.dart';
@@ -29,8 +31,13 @@ class Annotation extends StatelessWidget {
     required this.showHome,}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) => ChangeNotifierProvider(
-      create: (context) => GoogleSignInProvider(),
+  Widget build(BuildContext context) {
+    return MultiProvider(providers: [
+        ChangeNotifierProvider(
+        create: (context) => GoogleSignInProvider()
+
+        ),
+        StreamProvider<User?>.value(value: AuthService().user, initialData: null)],
       child: MaterialApp(
         routes: {
           '/welcome': (context) => const Welcome(),
@@ -45,11 +52,11 @@ class Annotation extends StatelessWidget {
           Notifications.routeName: (context) => const Notifications(),
 
 
-
         },
         home: showHome ? const Welcome() : const OnBoarding(),
       ),
     );
+  }
   }
 
 

@@ -1,4 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:untitled2/model/notif.dart';
 import 'package:untitled2/ui/explore_screen.dart';
 import 'package:untitled2/ui/profile_edit.dart';
@@ -9,10 +12,7 @@ import 'package:untitled2/model/user.dart';
 import 'package:untitled2/model/Posts.dart';
 import 'package:untitled2/ui/post_card.dart';
 import 'FeedPage.dart';
-
-
-
-
+import 'package:untitled2/services/database.dart';
 
 void main() => runApp(const Profile());
 
@@ -36,144 +36,35 @@ class HomeView extends StatefulWidget {
 
 class _HomeViewState extends State<HomeView> {
 
+  //final currentUser = OurUser(follower: [], following: [], posts: [], userId: "", username: "", email: "", private: false, fullName: "", bio: "", bookmark: [], notifications: [], method: "", profilePic: "");
+  final user = FirebaseAuth.instance.currentUser!;
+
 
   void _goSettingPage(){
     Navigator.pushNamedAndRemoveUntil(context, ProfileEdit.routeName, (route) => false);
   }
 
 
-  User user1  = User(
-    follower: ["asd", "asdfas"],
-    following: ["adfas", "asdfasd"],
-    posts: [
-  Post(text: 'Starbucks',
-  date: 'January 20',
-  likes: ["aasd", "asdfas"],
-  dislikes: ["saldf", "asdfasd"],
-  comments: ["asdfas", "asdf"],
-  location: "Kadıköy",
-  picture: "link",
-  topic: "asdfa",
-  userId: "asdfasd",
-  postingTime: "sadfsd"
-
-  ),
-
-  Post(text: 'Starbucks',
-  date: 'January 20',
-  likes: ["aasd", "asdfas"],
-  dislikes: ["saldf", "asdfasd"],
-  comments: ["asdfas", "asdf"],
-  location: "Kadıköy",
-  picture: "link",
-  topic: "asdfa",
-  userId: "asdfasd",
-  postingTime: "sadfsd"
-
-  ),
-
-  Post(text: 'Starbucks',
-  date: 'January 20',
-  likes: ["aasd", "asdfas"],
-  dislikes: ["saldf", "asdfasd"],
-  comments: ["asdfas", "asdf"],
-  location: "Kadıköy",
-  picture: "link",
-  topic: "asdfa",
-  userId: "asdfasd",
-  postingTime: "sadfsd"
-
-  ),
-
-  ],
-  userId: "asdfas",
-  username:  "asdfasdf",
-  email: "asdfas@sabanciuniv.edu",
-  private: false,
-  fullName: "asdfasd asdvfasd",
-  bio: "Sabancı Uni",
-  method: "",
-  profilePic: "",
-  bookmark: [
-  Post(text: 'Starbucks',
-  date: 'January 20',
-  likes: ["aasd", "asdfas"],
-  dislikes: ["saldf", "asdfasd"],
-  comments: ["asdfas", "asdf"],
-  location: "Kadıköy",
-  picture: "link",
-  topic: "asdfa",
-  userId: "asdfasd",
-  postingTime: "sadfsd"
-
-  ),
-
-  Post(text: 'Starbucks',
-  date: 'January 20',
-  likes: ["aasd", "asdfas"],
-  dislikes: ["saldf", "asdfasd"],
-  comments: ["asdfas", "asdf"],
-  location: "Kadıköy",
-  picture: "link",
-  topic: "asdfa",
-  userId: "asdfasd",
-  postingTime: "sadfsd"
-
-  ),
-
-  Post(text: 'Starbucks',
-  date: 'January 20',
-  likes: ["aasd", "asdfas"],
-  dislikes: ["saldf", "asdfasd"],
-  comments: ["asdfas", "asdf"],
-  location: "Kadıköy",
-  picture: "link",
-  topic: "asdfa",
-  userId: "asdfasd",
-  postingTime: "sadfsd"
-
-  ),
-
-  ],
-
-  notifications: [
-  Notif(
-  userId: "1",
-  otherUserId: "2",
-  notifType: 2,
-  postId: "3",
-  ),
-  Notif(
-  userId: "1",
-  otherUserId: "2",
-  notifType: 2,
-  postId: "3",
-  ),
-  Notif(
-  userId: "1",
-  otherUserId: "2",
-  notifType: 2,
-  postId: "3",
-  ),
-  ],
-
-  );
 
   void deletePost(Post post) {
     setState(() {
-      user1.posts.remove(post);
+
     });
   }
 
   void LikeIncrementer(Post post){
     setState(() {
-      int index = user1.posts.indexOf(post);
-      user1.posts[index].likes.add("asfasd");
+
+
     });
   }
   @override
   Widget build(BuildContext context) {
     int selectedIndex = 0;
+
+    //final snapshot = FirebaseFirestore.instance.collection('customers').doc(user.uid).get();
+    //OurUser? currentUser = Provider.of<OurUser?>(context);
+    //print(currentUser!.method);
 
     void onTap(index) {
       setState(() {
@@ -262,7 +153,7 @@ class _HomeViewState extends State<HomeView> {
                               children: [
 
                                 Text(
-                                  user1.username,
+                                  user.email!,
                                   style: profileNameTextStyle,
                                 ),
 
@@ -282,7 +173,7 @@ class _HomeViewState extends State<HomeView> {
                                   Padding(
                                     padding: EdgeInsets.only(top: SizeConfig.blockSizeVertical*2),
                                     child: Text(
-                                      user1.posts.length.toString(),
+                                      "5",
                                       style: profileTextStyle
                                     ),
                                   ),
@@ -297,7 +188,7 @@ class _HomeViewState extends State<HomeView> {
                                 children: [
                                   Padding(
                                     padding: EdgeInsets.only(top: SizeConfig.blockSizeVertical*2),
-                                    child: Text(user1.follower.length.toString(),
+                                    child: Text("5",
                                       style: profileTextStyle),
                                   ),
                                   Text('Follower',
@@ -310,7 +201,7 @@ class _HomeViewState extends State<HomeView> {
                                 children:  [
                                   Padding(
                                     padding: EdgeInsets.only(top: SizeConfig.blockSizeVertical*2),
-                                    child: Text(user1.following.length.toString(),
+                                    child: Text("5",
                                       style: profileTextStyle),
                                   ),
                                   Text('Following',
@@ -349,15 +240,7 @@ class _HomeViewState extends State<HomeView> {
                     ]
                 ),
                 Column(
-                  children: user1.posts.map((post) => PostCard(
-                    post: post,
-                    delete: (){
-                      deletePost(post);
-                    },
-                    increment: (){
-                      LikeIncrementer(post);
-                    },
-                  )).toList(),
+
                 ),
               ],
             ),

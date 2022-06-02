@@ -20,8 +20,8 @@ class DatabaseService{
 
   final Reference firebaseStorageRef = FirebaseStorage.instance.ref();
 
-   User _userDataFromSnapshot(DocumentSnapshot snapshot) {
-    return User(
+   OurUser _userDataFromSnapshot(DocumentSnapshot snapshot) {
+    return OurUser(
       userId: id,
       fullName: snapshot.get('fullname'),
       email: snapshot.get('email'),
@@ -37,7 +37,7 @@ class DatabaseService{
       username: snapshot.get('username'),
     );
   }
-  Stream<User> get userData {
+  Stream<OurUser> get userData {
     return userCollection.doc(id).snapshots().map(_userDataFromSnapshot);
   }
   Future addUser(String? fullname, String? email, String method, String? photoURL) async {
@@ -45,6 +45,7 @@ class DatabaseService{
     int num = 0;
     String emptyString = "";
     bool value = false;
+
 
     await userCollection
         .doc(id)
@@ -62,6 +63,35 @@ class DatabaseService{
       'privateAccount': value,
       'profilepic': photoURL,
       'username': emptyString,
+
+    })
+        .then((value) => print('Customer Added'))
+        .catchError((error) => print('Adding customer failed ${error.toString()}'));
+  }
+  Future addUserWithEmailAndPassword(String? name, String? surname, String? email, String? username, String method, String? photoURL) async {
+    List<String> emptyList = [];
+    int num = 0;
+    String emptyString = "";
+    bool value = false;
+    String fullname = name! + " " + surname!;
+
+
+    await userCollection
+        .doc(id)
+        .set({
+      'id': id,
+      'fullname': fullname,
+      'email': email,
+      'method': method,
+      'Followers': emptyList,
+      'Following': emptyList,
+      'Posts': emptyList,
+      'bio': emptyString,
+      'bookmark': emptyList,
+      'notifications': emptyList,
+      'privateAccount': value,
+      'profilepic': photoURL,
+      'username': username,
 
     })
         .then((value) => print('Customer Added'))

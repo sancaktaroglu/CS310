@@ -4,6 +4,9 @@ import 'package:untitled2/util/colors.dart';
 import 'package:untitled2/util/dimen.dart';
 import 'package:untitled2/util/styles.dart';
 
+import '../services/authentication.dart';
+import 'FeedPage.dart';
+
 
 class SignUp extends StatefulWidget {
   const SignUp({Key? key}) : super(key: key);
@@ -175,6 +178,9 @@ class _SignUpState extends State<SignUp> {
                               }
                             }
                           },
+                          onSaved: (value) {
+                            username = value ?? '';
+                          },
                         ),
                       )
                   )
@@ -233,7 +239,9 @@ class _SignUpState extends State<SignUp> {
                       onPressed: () {
                         if(_formKey.currentState!.validate()) {
                           _formKey.currentState!.save();
+                          AuthService().signUp(name, surname, mail, username, password);
                           //database check
+                          Navigator.pushNamedAndRemoveUntil(context, FeedPage.routeName, (route) => false);
                         }
 
                       },

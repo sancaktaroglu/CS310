@@ -1,7 +1,7 @@
 import 'Posts.dart';
 import 'notif.dart';
 
-class User {
+class OurUser {
   List <String> follower;
   List <String> following;
   List <Post> posts;
@@ -18,7 +18,7 @@ class User {
 
 
 
-  User({
+  OurUser({
     required this.follower,
     required this.following,
     required this.posts,

@@ -5,6 +5,8 @@ import 'package:untitled2/util/styles.dart';
 import 'package:untitled2/util/appBar.dart';
 import 'package:untitled2/util/dimen.dart';
 
+import '../services/authentication.dart';
+
 class Login extends StatefulWidget {
   const Login({Key? key}) : super(key: key);
 
@@ -17,9 +19,8 @@ class Login extends StatefulWidget {
 class _LoginState extends State<Login> {
 
   final _formKey = GlobalKey<FormState>();
-  String username = "";
+  String email = "";
   String password = "";
-
 
 
 
@@ -59,7 +60,7 @@ class _LoginState extends State<Login> {
                                 Icons.person,
                                 color: AppColors.textColor,
                               ),
-                              hintText: "Username",
+                              hintText: "Email",
                               border: InputBorder.none,
                             ),
 
@@ -67,12 +68,12 @@ class _LoginState extends State<Login> {
                             validator: (value) {
                               if(value != null){
                                 if(value.isEmpty) {
-                                  return 'Cannot leave username empty';
+                                  return 'Cannot leave email empty';
                                 }
                               }
                             },
                             onSaved: (value){
-                              username = value ?? '';
+                              email = value ?? '';
                             },
                           ),
                         )
@@ -134,6 +135,11 @@ class _LoginState extends State<Login> {
                       child: FlatButton(
                         color: AppColors.buttonColor,
                         onPressed: () {
+                          if (_formKey.currentState!.validate()) {
+                            _formKey.currentState!.save();
+                            AuthService().loginWithMailandPass(email, password);
+                          }
+
                           Navigator.pushNamedAndRemoveUntil(context, FeedPage.routeName, (route) => false);
 
                           /*if(_formKey.currentState!.validate()) {

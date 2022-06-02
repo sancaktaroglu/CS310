@@ -37,6 +37,7 @@ class AuthService {
       UserCredential result = await _auth.signInWithEmailAndPassword(email: mail, password: pass);
       User user = result.user!;
       return _userFromFirebase(user);
+
     } on FirebaseAuthException catch (e) {
       if (e.code == "user-not-found") {
         return null;
@@ -58,14 +59,14 @@ class AuthService {
     return await _auth.sendPasswordResetEmail(email: email);
   }
 
-  Future signUp(String fullname, String email, String password) async {
+  Future signUp(String name, String surname, String email, String username, String password) async {
     try {
       UserCredential result = await _auth.createUserWithEmailAndPassword(email: email, password: password);
       User user = result.user!;
       final snapshot = await FirebaseFirestore.instance.collection('customers').doc(user.uid).get();
 
       if (snapshot == null || !snapshot.exists) {
-        await DatabaseService(id: user.uid, ids: []).addUser(fullname, email, 'manual', 'noURL');
+        await DatabaseService(id: user.uid, ids: []).addUserWithEmailAndPassword(name, surname, email, username, 'emailandpassword', 'noURL');
       }
       return 'Signed Up';
     } catch (e) {

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:untitled2/model/Posts.dart';
 import 'package:untitled2/ui/notifications.dart';
 import 'package:untitled2/ui/profile.dart';
 import 'package:untitled2/util/appBar.dart';
+import '../model/user.dart';
 import '../util/colors.dart';
 import 'explore_screen.dart';
 import 'package:untitled2/classes/post.dart';
