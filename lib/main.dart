@@ -30,6 +30,7 @@ Future main() async{
   final showHome = prefs.getBool('showHome') ?? false;
   runApp(Annotation(showHome: showHome));
 }
+
 class Annotation extends StatelessWidget {
   final bool showHome;
   const Annotation({Key? key,
