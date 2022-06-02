@@ -11,6 +11,14 @@ final headingTextStyle = GoogleFonts.nunito(
   letterSpacing: -0.7,
   fontStyle: FontStyle.italic,
 );
+final headingTextStyleLocation = GoogleFonts.nunito(
+  color: AppColors.headingColor,
+  fontWeight: FontWeight.bold,
+  fontSize: 15.0,
+  letterSpacing: -0.7,
+  fontStyle: FontStyle.italic,
+);
+
 
 final onBoardingTextStyle = GoogleFonts.nunito(
   color: AppColors.onBoardingColor,
@@ -32,6 +40,7 @@ final welcomeButtonTextStyle = GoogleFonts.nunito(
   letterSpacing: -0.2,
 
 );
+
 
 final profileNameTextStyle = GoogleFonts.nunito(
   color: AppColors.textColor,

@@ -27,3 +27,12 @@ class Post {
 
   });
 }
+
+var title;
+var caption;
+var topic;
+var location;
+var cityPost;
+var countryPost;
+var streetPost;
+var subAdministrativePost;

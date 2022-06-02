@@ -4,7 +4,7 @@ import 'package:untitled2/util/colors.dart';
 import 'package:untitled2/util/styles.dart';
 import 'package:untitled2/util/dimen.dart';
 
-Card card(Post post,String name, String surname, String date, String location, String comment, String link, BuildContext context) {
+Card card(Post post,String name, String surname, String date, String location, String comment, String link,Function func, BuildContext context) {
   SizeConfig().init(context);
   return Card(
     child: SizedBox(
@@ -61,15 +61,18 @@ Card card(Post post,String name, String surname, String date, String location, S
                   ),
                 ],
               ),
-              Row(
-                children:  <Widget>[
-                  const Icon(Icons.comment, color: AppColors.secondary),
-                  SizedBox(width: SizeConfig.blockSizeHorizontal*2),
-                  Text(
-                    "Comment",
-                    style: cardTextStyle,
-                  ),
-                ],
+              GestureDetector(
+                child: Row(
+                  children:  <Widget>[
+                    const Icon(Icons.comment, color: AppColors.secondary),
+                    SizedBox(width: SizeConfig.blockSizeHorizontal*2),
+                    Text(
+                      "Comment",
+                      style: cardTextStyle,
+                    ),
+                  ],
+                ),
+                onTap: (){func();},
               ),
               Row(
                 children: <Widget>[
