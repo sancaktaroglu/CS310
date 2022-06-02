@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+import 'package:untitled2/services/analytics.dart';
 import 'package:untitled2/ui/intro_screens/intro_page1.dart';
 import 'package:untitled2/ui/intro_screens/intro_page2.dart';
 import 'package:untitled2/ui/intro_screens/intro_page3.dart';
@@ -20,6 +21,7 @@ class _OnBoardingState extends State<OnBoarding> {
   bool onLastPage = false;
   @override
   Widget build(BuildContext context) {
+    setCurrentScreen(analytics, "Walkthrough Page", "onBoarding.dart") ;
     return SafeArea(
       child: Scaffold(
           body: Container(

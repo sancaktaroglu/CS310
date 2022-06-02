@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:untitled2/services/analytics.dart';
 import 'package:untitled2/util/colors.dart';
 import 'package:untitled2/util/styles.dart';
 import 'package:untitled2/util/dimen.dart';
@@ -26,6 +27,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
+    setCurrentScreen(analytics, "Explore Page", "expolore_screen.dart") ;
     int selectedIndex = 0;
 
     void onTap(index) {

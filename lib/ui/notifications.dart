@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:untitled2/classes/notif_card.dart';
 import 'package:untitled2/model/notif.dart';
+import 'package:untitled2/services/analytics.dart';
 import 'package:untitled2/util/colors.dart';
 import 'package:untitled2/util/appBar.dart';
 import 'package:untitled2/util/dimen.dart';
@@ -48,6 +49,7 @@ class _NotificationsState extends State<Notifications> {
       });
     }
     SizeConfig().init(context);
+    setCurrentScreen(analytics, "Notification Page", "notifications.dart") ;
     String like = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSLudBUAQNGPerdvGD3gHqObUr1mYm7lk383w&usqp=CAU';
     String comment = 'https://www.nicepng.com/png/detail/207-2078186_comment-free-icon-comment-free-download.png';
     Notif x = Notif(

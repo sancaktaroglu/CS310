@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:untitled2/services/analytics.dart';
 import 'package:untitled2/ui/profile.dart';
 
 
@@ -56,6 +57,7 @@ class _ProfileEditState extends State<ProfileEdit> {
       });
     }
     SizeConfig().init(context);
+    setCurrentScreen(analytics, "Profile Edit Page", "profile_edit.dart") ;
     return Scaffold(
       appBar: welcomeBar("Settings"),
 

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:untitled2/services/analytics.dart';
 import 'package:untitled2/ui/feedPage.dart';
 import 'package:untitled2/util/colors.dart';
 import 'package:untitled2/util/styles.dart';
@@ -27,6 +28,7 @@ class _LoginState extends State<Login> {
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
+    setCurrentScreen(analytics, "Login Page", "login.dart") ;
     return Scaffold(
       appBar: welcomeBar("Hot Pins"),
 
@@ -39,6 +41,7 @@ class _LoginState extends State<Login> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
+                FlatButton(onPressed: () { }, child: Icon(Icons.pin)),
 
                 Image.network("https://mpng.subpng.com/20190726/pxq/kisspng-location-google-maps-google-map-maker-google-my-ma-mapas-digitales-ahorran-22-pesos-al-ao-a-los-5d3bbd59d01267.4845642715641961858523.jpg"),
 

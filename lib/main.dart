@@ -21,11 +21,12 @@ import 'package:untitled2/ui/signup.dart';
 import 'package:untitled2/ui/welcome.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 
 Future main() async{
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-
+  FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
   final prefs = await SharedPreferences.getInstance();
   final showHome = prefs.getBool('showHome') ?? false;
   runApp(Annotation(showHome: showHome));
