@@ -1,4 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:untitled2/model/Posts.dart';
@@ -29,6 +32,94 @@ class FeedPage extends StatefulWidget {
 
 
 class _FeedPageState extends State<FeedPage> {
+
+  List<Post> postsList = [];
+  List<String> postIDList = [];
+  List<String> userPostIDList = [];
+  final CollectionReference postCollection = FirebaseFirestore.instance.collection("Posts");
+
+  var currentUser = OurUser(follower: [], following: [], posts: [], userId: "", username: "", email: "", private: false, fullName: "", bio: "", bookmark: [], notifications: [], method: "", profilePic: "");
+  final user = FirebaseAuth.instance.currentUser!;
+  final CollectionReference userCollection = FirebaseFirestore.instance.collection('Users');
+  Future<void> getData() async {
+    // Get docs from collection reference
+    DocumentSnapshot snapshot = await userCollection.doc(user.uid).get();
+    // Get data from docs and convert map to List
+    currentUser.userId = snapshot.get('id');
+    currentUser.fullName = snapshot.get('fullname');
+    currentUser.email = snapshot.get('email');
+    currentUser.method = snapshot.get('method');
+    currentUser.follower = List<String>.from(snapshot.get('Followers'));
+    currentUser.following = List<String>.from(snapshot.get('Following'));
+    currentUser.posts = List<String>.from(snapshot.get('Posts'));
+    currentUser.bio = snapshot.get('bio');
+    currentUser.bookmark = List<String>.from(snapshot.get('bookmark'));
+    currentUser.notifications = List<String>.from(snapshot.get('Followers'));
+    currentUser.private = snapshot.get('privateAccount');
+    currentUser.profilePic = snapshot.get('profilepic');
+    currentUser.username = snapshot.get('username');
+    setState((){});
+
+    print(currentUser.following);
+  }
+  Future<void> getPosts() async {
+    // Get docs from collection reference
+    QuerySnapshot querySnapshot = await postCollection.get();
+
+    // Get data from docs and convert map to List
+    //final postData = querySnapshot.docs.map((doc) => doc.data()).toList();
+
+    //for a specific field
+    final postID = querySnapshot.docs.map((doc) => doc.get('post_id')).forEach((element) {
+      print(element);
+      postIDList.add(element);
+    });
+    //print(postID);
+    //postIDList.add(postID);
+    for(var item in postIDList){
+      DocumentSnapshot snapshot = await postCollection.doc(item).get();
+      if(currentUser.following.contains(snapshot.get('userid'))){
+        userPostIDList.add(item);
+      }
+    }
+    print(userPostIDList);
+    for(var item in userPostIDList){
+      print(item);
+
+      DocumentSnapshot snapshot2 = await postCollection.doc(item).get();
+      final ref = FirebaseStorage.instance.ref().child(snapshot2.get('picture'));
+      var url = await ref.getDownloadURL();
+      print(url);
+      final currentPost =Post(
+        caption: snapshot2.get('caption'),
+        date: "",
+        likes: List<String>.from(snapshot2.get('likes')),
+        dislikes: List<String>.from(snapshot2.get('dislikes')),
+        comments: List<String>.from(snapshot2.get('comments')),
+        location: snapshot2.get('location'),
+        picture: url,
+        category: snapshot2.get('category'),
+        postId: snapshot2.get('post_id'),
+        userId: snapshot2.get('userid'),
+        postingTime: snapshot2.get('time'),
+        title: snapshot2.get('title'),
+      );
+      //print(currentPost.picture);
+      postsList.add(currentPost);
+      setState((){});
+
+    }
+
+
+  }
+  @override
+  void initState() {
+    super.initState();
+    //scrollController = FixedExtentScrollController(initialItem: selectedListIndex);
+    getData();
+    getPosts();
+
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -80,26 +171,19 @@ class _FeedPageState extends State<FeedPage> {
       appBar: pageBar(context, Notifications.routeName),
           body: SingleChildScrollView(
             child: Column(
-              children: <Widget>[
-                card(x,
-                    "Ali",
-                    "Yıldırım",
-                    "Mon Nov 13 2022 17:32:10",
-                    "McDonald's Kadıköy",
-                    "I enjoyed the hamburger but since it was a very crowded restaurant, the timing was very bad and it was a bit cold.",
-                    "https://b.zmtcdn.com/data/pictures/0/5906110/69769ab70089bf3573fcb90c62703640.jpg", (){Navigator.pushNamed(context, AddComment.routeName);},
-                    context),
-                card(x,
-                    "Ali",
-                    "Yıldırım",
-                    "Mon Nov 13 2022 17:32:10",
-                    "McDonald's Kadıköy",
-                    "I enjoyed the hamburger but since it was a very crowded restaurant, the timing was very bad and it was a bit cold.",
-                    "https://b.zmtcdn.com/data/pictures/0/5906110/69769ab70089bf3573fcb90c62703640.jpg", (){Navigator.pushNamed(context, AddComment.routeName);},
-                    context),
+                children: <Widget>[
+                  for (int i=0; i<postsList.length; i++ )
 
+                    card(x,
+                        currentUser.username,
+                        "",
+                        postsList[i].postingTime,
+                        postsList[i].location,
+                        postsList[i].caption,
+                        postsList[i].picture, (){Navigator.pushNamed(context, AddComment.routeName);},
+                        context)
 
-              ],
+                ]
             ),
           ),
           bottomNavigationBar: BottomNavigationBar(

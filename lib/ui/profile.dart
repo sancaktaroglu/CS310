@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:untitled2/model/notif.dart';
@@ -110,9 +111,12 @@ class _HomeViewState extends State<HomeView> {
       }
     }
     for(var item in userPostIDList){
-      print(item);
+      //print(item);
 
       DocumentSnapshot snapshot2 = await postCollection.doc(item).get();
+      final ref = FirebaseStorage.instance.ref().child(snapshot2.get('picture'));
+      var url = await ref.getDownloadURL();
+      print(url);
       final currentPost =Post(
           caption: snapshot2.get('caption'),
           date: "",
@@ -120,14 +124,14 @@ class _HomeViewState extends State<HomeView> {
           dislikes: List<String>.from(snapshot2.get('dislikes')),
           comments: List<String>.from(snapshot2.get('comments')),
           location: snapshot2.get('location'),
-          picture: snapshot2.get('picture'),
+          picture: url,
           category: snapshot2.get('category'),
           postId: snapshot2.get('post_id'),
           userId: snapshot2.get('userid'),
           postingTime: snapshot2.get('time'),
           title: snapshot2.get('title'),
       );
-      print(currentPost.picture);
+      //print(currentPost.picture);
       postsList.add(currentPost);
       setState((){});
 
