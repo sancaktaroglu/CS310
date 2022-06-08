@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:untitled2/services/analytics.dart';
 import 'package:untitled2/util/colors.dart';
@@ -5,6 +6,8 @@ import 'package:untitled2/util/styles.dart';
 import 'package:untitled2/util/dimen.dart';
 import 'package:untitled2/ui/profile.dart';
 import 'package:untitled2/ui/FeedPage.dart';
+
+import 'package:untitled2/ui/other_profile.dart';
 
 class ExploreScreen extends StatefulWidget {
   const ExploreScreen({Key? key}) : super(key: key);
@@ -24,6 +27,8 @@ class _ExploreScreenState extends State<ExploreScreen> {
     'entertainment',
     'cafe',
   ];
+  String query = "";
+  final CollectionReference _firebaseFirestore = FirebaseFirestore.instance.collection("Users");
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
@@ -65,6 +70,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
             child: TextField(
               onChanged: (value){
                 setState((){
+                  query = value;
                   categoriesOnSearch = categories.where((element) => element.toLowerCase().contains(value.toLowerCase())).toList();
                 });
               },
@@ -77,86 +83,95 @@ class _ExploreScreenState extends State<ExploreScreen> {
                   contentPadding: EdgeInsets.all(SizeConfig.blockSizeVertical),
                   hintText: 'Search'
 
-              ),
-            ),
-          ),
-
-          actions: [
-            TextButton(
-              onPressed: (){
-                categoriesOnSearch.clear();
-                _textEditingController!.clear();
-                setState((){
-                  _textEditingController!.text= '';
-                });
-              },
-              child: const Icon(
-                Icons.close,
-                color: Colors.black,
-              ),
-            )
-          ],
-        ),
-        body: _textEditingController!.text.isNotEmpty && categoriesOnSearch.isEmpty?
-        Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Icon(Icons.search_off, size: 75,color: AppColors.mainColor,),
-              Text('No results found!', style: searchTextStyle),
-            ],
-          ),
-        )
-            : ListView.builder(
-            itemCount: _textEditingController!.text.isNotEmpty ? categoriesOnSearch.length: categories.length,
-            itemBuilder: (context, index){
-              return Padding(
-                padding: EdgeInsets.all(SizeConfig.blockSizeVertical*1.5),
-                child: Row(children: [
-                  const CircleAvatar(
-                    backgroundColor: AppColors.mainColor,
-                    foregroundColor: AppColors.primary,
-                    child: Icon(Icons.category),
                   ),
-                  const SizedBox(width: 10,),
-                  Text(_textEditingController!.text.isNotEmpty ? categoriesOnSearch[index]: categories[index],
-                      style: onBoardingTextStyle),
-                ],),
-              );
-            }),
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: selectedIndex,
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
-            backgroundColor: AppColors.mainColor,
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.search),
-            label: 'Search',
+                ),
+              ),
+
+              actions: [
+                TextButton(
+                  onPressed: (){
+                    categoriesOnSearch.clear();
+                    _textEditingController!.clear();
+                    setState((){
+                      _textEditingController!.text= '';
+                      query = "";
+                    });
+                  },
+                  child: const Icon(
+                    Icons.close,
+                    color: Colors.black,
+                  ),
+                )
+              ],
+            ),
+            body: StreamBuilder<QuerySnapshot>(
+              stream: _firebaseFirestore.snapshots(),
+              builder: (context, snapshots){
+                return (snapshots.connectionState == ConnectionState.waiting)
+                    ?const Center(
+                  child: CircularProgressIndicator(),
+                )
+                    :ListView.builder(
+                    itemCount: snapshots.data!.docs.length,
+                    itemBuilder: (context, index){
+                      var data = snapshots.data!.docs[index].data() as Map<String, dynamic>;
+                      if(query.isEmpty){
+                        return ListTile(
+                          onTap: (){
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => OtherProfilePage(data: data,)));
+                          },
+                          title: Text(data['username'], maxLines: 1, overflow: TextOverflow.ellipsis, style: const TextStyle(color: AppColors.primary),),
+                          subtitle:Text(data['fullname'], maxLines: 1, overflow: TextOverflow.ellipsis, style: const TextStyle(color: AppColors.primary),),
+                          leading: CircleAvatar(
+                            backgroundImage: NetworkImage(data['profilepic']),),);
+                      }
+                      if(data['username'].toString().contains(query.toLowerCase()) || data['fullname'].toString().contains(query.toLowerCase())){
+                        return ListTile(
+                          onTap: (){
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => OtherProfilePage(data: data,)));
+                          },
+                          title: Text(data['username'], maxLines: 1, overflow: TextOverflow.ellipsis, style: const TextStyle(color: AppColors.primary),),
+                          subtitle:Text(data['fullname'], maxLines: 1, overflow: TextOverflow.ellipsis, style: const TextStyle(color: AppColors.primary),),
+                          leading: CircleAvatar(
+                            backgroundImage: NetworkImage(data['profilepic']),),);
+                      }
+                      return Container();
+                });
+              }),
+
+          bottomNavigationBar: BottomNavigationBar(
+            currentIndex: selectedIndex,
+            items: const <BottomNavigationBarItem>[
+              BottomNavigationBarItem(
+                icon: Icon(Icons.home),
+                label: 'Home',
+                backgroundColor: AppColors.mainColor,
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.search),
+                label: 'Search',
 
 
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.pin_drop),
-            label: 'Map',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.pin_drop),
+                label: 'Map',
 
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.camera_alt_outlined),
-            label: 'Camera',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.camera_alt_outlined),
+                label: 'Camera',
 
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: 'Profile',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.person),
+                label: 'Profile',
 
-          ),
-        ],
-        onTap: onTap,
-      )
-    );
+              ),
+            ],
+            onTap: onTap,
+          )
+        );
+      }
   }
-}
     

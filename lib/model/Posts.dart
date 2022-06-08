@@ -1,29 +1,33 @@
 
 
 class Post {
-  String text;
+  String caption;
   String date;
   List <String> likes;
   List <String> dislikes;
   List <String> comments;
   String location;
   String picture;
-  String topic;
+  String category;
   String userId;
+  String postId;
   String postingTime;
+  String title;
 
 
   Post({
-    required this.text,
+    required this.caption,
     required this.date,
     required this.likes,
     required this.dislikes,
     required this.comments,
     required this.location,
     required this.picture,
-    required this.topic,
+    required this.category,
     required this.userId,
+    required this.postId,
     required this.postingTime,
+    required this.title,
 
   });
 }

@@ -43,8 +43,7 @@ class Annotation extends StatelessWidget {
         ChangeNotifierProvider(
         create: (context) => GoogleSignInProvider()
 
-        ),
-        StreamProvider<User?>.value(value: AuthService().user, initialData: null)],
+        ),],
       child: MaterialApp(
         routes: {
           '/welcome': (context) => const Welcome(),

@@ -4,15 +4,15 @@ import 'notif.dart';
 class OurUser {
   List <String> follower;
   List <String> following;
-  List <Post> posts;
+  List <String> posts;
   String userId;
   String username;
   String email;
   bool private;
   String fullName;
   String bio;
-  List <Post> bookmark;
-  List <Notif> notifications;
+  List <String> bookmark;
+  List <String> notifications;
   String method;
   String profilePic;
 

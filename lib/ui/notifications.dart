@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:untitled2/classes/notif_card.dart';
 import 'package:untitled2/model/notif.dart';
 import 'package:untitled2/services/analytics.dart';
@@ -9,6 +10,8 @@ import 'package:untitled2/ui/profile.dart';
 import 'package:untitled2/ui/profile_edit.dart';
 import 'package:untitled2/ui/explore_screen.dart';
 import 'package:untitled2/ui/feedPage.dart';
+
+import '../model/user.dart';
 
 class Notifications extends StatefulWidget {
   const Notifications({Key? key}) : super(key: key);

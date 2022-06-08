@@ -33,16 +33,18 @@ class _FeedPageState extends State<FeedPage> {
   @override
   Widget build(BuildContext context) {
     int selectedIndex = 0;
-    final x =Post(text: 'Starbucks',
+    final x =Post(caption: 'Starbucks',
         date: 'January 20',
         likes: ["aasd", "asdfas"],
         dislikes: ["saldf", "asdfasd"],
         comments: ["asdfas", "asdf"],
         location: "Kadıköy",
         picture: "link",
-        topic: "asdfa",
+        category: "asdfa",
         userId: "asdfasd",
-        postingTime: "sadfsd"
+        postId: "asdfasd",
+        postingTime: "sadfsd",
+        title: "asdasd"
 
     );
 

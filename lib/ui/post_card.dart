@@ -26,7 +26,7 @@ class PostCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Text(
-              post.text,
+              post.caption,
               style: profileNameTextStyle,
             ),
 
