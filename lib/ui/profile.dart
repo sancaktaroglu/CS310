@@ -8,6 +8,8 @@ import 'package:untitled2/services/analytics.dart';
 import 'package:untitled2/services/authentication.dart';
 import 'package:untitled2/ui/explore_screen.dart';
 import 'package:untitled2/ui/profile_edit.dart';
+import 'package:untitled2/ui/profile_follower_list.dart';
+import 'package:untitled2/ui/profile_following_list.dart';
 import 'package:untitled2/util/colors.dart';
 import 'package:untitled2/util/styles.dart';
 import 'package:untitled2/util/dimen.dart';
@@ -296,8 +298,13 @@ class _HomeViewState extends State<HomeView> {
                                 children: [
                                   Padding(
                                     padding: EdgeInsets.only(top: SizeConfig.blockSizeVertical*2),
-                                    child: Text(currentUser.follower.length.toString(),
-                                      style: profileTextStyle),
+                                    child: GestureDetector(
+                                      onTap: (){
+                                        Navigator.push(context, MaterialPageRoute(builder: (context) => const ProfileFollowerList()));
+                                      },
+                                      child: Text(currentUser.follower.length.toString(),
+                                        style: profileTextStyle),
+                                    ),
                                   ),
                                   Text('Follower',
                                     style: profileTextStyle)
@@ -309,8 +316,14 @@ class _HomeViewState extends State<HomeView> {
                                 children:  [
                                   Padding(
                                     padding: EdgeInsets.only(top: SizeConfig.blockSizeVertical*2),
-                                    child: Text(currentUser.following.length.toString(),
-                                      style: profileTextStyle),
+                                    child: GestureDetector(
+                                      onTap: (){
+                                        Navigator.push(context, MaterialPageRoute(builder: (context) => const ProfileFollowingList()));
+                                      },
+                                      child: Text(currentUser.following.length.toString(),
+
+                                        style: profileTextStyle),
+                                    ),
                                   ),
                                   Text('Following',
                                     style: profileTextStyle)
