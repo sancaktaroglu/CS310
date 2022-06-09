@@ -187,7 +187,7 @@ class _FeedPageState extends State<FeedPage> {
 
     setCurrentScreen(analytics, "Feed Page", "feedPage.dart") ;
     return  Scaffold(
-      appBar: pageBar(context, Notifications.routeName),
+      appBar: pageBar(context),
           body: SingleChildScrollView(
             child: Column(
                 children: <Widget>[

@@ -82,3 +82,17 @@ final profileTextStyle = GoogleFonts.nunito(
   fontSize: 16,
   fontWeight: FontWeight.bold,
 );
+
+
+final chatTextStyle = GoogleFonts.nunito(
+  color: AppColors.textColor,
+  fontSize: 18,
+  fontWeight: FontWeight.w600,
+);
+
+final dmTextStyle = GoogleFonts.nunito(
+  color: AppColors.headingColor,
+  fontSize: 22,
+  fontWeight: FontWeight.w500,
+  fontStyle: FontStyle.italic,
+);

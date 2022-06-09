@@ -214,7 +214,7 @@ class _CreatePostPhotoState extends State<CreatePostPhoto> {
   }
   @override
   Widget build(BuildContext context) {
-    return Scaffold(appBar: pageBar(context, Notifications.routeName),
+    return Scaffold(appBar: pageBar(context),
         body: SingleChildScrollView(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,

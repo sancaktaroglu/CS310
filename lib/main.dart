@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:untitled2/services/authentication.dart';
 import 'package:untitled2/services/google_sign_in.dart';
+import 'package:untitled2/ui/Dm.dart';
 import 'package:untitled2/ui/OnBoarding.dart';
 import 'package:untitled2/ui/add_comment.dart';
 //import 'package:untitled2/ui/post_card.dart';
@@ -60,6 +61,7 @@ class Annotation extends StatelessWidget {
           CreatePostLocation.routeName: (context) => const CreatePostLocation(),
           CreatePostPhoto.routeName: (context) => const CreatePostPhoto(),
           EditPost.routeName: (context) => const EditPost(),
+          Dm.routeName: (context) => const Dm(),
 
 
         },

@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:untitled2/classes/notif_card.dart';
@@ -11,7 +13,6 @@ import 'package:untitled2/ui/profile_edit.dart';
 import 'package:untitled2/ui/explore_screen.dart';
 import 'package:untitled2/ui/feedPage.dart';
 
-import '../model/user.dart';
 
 class Notifications extends StatefulWidget {
   const Notifications({Key? key}) : super(key: key);
@@ -22,9 +23,43 @@ class Notifications extends StatefulWidget {
 }
 
 class _NotificationsState extends State<Notifications> {
+
+  List <Notif> notifs = [
+  ];
+  final user = FirebaseAuth.instance.currentUser!;
+  final CollectionReference notifCollection = FirebaseFirestore.instance.collection('Notifications');
+  final CollectionReference userCollection = FirebaseFirestore.instance.collection('Users');
+
+
+  Future<void> getNotif() async{
+    String uid = user.uid;
+
+    QuerySnapshot querySnapshot = await notifCollection.get();
+
+    final chat = querySnapshot.docs.forEach((element) {
+
+      if(element['user_id'] == uid){
+        print(element['notif_type']);
+        notifs.add(Notif(userId: uid, otherUserId: element['other_user_id'], notifType: element['notif_type'], postId: element['post_id'], doc_id: element['id']));
+      }
+    });
+
+    setState( () {});
+
+  }
+
+  bool check = true;
+
   @override
   Widget build(BuildContext context) {
     int _selectedIndex = 0;
+
+    if (check) {
+      getNotif();
+      check = false;
+    }
+
+
 
     void _ONTAP(index) {
       setState(() {
@@ -53,53 +88,13 @@ class _NotificationsState extends State<Notifications> {
     }
     SizeConfig().init(context);
     setCurrentScreen(analytics, "Notification Page", "notifications.dart") ;
-    String like = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSLudBUAQNGPerdvGD3gHqObUr1mYm7lk383w&usqp=CAU';
-    String comment = 'https://www.nicepng.com/png/detail/207-2078186_comment-free-icon-comment-free-download.png';
-    Notif x = Notif(
-      userId: "1",
-      otherUserId: "2",
-      notifType: 2,
-      postId: "3",
-    );
+
     return Scaffold(
       backgroundColor: AppColors.mainColor,
       appBar: welcomeBar("Notifications"),
-      body: ListView(
-        children: <Widget>[
-          notifCard(like,
-              "AhseniHamza liked your post!",
-            x
-          ),
-          notifCard(like,
-              "Aas liked your post!",
-            x
-          ),
-          notifCard(comment,
-              "AhseniHamza commented on your post!",
-            x
-          ),
-          notifCard(like,
-            "AhseniHamza liked your post!",
-            x
-          ),
-          notifCard(comment,
-              "AhseniHamza commented on your post!",
-            x
-          ),
-          notifCard(like,
-              "AhseniHamza liked your post!",
-            x
-          ),
-          notifCard(like,
-              "AhseniHamza liked your post!",
-            x
-          ),
-          notifCard(like,
-              "Aas liked your post!",
-            x
-          ),
-
-        ],
+      body: ListView.builder(
+        itemCount: notifs.length,
+          itemBuilder: (context, index) => notifCard(notifs[index]),
       ),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _selectedIndex,

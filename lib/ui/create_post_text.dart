@@ -127,7 +127,7 @@ class _CreatePostTextState extends State<CreatePostText> {
   @override
   Widget build(BuildContext context) {
 
-    return Scaffold(appBar: pageBar(context, Notifications.routeName),
+    return Scaffold(appBar: pageBar(context),
         body: SingleChildScrollView(
           child: Form(key: _formKey,
             child: Column(

@@ -57,24 +57,14 @@ class _AddCommentState extends State<AddComment> {
     SizeConfig().init(context);
     String like = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSLudBUAQNGPerdvGD3gHqObUr1mYm7lk383w&usqp=CAU';
     String comment = 'https://www.nicepng.com/png/detail/207-2078186_comment-free-icon-comment-free-download.png';
-    Notif x = Notif(
-      userId: "1",
-      otherUserId: "2",
-      notifType: 2,
-      postId: "3",
-    );
+
     return Scaffold(
         appBar: welcomeBar("Comments"),
       body: Form(
         key: _formKey,
         child: Column(
           children: <Widget>[
-            SingleChildScrollView(
-              child: notifCard(comment,
-                  "AhseniHamza commented on your post!",
-                  x
-              ),
-            ),
+            SingleChildScrollView(),
             Spacer(),
             Container(
                 height: SizeConfig.screenHeight/8,
