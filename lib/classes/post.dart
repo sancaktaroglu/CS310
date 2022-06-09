@@ -16,7 +16,7 @@ Card card(Post post,String name, String surname, String date, String location, S
             leading: const CircleAvatar(
             ),
             title: Text("$name $surname"),
-            subtitle: Text("$post \n$location"),
+            subtitle: Text("$date \n$location"),
             trailing: const Icon(Icons.bookmark, color: AppColors.secondary),
           ),
           SizedBox(height: SizeConfig.blockSizeVertical*2),

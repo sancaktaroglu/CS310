@@ -34,6 +34,7 @@ class FeedPage extends StatefulWidget {
 class _FeedPageState extends State<FeedPage> {
 
   List<Post> postsList = [];
+  List<OurUser> usersList = [];
   List<String> postIDList = [];
   List<String> userPostIDList = [];
   final CollectionReference postCollection = FirebaseFirestore.instance.collection("Posts");
@@ -104,8 +105,26 @@ class _FeedPageState extends State<FeedPage> {
         postingTime: snapshot2.get('time'),
         title: snapshot2.get('title'),
       );
+      DocumentSnapshot snapshot3 = await userCollection.doc(snapshot2.get('userid')).get();
+      final thatUser =OurUser(
+          userId: snapshot3.get('id'),
+          fullName: snapshot3.get('fullname'),
+          email: snapshot3.get('email'),
+          method: snapshot3.get('method'),
+          follower: List<String>.from(snapshot3.get('Followers')),
+          following: List<String>.from(snapshot3.get('Following')),
+          posts: List<String>.from(snapshot3.get('Posts')),
+          bio: snapshot3.get('bio'),
+          bookmark: List<String>.from(snapshot3.get('bookmark')),
+          notifications: List<String>.from(snapshot3.get('Followers')),
+          private: snapshot3.get('privateAccount'),
+          profilePic: snapshot3.get('profilepic'),
+          username: snapshot3.get('username'),
+      );
       //print(currentPost.picture);
       postsList.add(currentPost);
+      usersList.add(thatUser);
+
       setState((){});
 
     }
@@ -175,12 +194,12 @@ class _FeedPageState extends State<FeedPage> {
                   for (int i=0; i<postsList.length; i++ )
 
                     card(x,
-                        currentUser.username,
-                        "",
+                        usersList[i].username,
+                        postsList[i].date,
                         postsList[i].postingTime,
                         postsList[i].location,
                         postsList[i].caption,
-                        postsList[i].picture, (){Navigator.pushNamed(context, AddComment.routeName);},
+                        postsList[i].picture, (){Navigator.push(context, MaterialPageRoute(builder: (context) => AddComment(data: postsList![i],)));},
                         context)
 
                 ]

@@ -60,7 +60,6 @@ class Annotation extends StatelessWidget {
           CreatePostLocation.routeName: (context) => const CreatePostLocation(),
           CreatePostPhoto.routeName: (context) => const CreatePostPhoto(),
           EditPost.routeName: (context) => const EditPost(),
-          AddComment.routeName: (context) => const AddComment(),
 
 
         },
