@@ -1,3 +1,4 @@
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -15,10 +16,12 @@ import 'package:untitled2/util/dimen.dart';
 import 'package:untitled2/model/user.dart';
 import 'package:untitled2/model/Posts.dart';
 import 'package:untitled2/ui/post_card.dart';
+import '../classes/post.dart';
 import 'FeedPage.dart';
 import 'package:untitled2/services/database.dart';
 
 import '../util/styles.dart';
+import 'add_comment.dart';
 
 class OtherProfilePage extends StatefulWidget {
   const OtherProfilePage({this.data});
@@ -30,6 +33,124 @@ class OtherProfilePage extends StatefulWidget {
 }
 
 class _OtherProfilePageState extends State<OtherProfilePage> {
+
+  List<Post> postsList = [];
+  List<String> postIDList = [];
+  List<String> userPostIDList = [];
+  bool follows = false;
+  bool requestSent = false;
+  final x =Post(caption: 'Starbucks',
+    date: 'January 20',
+    likes: ["aasd", "asdfas"],
+    dislikes: ["saldf", "asdfasd"],
+    comments: ["asdfas", "asdf"],
+    location: "Kadıköy",
+    picture: "link",
+    category: "asdfa",
+    postId: "asdasd",
+    userId: "asdfasd",
+    postingTime: "sadfsd",
+    title: "sdfdsg",
+
+  );
+  final user = FirebaseAuth.instance.currentUser!;
+  final CollectionReference postCollection = FirebaseFirestore.instance.collection("Posts");
+  Future<void> getPosts() async {
+    // Get docs from collection reference
+    QuerySnapshot querySnapshot = await postCollection.get();
+
+    // Get data from docs and convert map to List
+    //final postData = querySnapshot.docs.map((doc) => doc.data()).toList();
+
+    //for a specific field
+    final postID = querySnapshot.docs.map((doc) => doc.get('post_id')).forEach((element) {
+      print(element);
+      postIDList.add(element);
+    });
+    //print(postID);
+    //postIDList.add(postID);
+    for(var item in postIDList){
+      DocumentSnapshot snapshot = await postCollection.doc(item).get();
+      print("!!!!!!!!!!!!!!!!!!!");
+      print(widget.data!['id']);
+      print("!!!!!!!!!!!!!!!!!!!");
+      if(snapshot.get('userid') == widget.data!['id']){
+        userPostIDList.add(item);
+      }
+    }
+    for(var item in userPostIDList){
+      //print(item);
+
+      DocumentSnapshot snapshot2 = await postCollection.doc(item).get();
+      final ref = FirebaseStorage.instance.ref().child(snapshot2.get('picture'));
+      var url = await ref.getDownloadURL();
+      print(url);
+      final currentPost =Post(
+        caption: snapshot2.get('caption'),
+        date: "",
+        likes: List<String>.from(snapshot2.get('likes')),
+        dislikes: List<String>.from(snapshot2.get('dislikes')),
+        comments: List<String>.from(snapshot2.get('comments')),
+        location: snapshot2.get('location'),
+        picture: url,
+        category: snapshot2.get('category'),
+        postId: snapshot2.get('post_id'),
+        userId: snapshot2.get('userid'),
+        postingTime: snapshot2.get('time'),
+        title: snapshot2.get('title'),
+      );
+      //print(currentPost.picture);
+      postsList.add(currentPost);
+      setState((){});
+
+    }
+
+
+  }
+  Future<void> followStatus() async {
+    var followerList = List<String>.from(widget.data!['Followers']);
+    if(followerList.contains(user.uid)){
+      follows = true;
+    }
+    setState((){});
+  }
+  final CollectionReference userCollection = FirebaseFirestore.instance.collection('Users');
+  Future<void> unFollow()async{
+    var followerList = List<String>.from(widget.data!['Followers']);
+    followerList.remove(user.uid);
+    userCollection.doc(widget.data!['id']).update({
+      'Followers': followerList,
+    });
+    follows = false;
+    requestSent = false;
+    setState((){});
+
+  }
+  Future<void> Follow() async{
+
+    if(widget.data!['privateAccount'] == true){
+      follows = false;
+      requestSent = true;
+    }
+    else{
+      follows = true;
+    }
+
+    setState((){});
+  }
+  Future<void> RequestCancel() async{
+    follows = false;
+    requestSent = false;
+    setState((){});
+  }
+  @override
+  void initState() {
+    super.initState();
+    //scrollController = FixedExtentScrollController(initialItem: selectedListIndex);
+    getPosts();
+    followStatus();
+
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -187,34 +308,99 @@ class _OtherProfilePageState extends State<OtherProfilePage> {
 
                             Row(
                               children: [
-                                Padding(
-                                  padding: EdgeInsets.only(top: SizeConfig.blockSizeVertical*2),
-                                  child: Container(
-                                    height: SizeConfig.screenHeight/20,
-                                    width: SizeConfig.screenWidth/2,
-                                    margin: EdgeInsets.only(top:SizeConfig.blockSizeVertical*2),
-                                    child: ClipRRect(
-                                      borderRadius: BorderRadius.circular(80),
-                                      child: FlatButton(
-                                        color: AppColors.mainColor,
-                                        onPressed: () {},
-                                        child: Text(
-                                          "Follow",
-                                          style: loginTextStyle,
+                                if(follows == true)
+                                  Padding(
+                                    padding: EdgeInsets.only(top: SizeConfig.blockSizeVertical*2),
+                                    child: Container(
+                                      height: SizeConfig.screenHeight/20,
+                                      width: SizeConfig.screenWidth/2,
+                                      margin: EdgeInsets.only(top:SizeConfig.blockSizeVertical*2),
+                                      child: ClipRRect(
+                                        borderRadius: BorderRadius.circular(80),
+                                        child: FlatButton(
+                                          color: AppColors.mainColor,
+                                          onPressed: () {
+                                            unFollow();
+                                          },
+                                          child:
+                                          Text(
+                                            "Following",
+                                            style: loginTextStyle,
 
+                                          ),
                                         ),
                                       ),
                                     ),
-                                  ),
-                                )
+                                  )
+                                else if (follows == false && widget.data!['privateAccount'] == true && requestSent == true)
+                                  Padding(
+                                    padding: EdgeInsets.only(top: SizeConfig.blockSizeVertical*2),
+                                    child: Container(
+                                      height: SizeConfig.screenHeight/20,
+                                      width: SizeConfig.screenWidth/2,
+                                      margin: EdgeInsets.only(top:SizeConfig.blockSizeVertical*2),
+                                      child: ClipRRect(
+                                        borderRadius: BorderRadius.circular(80),
+                                        child: FlatButton(
+                                          color: AppColors.mainColor,
+                                          onPressed: () {
+                                            RequestCancel();
+                                          },
+                                          child:
+                                          Text(
+                                            "Requested",
+                                            style: loginTextStyle,
+
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  )
+                                else
+                                    Padding(
+                                      padding: EdgeInsets.only(top: SizeConfig.blockSizeVertical*2),
+                                      child: Container(
+                                        height: SizeConfig.screenHeight/20,
+                                        width: SizeConfig.screenWidth/2,
+                                        margin: EdgeInsets.only(top:SizeConfig.blockSizeVertical*2),
+                                        child: ClipRRect(
+                                          borderRadius: BorderRadius.circular(80),
+                                          child: FlatButton(
+                                            color: AppColors.mainColor,
+                                            onPressed: () {
+                                              Follow();
+                                            },
+                                            child:
+                                            Text(
+                                              "Follow",
+                                              style: loginTextStyle,
+
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    )
                               ],
-                            )
+                            ),
+
                           ],
                         ),
                       ]
                   ),
                   Column(
+                      children: <Widget>[
+                        for (int i=0; i<postsList.length; i++ )
 
+                          card(x,
+                              widget.data!['username'],
+                              "",
+                              postsList[i].postingTime,
+                              postsList[i].location,
+                              postsList[i].caption,
+                              postsList[i].picture, (){Navigator.push(context, MaterialPageRoute(builder: (context) => AddComment(data: postsList![i],)));},
+                              context)
+
+                      ]
                   ),
                 ],
               ),

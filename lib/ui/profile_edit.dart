@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:untitled2/services/analytics.dart';
 import 'package:untitled2/ui/profile.dart';
@@ -9,6 +11,7 @@ import 'package:untitled2/util/styles.dart';
 import 'package:untitled2/util/dialog.dart';
 import 'package:untitled2/util/appBar.dart';
 
+import '../model/user.dart';
 import 'FeedPage.dart';
 import 'explore_screen.dart';
 
@@ -26,6 +29,22 @@ class ProfileEdit extends StatefulWidget {
 class _ProfileEditState extends State<ProfileEdit> {
 
   bool value = false;
+  final user = FirebaseAuth.instance.currentUser!;
+  final CollectionReference userCollection = FirebaseFirestore.instance.collection('Users');
+
+
+  Future<void> changePrivacy(bool value) async{
+    userCollection.doc(user.uid).update({
+      'privateAccount': value,
+    });
+  }
+  @override
+  void initState() {
+    super.initState();
+    //scrollController = FixedExtentScrollController(initialItem: selectedListIndex);
+    //getData();
+
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -68,6 +87,43 @@ class _ProfileEditState extends State<ProfileEdit> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Container(
+            height: SizeConfig.blockSizeVertical*7,
+            margin: EdgeInsets.symmetric(horizontal: SizeConfig.blockSizeHorizontal*10),
+            child: ClipRRect(
+            borderRadius: BorderRadius.circular(80),
+            child: FlatButton(
+            color: AppColors.buttonColor,
+            onPressed: () {
+            // await user?.updatePhotoURL("https://example.com/jane-q-user/profile.jpg");
+            },
+            child: Text(
+              "Change Profile Picture",
+              style: welcomeButtonTextStyle,
+            ),
+            ),
+            ),
+            ),
+            Container(
+            height: SizeConfig.blockSizeVertical*7,
+            margin: EdgeInsets.symmetric(horizontal: SizeConfig.blockSizeHorizontal*10),
+            child: ClipRRect(
+            borderRadius: BorderRadius.circular(80),
+            child: FlatButton(
+            color: AppColors.buttonColor,
+            onPressed: () {
+            showDialog(
+            context: context,
+            builder: (context) => AlertDialog(),);
+            },
+              child: Text(
+                "Change Bio",
+                style: welcomeButtonTextStyle,
+              ),
+            ),
+            ),
+            ),
+
+            Container(
               height: SizeConfig.blockSizeVertical*7,
               margin: EdgeInsets.symmetric(horizontal: SizeConfig.blockSizeHorizontal*10),
               child: ClipRRect(
@@ -105,6 +161,8 @@ class _ProfileEditState extends State<ProfileEdit> {
                           onChanged: (check){
                             setState((){
                               value = check;
+                              print(value);
+                              changePrivacy(value);
                       });
                       },
                       activeColor: Colors.black)

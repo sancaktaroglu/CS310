@@ -371,7 +371,7 @@ class _HomeViewState extends State<HomeView> {
                             postsList[i].postingTime,
                             postsList[i].location,
                             postsList[i].caption,
-                            postsList[i].picture, (){Navigator.pushNamed(context, AddComment.routeName);},
+                            postsList[i].picture, (){Navigator.push(context, MaterialPageRoute(builder: (context) => AddComment(data: postsList![i],)));},
                             context)
 
                     ]
