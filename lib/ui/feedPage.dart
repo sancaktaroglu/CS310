@@ -131,6 +131,8 @@ class _FeedPageState extends State<FeedPage> {
 
 
   }
+
+
   @override
   void initState() {
     super.initState();
@@ -193,7 +195,7 @@ class _FeedPageState extends State<FeedPage> {
                 children: <Widget>[
                   for (int i=0; i<postsList.length; i++ )
 
-                    card(x,
+                    card(postsList[i],
                         usersList[i].username,
                         postsList[i].date,
                         postsList[i].postingTime,

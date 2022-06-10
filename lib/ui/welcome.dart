@@ -60,7 +60,6 @@ class _WelcomeState extends State<Welcome> {
     SizeConfig().init(context);
     setCurrentScreen(analytics, "Welcome Page", "welcome.dart") ;
     return Scaffold(
-      appBar: welcomeBar("Welcome to Hot Pins"),
       body: StreamBuilder(
         stream: FirebaseAuth.instance.authStateChanges(),
         builder: (context, snapshot) {
