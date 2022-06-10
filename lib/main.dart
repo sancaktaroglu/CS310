@@ -9,6 +9,7 @@ import 'package:untitled2/ui/add_comment.dart';
 import 'package:untitled2/ui/change_bio.dart';
 //import 'package:untitled2/ui/post_card.dart';
 import 'package:untitled2/ui/change_password.dart';
+import 'package:untitled2/ui/change_username.dart';
 import 'package:untitled2/ui/choose_location.dart';
 import 'package:untitled2/ui/create_post_photo.dart';
 import 'package:untitled2/ui/create_post_text.dart';
@@ -64,6 +65,7 @@ class Annotation extends StatelessWidget {
           EditPost.routeName: (context) => const EditPost(),
           Dm.routeName: (context) => const Dm(),
           ChangeBio.routeName: (context) => const ChangeBio(),
+          ChangeUsername.routeName: (context) => const ChangeUsername(),
 
 
         },

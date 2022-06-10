@@ -247,18 +247,7 @@ class _OtherProfilePageState extends State<OtherProfilePage> {
                 )
             ),
           ),
-          actions: [
-            Padding(
-              padding:  EdgeInsets.only(right: SizeConfig.blockSizeVertical*2),
-              child: GestureDetector(
-                  onTap: (){},
-                  child: const Icon(
-                    Icons.settings,
-                    size: 27,
-                  )
-              ),
-            )
-          ],
+          
         ),
         body: SingleChildScrollView(
           child: SafeArea(
