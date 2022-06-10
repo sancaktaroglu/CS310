@@ -107,6 +107,28 @@ class _OtherProfilePageState extends State<OtherProfilePage> {
 
 
   }
+  var currentUser = OurUser(follower: [], following: [], posts: [], userId: "", username: "", email: "", private: false, fullName: "", bio: "", bookmark: [], notifications: [], method: "", profilePic: "");
+  Future<void> getData() async {
+    // Get docs from collection reference
+    DocumentSnapshot snapshot = await userCollection.doc(user.uid).get();
+    // Get data from docs and convert map to List
+    currentUser.userId = snapshot.get('id');
+    currentUser.fullName = snapshot.get('fullname');
+    currentUser.email = snapshot.get('email');
+    currentUser.method = snapshot.get('method');
+    currentUser.follower = List<String>.from(snapshot.get('Followers'));
+    currentUser.following = List<String>.from(snapshot.get('Following'));
+    currentUser.posts = List<String>.from(snapshot.get('Posts'));
+    currentUser.bio = snapshot.get('bio');
+    currentUser.bookmark = List<String>.from(snapshot.get('bookmark'));
+    currentUser.notifications = List<String>.from(snapshot.get('Followers'));
+    currentUser.private = snapshot.get('privateAccount');
+    currentUser.profilePic = snapshot.get('profilepic');
+    currentUser.username = snapshot.get('username');
+    setState((){});
+
+    print(currentUser.username);
+  }
   Future<void> followStatus() async {
     var followerList = List<String>.from(widget.data!['Followers']);
     if(followerList.contains(user.uid)){
@@ -121,8 +143,18 @@ class _OtherProfilePageState extends State<OtherProfilePage> {
     userCollection.doc(widget.data!['id']).update({
       'Followers': followerList,
     });
+    widget.data!['Followers'] = followerList;
+    var followingList = List<String>.from(currentUser.following);
+    followingList.remove(widget.data!['id']);
+
+    userCollection.doc(user.uid).update({
+      'Following': followingList,
+    });
     follows = false;
     requestSent = false;
+    if(widget.data!['privateAccount'] == true)
+      postsList.clear();
+
     setState((){});
 
   }
@@ -134,6 +166,19 @@ class _OtherProfilePageState extends State<OtherProfilePage> {
     }
     else{
       follows = true;
+      var followerList = List<String>.from(widget.data!['Followers']);
+      followerList.add(user.uid);
+      userCollection.doc(widget.data!['id']).update({
+        'Followers': followerList,
+      });
+      widget.data!['Followers'] = followerList;
+      var followingList = List<String>.from(currentUser.following);
+      followingList.add(widget.data!['id']);
+      userCollection.doc(user.uid).update({
+        'Following': followingList,
+      });
+
+
     }
 
     setState((){});
@@ -147,6 +192,7 @@ class _OtherProfilePageState extends State<OtherProfilePage> {
   void initState() {
     super.initState();
     //scrollController = FixedExtentScrollController(initialItem: selectedListIndex);
+    getData();
     getPosts();
     followStatus();
 
@@ -389,16 +435,28 @@ class _OtherProfilePageState extends State<OtherProfilePage> {
                   ),
                   Column(
                       children: <Widget>[
-                        for (int i=0; i<postsList.length; i++ )
+                        if(follows == true)
+                          for (int i=0; i<postsList.length; i++ )
 
-                          card(x,
-                              widget.data!['username'],
-                              "",
-                              postsList[i].postingTime,
-                              postsList[i].location,
-                              postsList[i].caption,
-                              postsList[i].picture, (){Navigator.push(context, MaterialPageRoute(builder: (context) => AddComment(data: postsList![i],)));},
-                              context)
+                            card(x,
+                                widget.data!['username'],
+                                "",
+                                postsList[i].postingTime,
+                                postsList[i].location,
+                                postsList[i].caption,
+                                postsList[i].picture, (){Navigator.push(context, MaterialPageRoute(builder: (context) => AddComment(data: postsList![i],)));},
+                                context)
+                        else if (widget.data!['privateAccount'] == false && follows == false)
+                          for (int i=0; i<postsList.length; i++ )
+
+                            card(x,
+                                widget.data!['username'],
+                                "",
+                                postsList[i].postingTime,
+                                postsList[i].location,
+                                postsList[i].caption,
+                                postsList[i].picture, (){Navigator.push(context, MaterialPageRoute(builder: (context) => AddComment(data: postsList![i],)));},
+                                context)
 
                       ]
                   ),

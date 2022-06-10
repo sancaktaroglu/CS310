@@ -6,6 +6,7 @@ import 'package:untitled2/services/google_sign_in.dart';
 import 'package:untitled2/ui/Dm.dart';
 import 'package:untitled2/ui/OnBoarding.dart';
 import 'package:untitled2/ui/add_comment.dart';
+import 'package:untitled2/ui/change_bio.dart';
 //import 'package:untitled2/ui/post_card.dart';
 import 'package:untitled2/ui/change_password.dart';
 import 'package:untitled2/ui/choose_location.dart';
@@ -62,6 +63,7 @@ class Annotation extends StatelessWidget {
           CreatePostPhoto.routeName: (context) => const CreatePostPhoto(),
           EditPost.routeName: (context) => const EditPost(),
           Dm.routeName: (context) => const Dm(),
+          ChangeBio.routeName: (context) => const ChangeBio(),
 
 
         },

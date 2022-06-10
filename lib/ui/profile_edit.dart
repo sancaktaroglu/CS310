@@ -13,6 +13,7 @@ import 'package:untitled2/util/appBar.dart';
 
 import '../model/user.dart';
 import 'FeedPage.dart';
+import 'change_bio.dart';
 import 'explore_screen.dart';
 
 
@@ -111,9 +112,7 @@ class _ProfileEditState extends State<ProfileEdit> {
             child: FlatButton(
             color: AppColors.buttonColor,
             onPressed: () {
-            showDialog(
-            context: context,
-            builder: (context) => AlertDialog(),);
+              Navigator.pushNamedAndRemoveUntil(context, ChangeBio.routeName, (route) => false);
             },
               child: Text(
                 "Change Bio",
@@ -134,7 +133,7 @@ class _ProfileEditState extends State<ProfileEdit> {
                     Navigator.pushNamed(context, "/changePassword");
                   },
                   child: Text(
-                    "Change Password",
+                    "Change Username",
                     style: welcomeButtonTextStyle,
                   ),
                 ),

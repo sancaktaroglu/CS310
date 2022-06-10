@@ -360,6 +360,14 @@ class _HomeViewState extends State<HomeView> {
                       ),
                     ]
                 ),
+                Row(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(24,8,24,24),
+                      child: SizedBox(width: SizeConfig.screenWidth*0.86, child: Text(currentUser.bio, style: const TextStyle(fontSize: 18),)),
+                    ),
+                  ],
+                ),
 
                 Column(
                     children: <Widget>[
