@@ -9,10 +9,12 @@ class Message extends StatelessWidget {
     Key? key,
     required this.message,
     required this.user,
+    required this.image_url,
   }) : super(key: key);
 
   final ChatMessage message;
   final String user;
+  final String image_url;
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
@@ -23,6 +25,7 @@ class Message extends StatelessWidget {
         if (message.sender != user) ...[
           CircleAvatar(
             radius: 12,
+            child: Image.network(image_url),
           ),
         ],
         SizedBox(
@@ -56,6 +59,7 @@ class Message extends StatelessWidget {
               message.text,
               style: chatTextStyle,
               softWrap: false,
+              maxLines: 4,
             ),
           ),
         ),

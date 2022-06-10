@@ -27,15 +27,16 @@ class ChatCard extends StatelessWidget {
             Stack(
               children: [
                 CircleAvatar(
+                  child: Image.network(chat.image),
                   radius: 30,
                 )
               ],
             ),
             Padding(
-                padding: EdgeInsets.symmetric(
-                    vertical: SizeConfig.blockSizeVertical*3,
-                    horizontal: SizeConfig.blockSizeHorizontal*8,
-                ),
+              padding: EdgeInsets.symmetric(
+                vertical: SizeConfig.blockSizeVertical*3,
+                horizontal: SizeConfig.blockSizeHorizontal*8,
+              ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [

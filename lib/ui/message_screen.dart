@@ -25,10 +25,7 @@ final user = FirebaseAuth.instance.currentUser!;
 String uid = user.uid;
 
 
-
-
-
-
+String image = "";
 String name = "";
 
 List <ChatMessage> messages = [];
@@ -51,6 +48,8 @@ class _message_screenState extends State<message_screen> {
   Future<void> getMessages()  async {
     DocumentSnapshot snapshot =  await userCollection.doc(widget.data.id).get();
     name = snapshot.get('fullname');
+    image = snapshot.get('profilepic');
+
 
     QuerySnapshot querySnapshot = await messageCollection.get();
 
@@ -85,14 +84,14 @@ class _message_screenState extends State<message_screen> {
 
     SizeConfig().init(context);
     return Scaffold(
-      appBar: dmBar(name, context),
+      appBar: dmBar(name, context, image),
 
       body: Column(
         children: [
           Expanded(
             child: ListView.builder(
               itemCount: messages.length,
-              itemBuilder: (context, index) => Message(message: messages[index], user:widget.data.id),
+              itemBuilder: (context, index) => Message(message: messages[index], user:widget.data.id, image_url: image,),
             ),
           ),
           Container(
