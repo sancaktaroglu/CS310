@@ -373,14 +373,14 @@ class _HomeViewState extends State<HomeView> {
                     children: <Widget>[
                       for (int i=0; i<postsList.length; i++ )
 
-                        card(x,
+                        card(postsList[i],
                             currentUser.username,
                             "",
                             postsList[i].postingTime,
                             postsList[i].location,
                             postsList[i].caption,
-                            postsList[i].picture, (){Navigator.push(context, MaterialPageRoute(builder: (context) => AddComment(data: postsList![i],)));},
-                            context)
+                            postsList[i].picture, (){Navigator.push(context, MaterialPageRoute(builder: (context) => AddComment(data: postsList[i],)));},
+                            context, setState)
 
                     ]
                 ),

@@ -434,7 +434,7 @@ class _OtherProfilePageState extends State<OtherProfilePage> {
                                 postsList[i].location,
                                 postsList[i].caption,
                                 postsList[i].picture, (){Navigator.push(context, MaterialPageRoute(builder: (context) => AddComment(data: postsList![i],)));},
-                                context)
+                                context, setState)
                         else if (widget.data!['privateAccount'] == false && follows == false)
                           for (int i=0; i<postsList.length; i++ )
 
@@ -445,7 +445,7 @@ class _OtherProfilePageState extends State<OtherProfilePage> {
                                 postsList[i].location,
                                 postsList[i].caption,
                                 postsList[i].picture, (){Navigator.push(context, MaterialPageRoute(builder: (context) => AddComment(data: postsList![i],)));},
-                                context)
+                                context, setState)
 
                       ]
                   ),

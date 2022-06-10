@@ -201,8 +201,9 @@ class _FeedPageState extends State<FeedPage> {
                         postsList[i].postingTime,
                         postsList[i].location,
                         postsList[i].caption,
-                        postsList[i].picture, (){Navigator.push(context, MaterialPageRoute(builder: (context) => AddComment(data: postsList![i],)));},
-                        context)
+                        postsList[i].picture, (){Navigator.push(context, MaterialPageRoute(builder: (context) => AddComment(data: postsList[i],)));},
+                        context, (){setState((){});})
+
 
                 ]
             ),

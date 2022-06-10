@@ -32,6 +32,7 @@ Future<void> likePost(Post post) async {
       'dislikes': post.dislikes,
     });
   }
+
 }
 Future<void> dislikePost(Post post) async{
   DocumentSnapshot snapshot = await postCollection.doc(post.postId).get();
@@ -56,9 +57,9 @@ Future<void> dislikePost(Post post) async{
       'likes': post.likes,
     });
   }
-
+  //setState((){});
 }
-Card card(Post post,String name, String surname, String date, String location, String comment, String link, Function func, BuildContext context) {
+Card card(Post post,String name, String surname, String date, String location, String comment, String link, Function func, BuildContext context, Function setState) {
   SizeConfig().init(context);
   return Card(
     child: SizedBox(
@@ -95,39 +96,69 @@ Card card(Post post,String name, String surname, String date, String location, S
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: <Widget>[
-              GestureDetector(
-                child: Row(
-                  children: <Widget>[
-                    const Icon(Icons.thumb_up, color: AppColors.secondary),
-                    SizedBox(width: SizeConfig.blockSizeHorizontal*2),
-                    Text(
-                      "Like",
-                      style: cardTextStyle,
-                    ),
-                  ],
+              if(post.likes.contains(user.uid))
+                GestureDetector(
+                  child: Row(
+                    children: <Widget>[
+                      const Icon(Icons.thumb_up, color: Colors.green),
+                      SizedBox(width: SizeConfig.blockSizeHorizontal*2),
+                      Text(
+                        post.likes.length.toString(),
+                        style: cardTextStyle,
+                      ),
+                    ],
+                  ),
+                  onTap: ()async{await likePost(post); setState();},
+                )
+              else
+                GestureDetector(
+                  child: Row(
+                    children: <Widget>[
+                      const Icon(Icons.thumb_up, color: AppColors.secondary),
+                      SizedBox(width: SizeConfig.blockSizeHorizontal*2),
+                      Text(
+                        post.likes.length.toString(),
+                        style: cardTextStyle,
+                      ),
+                    ],
+                  ),
+                  onTap: ()async{await likePost(post); setState();},
                 ),
-                onTap: (){likePost(post);},
-              ),
-              GestureDetector(
-                child: Row(
-                  children: <Widget>[
-                    const Icon(Icons.thumb_down, color: AppColors.secondary),
-                    SizedBox(width: SizeConfig.blockSizeHorizontal*2),
-                    Text(
-                      "Dislike",
-                      style: cardTextStyle,
-                    ),
-                  ],
+              if(post.dislikes.contains(user.uid))
+                GestureDetector(
+                  child: Row(
+                    children: <Widget>[
+                      const Icon(Icons.thumb_down, color: Colors.red),
+                      SizedBox(width: SizeConfig.blockSizeHorizontal*2),
+                      Text(
+                        post.dislikes.length.toString(),
+                        style: cardTextStyle,
+                      ),
+                    ],
+                  ),
+                  onTap: ()async{await dislikePost(post); setState();},
+                )
+              else
+                GestureDetector(
+                  child: Row(
+                    children: <Widget>[
+                      const Icon(Icons.thumb_down, color: AppColors.secondary),
+                      SizedBox(width: SizeConfig.blockSizeHorizontal*2),
+                      Text(
+                        post.dislikes.length.toString(),
+                        style: cardTextStyle,
+                      ),
+                    ],
+                  ),
+                  onTap: ()async{await dislikePost(post); setState();},
                 ),
-                onTap: (){dislikePost(post);},
-              ),
               GestureDetector(
                 child: Row(
                   children:  <Widget>[
                     const Icon(Icons.comment, color: AppColors.secondary),
                     SizedBox(width: SizeConfig.blockSizeHorizontal*2),
                     Text(
-                      "Comment",
+                      post.comments.length.toString(),
                       style: cardTextStyle,
                     ),
                   ],

@@ -1,6 +1,12 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:untitled2/services/analytics.dart';
 import 'package:untitled2/ui/profile.dart';
 
@@ -11,6 +17,7 @@ import 'package:untitled2/util/styles.dart';
 import 'package:untitled2/util/dialog.dart';
 import 'package:untitled2/util/appBar.dart';
 
+import '../model/Posts.dart';
 import '../model/user.dart';
 import 'FeedPage.dart';
 import 'change_bio.dart';
@@ -30,6 +37,8 @@ class ProfileEdit extends StatefulWidget {
 
 class _ProfileEditState extends State<ProfileEdit> {
 
+
+
   bool value = false;
   final user = FirebaseAuth.instance.currentUser!;
   final CollectionReference userCollection = FirebaseFirestore.instance.collection('Users');
@@ -40,12 +49,122 @@ class _ProfileEditState extends State<ProfileEdit> {
       'privateAccount': value,
     });
   }
+
+  Future<void> _showDialog(String title, String message) async {
+    bool isAndroid = Platform.isAndroid;
+    return showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          if(isAndroid) {
+            return AlertDialog(
+              title: Text(title),
+              content: SingleChildScrollView(
+                child: ListBody(
+                  children: [
+                    Text(message),
+                  ],
+                ),
+              ),
+              actions: [
+                TextButton(
+                  child: Text('OK'),
+                  onPressed: () {
+                    Navigator.pushNamedAndRemoveUntil(context, Profile.routeName, (route) => false);
+                  },
+                )
+              ],
+            );
+          } else {
+            return CupertinoAlertDialog(
+              title: Text(title, style: welcomeButtonTextStyle),
+              content: SingleChildScrollView(
+                child: ListBody(
+                  children: [
+                    Text(message, style: welcomeButtonTextStyle),
+                  ],
+                ),
+              ),
+              actions: [
+                TextButton(
+                  child: Text('OK'),
+                  onPressed: () {
+                    Navigator.pushNamedAndRemoveUntil(context, FeedPage.routeName, (route) => false);
+                  },
+                )
+              ],
+            );
+          }
+
+        });
+  }
+
+
   @override
   void initState() {
     super.initState();
     //scrollController = FixedExtentScrollController(initialItem: selectedListIndex);
     //getData();
 
+  }
+  File? image;
+  Future pickImage() async{
+    try{
+      final image = await ImagePicker().pickImage(source: ImageSource.gallery);
+      if(image == null) return;
+      final imageTemporary = File(image.path);
+      setState((){this.image = imageTemporary;});
+
+    }on PlatformException catch(e){
+      print('Failed to pick image $e');
+    }
+
+
+  }
+
+  Future uploadImageToFirebase(BuildContext context) async {
+
+    String fileName = image!.path.split('/').last;
+    Reference firebaseStorageRef = FirebaseStorage.instance.ref().child('pictures/$fileName');
+    try {
+      await firebaseStorageRef.putFile(File(image!.path));
+      print("Upload complete");
+    } on FirebaseException catch(e) {
+      print('ERROR: ${e.code} - ${e.message}');
+    } catch (e) {
+      print(e.toString());
+    }
+
+
+    try{
+      final ref = FirebaseStorage.instance.ref().child('pictures/$fileName');
+      var url = await ref.getDownloadURL();
+      userCollection.doc(user.uid).update({
+        'profilepic': url,
+      });
+
+
+      /*await FirebaseFirestore.instance.collection('Posts').add({
+        'category': topic,
+        'title': title,
+        'caption': caption,
+        'dislikes': 0,
+        'likes': 0,
+        'location': location,
+        'picture':'pictures/$fileName',
+        'time': formattedDate,
+        'userid': currentUser.userId,
+      });*/
+
+      _showDialog("Success","Your profile picture is changed successfully");
+    }
+    on FirebaseException catch (e){
+      print('ERROR: ${e.code} - ${e.message}');
+      //switch(e.code){}
+
+    } catch (e) {
+      print(e.toString());
+    }
   }
 
   @override
@@ -95,8 +214,11 @@ class _ProfileEditState extends State<ProfileEdit> {
             borderRadius: BorderRadius.circular(80),
             child: FlatButton(
             color: AppColors.buttonColor,
-            onPressed: () {
-            // await user?.updatePhotoURL("https://example.com/jane-q-user/profile.jpg");
+            onPressed: () async{
+                await pickImage();
+                if(image != null){
+                  uploadImageToFirebase(context);
+                }
             },
             child: Text(
               "Change Profile Picture",
