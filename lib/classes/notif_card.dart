@@ -6,6 +6,7 @@ import 'package:untitled2/util/styles.dart';
 import 'package:untitled2/util/dimen.dart';
 
 String like = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSLudBUAQNGPerdvGD3gHqObUr1mYm7lk383w&usqp=CAU';
+String dislike = 'https://cdn-icons-png.flaticon.com/512/633/633758.png';
 String comment = 'https://www.nicepng.com/png/detail/207-2078186_comment-free-icon-comment-free-download.png';
 String share = 'https://cdn3.iconfinder.com/data/icons/virtual-notebook/16/button_share-512.png';
 String follow = 'http://cdn.onlinewebfonts.com/svg/img_193993.png';
@@ -45,6 +46,11 @@ class _notifCardState extends State<notifCard> {
     if (widget.x.notifType == 'like') {
       link = like;
       sentence = chat_name + " liked your post!";
+    }
+
+    else if(widget.x.notifType == 'dislike'){
+      link = dislike;
+      sentence = chat_name + " disliked your post!";
     }
 
     else if (widget.x.notifType == 'comment') {

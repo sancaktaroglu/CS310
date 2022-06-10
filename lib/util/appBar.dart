@@ -66,14 +66,16 @@ AppBar pageBar(BuildContext context){
   );
 }
 
-AppBar dmBar(String text, BuildContext context){
+AppBar dmBar(String text, BuildContext context, String image){
   SizeConfig().init(context);
   return AppBar(
     centerTitle: true,
     elevation: 10,
     title: Row(
       children: [
-        CircleAvatar(),
+        CircleAvatar(
+          child: Image.network(image),
+        ),
         SizedBox(
           width: SizeConfig.blockSizeHorizontal*5,
         ),
