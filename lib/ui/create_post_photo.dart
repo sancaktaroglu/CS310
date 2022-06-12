@@ -29,6 +29,7 @@ class CreatePostPhoto extends StatefulWidget {
 }
 
 class _CreatePostPhotoState extends State<CreatePostPhoto> {
+  List<String> userPosts = [];
   var currentUser = OurUser(followRequests: [], follower: [], following: [], posts: [], userId: "", username: "", email: "", private: false, fullName: "", bio: "", bookmark: [], notifications: [], method: "", profilePic: "");
   final user = FirebaseAuth.instance.currentUser!;
   final CollectionReference userCollection = FirebaseFirestore.instance.collection('Users');
@@ -154,21 +155,12 @@ class _CreatePostPhotoState extends State<CreatePostPhoto> {
         'userid': currentUser.userId,
         'post_id': ref.id,
       });
-      userCollection.doc(currentUser.userId).set({
-
+      DocumentSnapshot snapshot2 = await userCollection.doc(user.uid).get();
+      userPosts = List<String>.from(snapshot2.get('Posts'));
+      userPosts.add(ref.id);
+      userCollection.doc(currentUser.userId).update({
+        'Posts': userPosts,
       });
-
-      /*await FirebaseFirestore.instance.collection('Posts').add({
-        'category': topic,
-        'title': title,
-        'caption': caption,
-        'dislikes': 0,
-        'likes': 0,
-        'location': location,
-        'picture':'pictures/$fileName',
-        'time': formattedDate,
-        'userid': currentUser.userId,
-      });*/
 
       _showDialog("Success","Your post is created successfully");
     }

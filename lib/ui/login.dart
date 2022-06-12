@@ -141,9 +141,10 @@ class _LoginState extends State<Login> {
                           if (_formKey.currentState!.validate()) {
                             _formKey.currentState!.save();
                             AuthService().loginWithMailandPass(email, password);
+                            Navigator.pushNamedAndRemoveUntil(context, FeedPage.routeName, (route) => false);
                           }
 
-                          Navigator.pushNamedAndRemoveUntil(context, FeedPage.routeName, (route) => false);
+
 
                           /*if(_formKey.currentState!.validate()) {
                             _formKey.currentState!.save();

@@ -17,6 +17,7 @@ import '../util/colors.dart';
 import '../util/dimen.dart';
 import '../util/styles.dart';
 import 'FeedPage.dart';
+import 'bottom_map.dart';
 import 'create_post_photo.dart';
 import 'explore_screen.dart';
 import 'notifications.dart';
@@ -95,11 +96,12 @@ class _CreatePostTextState extends State<CreatePostText> {
       }
       else if(index == 2)
       {
-        Navigator.pushNamedAndRemoveUntil(context, ProfileEdit.routeName, (route) => false);
+        Navigator.pushNamed(context, BottomMap.routeName);
+
       }
       else if(index == 3)
       {
-
+        Navigator.pushNamedAndRemoveUntil(context, CreatePostText.routeName, (route) => false);
       }
       else if(index == 4)
       {

@@ -23,6 +23,8 @@ import 'package:untitled2/services/database.dart';
 import 'package:untitled2/model/Posts.dart';
 
 import 'add_comment.dart';
+import 'bottom_map.dart';
+import 'create_post_text.dart';
 import 'edit_post.dart';
 
 
@@ -191,11 +193,12 @@ class _HomeViewState extends State<HomeView> {
         }
         else if(index == 2)
         {
-          Navigator.pushNamedAndRemoveUntil(context, ProfileEdit.routeName, (route) => false);
+          Navigator.pushNamed(context, BottomMap.routeName);
+
         }
         else if(index == 3)
         {
-
+          Navigator.pushNamedAndRemoveUntil(context, CreatePostText.routeName, (route) => false);
         }
         else if(index == 4)
         {
@@ -352,12 +355,15 @@ class _HomeViewState extends State<HomeView> {
                                     child: FlatButton(
                                       color: AppColors.mainColor,
                                       onPressed: () {
-                                        _goSettingPage;
-                                      },
-                                      child: Text(
-                                        "Edit Profile",
-                                        style: loginTextStyle,
 
+                                      },
+                                      child: GestureDetector(
+                                        onTap:  _goSettingPage,
+                                        child: Text(
+                                          "Edit Profile",
+                                          style: loginTextStyle,
+
+                                        ),
                                       ),
                                     ),
                                   ),
