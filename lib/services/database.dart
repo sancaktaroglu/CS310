@@ -22,6 +22,7 @@ class DatabaseService{
 
    OurUser _userDataFromSnapshot(DocumentSnapshot snapshot) {
     return OurUser(
+      followRequests: snapshot.get('FollowRequests'),
       userId: id,
       fullName: snapshot.get('fullname'),
       email: snapshot.get('email'),
@@ -54,6 +55,7 @@ class DatabaseService{
       'fullname': fullname,
       'email': email,
       'method': method,
+      'FollowRequests': emptyList,
       'Followers': emptyList,
       'Following': emptyList,
       'Posts': emptyList,
@@ -62,11 +64,11 @@ class DatabaseService{
       'notifications': emptyList,
       'privateAccount': value,
       'profilepic': photoURL,
-      'username': emptyString,
+      'username': id,
 
     })
-        .then((value) => print('Customer Added'))
-        .catchError((error) => print('Adding customer failed ${error.toString()}'));
+        .then((value) => print('User Added'))
+        .catchError((error) => print('Adding user failed ${error.toString()}'));
   }
   Future addUserWithEmailAndPassword(String? name, String? surname, String? email, String? username, String method, String? photoURL) async {
     List<String> emptyList = [];
@@ -83,6 +85,7 @@ class DatabaseService{
       'fullname': fullname,
       'email': email,
       'method': method,
+      'FollowRequests': emptyList,
       'Followers': emptyList,
       'Following': emptyList,
       'Posts': emptyList,

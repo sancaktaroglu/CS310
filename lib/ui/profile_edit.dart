@@ -49,6 +49,13 @@ class _ProfileEditState extends State<ProfileEdit> {
       'privateAccount': value,
     });
   }
+  Future<void> checkPrivacy() async{
+    DocumentSnapshot snapshot = await userCollection.doc(user.uid).get();
+    value = snapshot.get('privateAccount');
+    print(value);
+
+    setState((){});
+  }
 
   Future<void> _showDialog(String title, String message) async {
     bool isAndroid = Platform.isAndroid;
@@ -105,6 +112,7 @@ class _ProfileEditState extends State<ProfileEdit> {
     super.initState();
     //scrollController = FixedExtentScrollController(initialItem: selectedListIndex);
     //getData();
+    checkPrivacy();
 
   }
   File? image;

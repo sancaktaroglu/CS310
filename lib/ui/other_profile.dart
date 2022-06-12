@@ -22,6 +22,7 @@ import 'package:untitled2/services/database.dart';
 
 import '../util/styles.dart';
 import 'add_comment.dart';
+import 'edit_post.dart';
 
 class OtherProfilePage extends StatefulWidget {
   const OtherProfilePage({this.data});
@@ -39,6 +40,7 @@ class _OtherProfilePageState extends State<OtherProfilePage> {
   List<String> userPostIDList = [];
   bool follows = false;
   bool requestSent = false;
+  String notifID = "";
   final x =Post(caption: 'Starbucks',
     date: 'January 20',
     likes: ["aasd", "asdfas"],
@@ -55,6 +57,7 @@ class _OtherProfilePageState extends State<OtherProfilePage> {
   );
   final user = FirebaseAuth.instance.currentUser!;
   final CollectionReference postCollection = FirebaseFirestore.instance.collection("Posts");
+  final CollectionReference notifCollection = FirebaseFirestore.instance.collection("Notifications");
   Future<void> getPosts() async {
     // Get docs from collection reference
     QuerySnapshot querySnapshot = await postCollection.get();
@@ -107,11 +110,16 @@ class _OtherProfilePageState extends State<OtherProfilePage> {
 
 
   }
-  var currentUser = OurUser(follower: [], following: [], posts: [], userId: "", username: "", email: "", private: false, fullName: "", bio: "", bookmark: [], notifications: [], method: "", profilePic: "");
+  var currentUser = OurUser(followRequests: [], follower: [], following: [], posts: [], userId: "", username: "", email: "", private: false, fullName: "", bio: "", bookmark: [], notifications: [], method: "", profilePic: "");
+  var thisUser = OurUser(followRequests: [], follower: [], following: [], posts: [], userId: "", username: "", email: "", private: false, fullName: "", bio: "", bookmark: [], notifications: [], method: "", profilePic: "");
   Future<void> getData() async {
+
+
+
     // Get docs from collection reference
     DocumentSnapshot snapshot = await userCollection.doc(user.uid).get();
     // Get data from docs and convert map to List
+    currentUser.followRequests = List<String>.from(snapshot.get('FollowRequests'));
     currentUser.userId = snapshot.get('id');
     currentUser.fullName = snapshot.get('fullname');
     currentUser.email = snapshot.get('email');
@@ -125,6 +133,39 @@ class _OtherProfilePageState extends State<OtherProfilePage> {
     currentUser.private = snapshot.get('privateAccount');
     currentUser.profilePic = snapshot.get('profilepic');
     currentUser.username = snapshot.get('username');
+
+    DocumentSnapshot snapshot2 = await userCollection.doc(widget.data!['id']).get();
+    // Get data from docs and convert map to List
+    thisUser.followRequests = List<String>.from(snapshot2.get('FollowRequests'));
+    thisUser.userId = snapshot2.get('id');
+    thisUser.fullName = snapshot2.get('fullname');
+    thisUser.email = snapshot2.get('email');
+    thisUser.method = snapshot2.get('method');
+    thisUser.follower = List<String>.from(snapshot2.get('Followers'));
+    thisUser.following = List<String>.from(snapshot2.get('Following'));
+    thisUser.posts = List<String>.from(snapshot2.get('Posts'));
+    thisUser.bio = snapshot2.get('bio');
+    thisUser.bookmark = List<String>.from(snapshot2.get('bookmark'));
+    thisUser.notifications = List<String>.from(snapshot2.get('Followers'));
+    thisUser.private = snapshot2.get('privateAccount');
+    thisUser.profilePic = snapshot2.get('profilepic');
+    thisUser.username = snapshot2.get('username');
+
+    print(thisUser.followRequests);
+
+    if(thisUser.followRequests.contains(currentUser.userId)){
+      requestSent = true;
+    }
+
+    QuerySnapshot querySnapshot = await notifCollection.get();
+
+    final chat = querySnapshot.docs.forEach((element) {
+
+      if(element['user_id'] == user.uid && element['other_user_id'] == widget.data!['id'] && element['notif_type'] == "follow_request"){
+        notifID = element['id'];
+      }
+
+    });
     setState((){});
 
     print(currentUser.username);
@@ -160,9 +201,30 @@ class _OtherProfilePageState extends State<OtherProfilePage> {
   }
   Future<void> Follow() async{
 
+    DocumentReference ref2 = FirebaseFirestore.instance.collection('Notifications').doc();
+
     if(widget.data!['privateAccount'] == true){
       follows = false;
       requestSent = true;
+
+      var followRequests = List<String>.from(widget.data!['FollowRequests']);
+      followRequests.add(user.uid);
+
+      userCollection.doc(widget.data!['id']).update({
+        'FollowRequests': followRequests,
+      });
+
+      ref2.set({
+        'id': ref2.id,
+        'notif_type': 'follow_request',
+        'other_user_id': widget.data!['id'],
+        'post_id': "",
+        'user_id': user.uid,
+      });
+      notifID = ref2.id;
+
+      //notife request ekle
+
     }
     else{
       follows = true;
@@ -184,8 +246,19 @@ class _OtherProfilePageState extends State<OtherProfilePage> {
     setState((){});
   }
   Future<void> RequestCancel() async{
+    print(notifID);
+
+    FirebaseFirestore.instance.collection("Notifications").doc(notifID).delete();
+    var followRequests = List<String>.from(widget.data!['FollowRequests']);
+    followRequests.remove(user.uid);
+
+    userCollection.doc(widget.data!['id']).update({
+      'FollowRequests': followRequests,
+    });
+
     follows = false;
     requestSent = false;
+
     setState((){});
   }
   @override
@@ -427,25 +500,25 @@ class _OtherProfilePageState extends State<OtherProfilePage> {
                         if(follows == true)
                           for (int i=0; i<postsList.length; i++ )
 
-                            card(x,
+                            card(postsList[i],
                                 widget.data!['username'],
                                 "",
-                                postsList[i].postingTime,
+                                postsList[i].category,
                                 postsList[i].location,
                                 postsList[i].caption,
-                                postsList[i].picture, (){Navigator.push(context, MaterialPageRoute(builder: (context) => AddComment(data: postsList![i],)));},
-                                context, setState)
+                                postsList[i].picture, (){Navigator.push(context, MaterialPageRoute(builder: (context) => AddComment(data: postsList[i],)));},
+                                context, (){setState((){});}, thisUser, (){})
                         else if (widget.data!['privateAccount'] == false && follows == false)
                           for (int i=0; i<postsList.length; i++ )
 
-                            card(x,
+                            card(postsList[i],
                                 widget.data!['username'],
                                 "",
                                 postsList[i].postingTime,
                                 postsList[i].location,
                                 postsList[i].caption,
-                                postsList[i].picture, (){Navigator.push(context, MaterialPageRoute(builder: (context) => AddComment(data: postsList![i],)));},
-                                context, setState)
+                                postsList[i].picture, (){Navigator.push(context, MaterialPageRoute(builder: (context) => AddComment(data: postsList[i],)));},
+                                context, (){setState((){});}, thisUser, (){Navigator.push(context, MaterialPageRoute(builder: (context) => EditPost(data: postsList[i],)));})
 
                       ]
                   ),

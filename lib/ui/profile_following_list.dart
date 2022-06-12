@@ -37,7 +37,7 @@ class _ProfileFollowingListState extends State<ProfileFollowingList> {
   String query = "";
   final CollectionReference _firebaseFirestore = FirebaseFirestore.instance.collection("Users");
 
-  var currentUser = OurUser(follower: [], following: [], posts: [], userId: "", username: "", email: "", private: false, fullName: "", bio: "", bookmark: [], notifications: [], method: "", profilePic: "");
+  var currentUser = OurUser(followRequests: [], follower: [], following: [], posts: [], userId: "", username: "", email: "", private: false, fullName: "", bio: "", bookmark: [], notifications: [], method: "", profilePic: "");
   final user = FirebaseAuth.instance.currentUser!;
   final CollectionReference userCollection = FirebaseFirestore.instance.collection('Users');
   Future<void> getUsers() async {

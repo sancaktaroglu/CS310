@@ -32,12 +32,13 @@ class _AddCommentState extends State<AddComment> {
   final _formKey = GlobalKey<FormState>();
   String commentDone = "";
   String displayedComment = "";
-  var currentUser = OurUser(follower: [], following: [], posts: [], userId: "", username: "", email: "", private: false, fullName: "", bio: "", bookmark: [], notifications: [], method: "", profilePic: "");
+  var currentUser = OurUser(followRequests: [], follower: [], following: [], posts: [], userId: "", username: "", email: "", private: false, fullName: "", bio: "", bookmark: [], notifications: [], method: "", profilePic: "");
   final CollectionReference userCollection = FirebaseFirestore.instance.collection('Users');
 
   final user = FirebaseAuth.instance.currentUser!;
   final CollectionReference postCollection = FirebaseFirestore.instance.collection('Posts');
   final CollectionReference commentCollection = FirebaseFirestore.instance.collection('Comments');
+  final CollectionReference notifCollection = FirebaseFirestore.instance.collection('Notifications');
 
 
   Future<void> addComment(String comment) async{
@@ -56,6 +57,15 @@ class _AddCommentState extends State<AddComment> {
     postCollection.doc(widget.data.postId).update({
       "comments": commentArray,
     });
+    DocumentReference ref2 = FirebaseFirestore.instance.collection('Notifications').doc();
+    ref2.set({
+      'id': ref2.id,
+      'notif_type': 'comment',
+      'other_user_id': user.uid,
+      'post_id': widget.data.postId,
+      'user_id': widget.data.userId,
+    });
+
     //widget.data.comments.add(ref.id);
     setState((){});
   }

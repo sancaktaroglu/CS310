@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:untitled2/services/analytics.dart';
 import 'package:untitled2/util/colors.dart';
@@ -28,6 +29,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
     'cafe',
   ];
   String query = "";
+  final user = FirebaseAuth.instance.currentUser!;
   final CollectionReference _firebaseFirestore = FirebaseFirestore.instance.collection("Users");
   @override
   Widget build(BuildContext context) {
@@ -115,7 +117,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
                     itemCount: snapshots.data!.docs.length,
                     itemBuilder: (context, index){
                       var data = snapshots.data!.docs[index].data() as Map<String, dynamic>;
-                      if(query.isEmpty){
+                      if(query.isEmpty && data['id'] != user.uid){
                         return ListTile(
                           onTap: (){
                             Navigator.push(context, MaterialPageRoute(builder: (context) => OtherProfilePage(data: data,)));
@@ -125,7 +127,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
                           leading: CircleAvatar(
                             backgroundImage: NetworkImage(data['profilepic']),),);
                       }
-                      if(data['username'].toString().contains(query.toLowerCase()) || data['fullname'].toString().contains(query.toLowerCase())){
+                      if((data['username'].toString().contains(query.toLowerCase()) || data['fullname'].toString().contains(query.toLowerCase())) && data['id'] != user.uid){
                         return ListTile(
                           onTap: (){
                             Navigator.push(context, MaterialPageRoute(builder: (context) => OtherProfilePage(data: data,)));

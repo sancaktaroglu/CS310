@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:untitled2/services/analytics.dart';
 import 'package:untitled2/util/appBar.dart';
@@ -25,9 +26,27 @@ class _SignUpState extends State<SignUp> {
   String mail = "";
   String username = "";
   String password = "";
+  List<String> usernameList = [];
 
+  CollectionReference userCollection = FirebaseFirestore.instance.collection('Users');
 
+  Future<void> checkUsername()async {
+    QuerySnapshot querySnapshot = await userCollection.get();
+    //print(username);
+    querySnapshot.docs.map((doc) => doc.get('username')).forEach((element) {
+      print(element);
+      usernameList.add(element);
+    });
+    setState((){});
+  }
 
+  @override
+  void initState() {
+    super.initState();
+    //scrollController = FixedExtentScrollController(initialItem: selectedListIndex);
+    checkUsername();
+
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +73,7 @@ class _SignUpState extends State<SignUp> {
                       color: AppColors.inputColor,
                       padding: EdgeInsets.all(SizeConfig.blockSizeVertical),
                       child: TextFormField(
-                        obscureText: true,
+                        obscureText: false,
                         cursorColor: AppColors.inputColor,
                         decoration: const InputDecoration(
                           hintText: "Name",
@@ -90,7 +109,7 @@ class _SignUpState extends State<SignUp> {
                       color: AppColors.inputColor,
                       padding: EdgeInsets.all(SizeConfig.blockSizeVertical),
                       child: TextFormField(
-                        obscureText: true,
+                        obscureText: false,
                         cursorColor: AppColors.textColor,
                         decoration: const InputDecoration(
 
@@ -127,7 +146,7 @@ class _SignUpState extends State<SignUp> {
                       color: AppColors.inputColor,
                       padding: EdgeInsets.all(SizeConfig.blockSizeVertical),
                       child: TextFormField(
-                        obscureText: true,
+                        obscureText: false,
                         cursorColor: AppColors.textColor,
                         decoration: const InputDecoration(
 
@@ -174,10 +193,15 @@ class _SignUpState extends State<SignUp> {
 
 
                           validator: (value) {
+
                             if(value != null){
                               if(value.isEmpty) {
                                 return 'Cannot leave username empty';
                               }
+                              else if (usernameList.contains(value)){
+                                return 'This username has already taken';
+                              }
+
                             }
                           },
                           onSaved: (value) {

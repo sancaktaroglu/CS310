@@ -2,64 +2,120 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:untitled2/model/Posts.dart';
+import 'package:untitled2/model/user.dart';
 import 'package:untitled2/util/colors.dart';
 import 'package:untitled2/util/styles.dart';
 import 'package:untitled2/util/dimen.dart';
 
 final CollectionReference postCollection = FirebaseFirestore.instance.collection("Posts");
+final CollectionReference notifCollection = FirebaseFirestore.instance.collection("Notifications");
 
 final user = FirebaseAuth.instance.currentUser!;
+String notifID = "";
+
+
 Future<void> likePost(Post post) async {
+  bool isUpdated = false;
   DocumentSnapshot snapshot = await postCollection.doc(post.postId).get();
+  DocumentReference ref2 = FirebaseFirestore.instance.collection('Notifications').doc();
   post.likes = List<String>.from(snapshot.get('likes'));
+  post.dislikes = List<String>.from(snapshot.get('dislikes'));
+
+  if (post.dislikes.contains(user.uid)) {
+    post.dislikes.remove(user.uid);
+    postCollection.doc(post.postId).update({
+      'dislikes': post.dislikes,
+    });
+    //FirebaseFirestore.instance.collection("Notifications").doc(notifID).delete();
+    notifCollection.doc(notifID).update({
+      'notif_type': 'like',
+    });
+    isUpdated = true;
+  }
+
   if (post.likes.contains(user.uid)){
     post.likes.remove(user.uid);
     postCollection.doc(post.postId).update({
       'likes': post.likes,
     });
+
+    FirebaseFirestore.instance.collection("Notifications").doc(notifID).delete();
+
   }
   else{
     post.likes.add(user.uid);
     postCollection.doc(post.postId).update({
       'likes': post.likes,
     });
+    if(isUpdated == false){
+      ref2.set({
+        'id': ref2.id,
+        'notif_type': 'like',
+        'other_user_id': user.uid,
+        'post_id': post.postId,
+        'user_id': post.userId,
+      });
+      notifID = ref2.id;
+    }
+
   }
 
-  post.dislikes = List<String>.from(snapshot.get('dislikes'));
-  if (post.dislikes.contains(user.uid)) {
-    post.dislikes.remove(user.uid);
-    postCollection.doc(post.postId).update({
-      'dislikes': post.dislikes,
-    });
-  }
+
+
 
 }
 Future<void> dislikePost(Post post) async{
+  bool isUpdated2 = false;
   DocumentSnapshot snapshot = await postCollection.doc(post.postId).get();
+  DocumentReference ref2 = FirebaseFirestore.instance.collection('Notifications').doc();
   post.dislikes = List<String>.from(snapshot.get('dislikes'));
+  post.likes = List<String>.from(snapshot.get('likes'));
+
+  if (post.likes.contains(user.uid)) {
+    post.likes.remove(user.uid);
+    postCollection.doc(post.postId).update({
+      'likes': post.likes,
+    });
+    notifCollection.doc(notifID).update({
+      'notif_type': 'dislike',
+    });
+    isUpdated2 = true;
+
+  }
   if (post.dislikes.contains(user.uid)){
     post.dislikes.remove(user.uid);
     postCollection.doc(post.postId).update({
       'dislikes': post.dislikes,
     });
+
+    FirebaseFirestore.instance.collection("Notifications").doc(notifID).delete();
   }
   else{
     post.dislikes.add(user.uid);
     postCollection.doc(post.postId).update({
       'dislikes': post.dislikes,
     });
+    if(isUpdated2 == false){
+      ref2.set({
+        'id': ref2.id,
+        'notif_type': 'dislike',
+        'other_user_id': user.uid,
+        'post_id': post.postId,
+        'user_id': post.userId,
+      });
+      notifID = ref2.id;
+    }
+
+
+    //FirebaseFirestore.instance.collection("Notifications").doc(notifID).delete();
+
   }
 
-  post.likes = List<String>.from(snapshot.get('likes'));
-  if (post.likes.contains(user.uid)) {
-    post.likes.remove(user.uid);
-    postCollection.doc(post.postId).update({
-      'likes': post.likes,
-    });
-  }
+
+
   //setState((){});
 }
-Card card(Post post,String name, String surname, String date, String location, String comment, String link, Function func, BuildContext context, Function setState) {
+Card card(Post post,String name, String surname, String topic, String location, String comment, String link, Function func, BuildContext context, Function setState,OurUser user2, Function func2) {
   SizeConfig().init(context);
   return Card(
     child: SizedBox(
@@ -68,11 +124,10 @@ Card card(Post post,String name, String surname, String date, String location, S
         children: <Widget>[
           SizedBox(height: SizeConfig.blockSizeVertical*3),
           ListTile(
-            leading: const CircleAvatar(
-            ),
+            leading: CircleAvatar(child: Image.network(user2.profilePic),),
             title: Text("$name $surname"),
-            subtitle: Text("$date \n$location"),
-            trailing: const Icon(Icons.bookmark, color: AppColors.secondary),
+            subtitle: Text("$topic \n$location"),
+            trailing: GestureDetector(child: const Icon(Icons.edit, color: AppColors.secondary), onTap: (){func2();}),
           ),
           SizedBox(height: SizeConfig.blockSizeVertical*2),
           Align(

@@ -66,7 +66,7 @@ class AuthService {
       final snapshot = await FirebaseFirestore.instance.collection('customers').doc(user.uid).get();
 
       if (snapshot == null || !snapshot.exists) {
-        await DatabaseService(id: user.uid, ids: []).addUserWithEmailAndPassword(name, surname, email, username, 'emailandpassword', 'noURL');
+        await DatabaseService(id: user.uid, ids: []).addUserWithEmailAndPassword(name, surname, email, username, 'emailandpassword', 'https://www.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png');
       }
       return 'Signed Up';
     } catch (e) {

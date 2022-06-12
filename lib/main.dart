@@ -6,6 +6,7 @@ import 'package:untitled2/services/google_sign_in.dart';
 import 'package:untitled2/ui/Dm.dart';
 import 'package:untitled2/ui/OnBoarding.dart';
 import 'package:untitled2/ui/add_comment.dart';
+import 'package:untitled2/ui/bottom_map.dart';
 import 'package:untitled2/ui/change_bio.dart';
 //import 'package:untitled2/ui/post_card.dart';
 import 'package:untitled2/ui/change_password.dart';
@@ -25,6 +26,7 @@ import 'package:untitled2/ui/welcome.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+import 'package:untitled2/ui/zoomed_pp.dart';
 
 Future main() async{
   WidgetsFlutterBinding.ensureInitialized();
@@ -62,10 +64,11 @@ class Annotation extends StatelessWidget {
           CreatePostText.routeName: (context) => const CreatePostText(),
           CreatePostLocation.routeName: (context) => const CreatePostLocation(),
           CreatePostPhoto.routeName: (context) => const CreatePostPhoto(),
-          EditPost.routeName: (context) => const EditPost(),
           Dm.routeName: (context) => const Dm(),
           ChangeBio.routeName: (context) => const ChangeBio(),
           ChangeUsername.routeName: (context) => const ChangeUsername(),
+          BottomMap.routeName: (context) => const BottomMap(),
+
 
 
         },

@@ -22,8 +22,9 @@ import 'explore_screen.dart';
 import 'notifications.dart';
 
 class EditPost extends StatefulWidget {
-  const EditPost({Key? key, }) : super(key: key);
+  const EditPost({Key? key, required this.data }) : super(key: key);
   static const String routeName = "/editPost";
+  final Post data;
   @override
   State<EditPost> createState() => _EditPostState();
 
@@ -111,7 +112,7 @@ class _EditPostState extends State<EditPost> {
 
     try{
       FirebaseFirestore db = FirebaseFirestore.instance;
-      final docRef = db.collection("Posts").doc(id);
+      final docRef = db.collection("Posts").doc(widget.data.postId);
       await docRef.get().then(
             (DocumentSnapshot doc) {
           final data = doc.data() as Map<String, dynamic>;
@@ -136,7 +137,7 @@ class _EditPostState extends State<EditPost> {
 
     try{
       FirebaseFirestore db = FirebaseFirestore.instance;
-      final docRef = db.collection("Posts").doc(id);
+      final docRef = db.collection("Posts").doc(widget.data.postId);
       await docRef.get().then(
             (DocumentSnapshot doc) {
           final data = doc.data() as Map<String, dynamic>;
@@ -161,7 +162,7 @@ class _EditPostState extends State<EditPost> {
 
     try{
       FirebaseFirestore db = FirebaseFirestore.instance;
-      final docRef = db.collection("Posts").doc(id);
+      final docRef = db.collection("Posts").doc(widget.data.postId);
       await docRef.get().then(
             (DocumentSnapshot doc) {
           final data = doc.data() as Map<String, dynamic>;
@@ -187,7 +188,7 @@ class _EditPostState extends State<EditPost> {
 
     try{
       FirebaseFirestore db = FirebaseFirestore.instance;
-      final docRef = db.collection("Posts").doc(id);
+      final docRef = db.collection("Posts").doc(widget.data.postId);
       await docRef.get().then(
             (DocumentSnapshot doc) {
           final data = doc.data() as Map<String, dynamic>;
@@ -210,13 +211,11 @@ class _EditPostState extends State<EditPost> {
 
 
   int selectedListIndex = 0;
-  String id =
-      "8Du360gLWvwPuyEsZuxn";
 
   Future editPost(BuildContext context) async {
 
     try{
-      await FirebaseFirestore.instance.collection('Posts').doc(id).update({
+      await FirebaseFirestore.instance.collection('Posts').doc(widget.data.postId).update({
         'category': items[selectedListIndex],
         'title': title2,
         'caption': caption2,

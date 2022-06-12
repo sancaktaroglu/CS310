@@ -10,6 +10,7 @@ import 'package:untitled2/ui/explore_screen.dart';
 import 'package:untitled2/ui/profile_edit.dart';
 import 'package:untitled2/ui/profile_follower_list.dart';
 import 'package:untitled2/ui/profile_following_list.dart';
+import 'package:untitled2/ui/zoomed_pp.dart';
 import 'package:untitled2/util/colors.dart';
 import 'package:untitled2/util/styles.dart';
 import 'package:untitled2/util/dimen.dart';
@@ -22,6 +23,7 @@ import 'package:untitled2/services/database.dart';
 import 'package:untitled2/model/Posts.dart';
 
 import 'add_comment.dart';
+import 'edit_post.dart';
 
 
 void main() => runApp(const Profile());
@@ -67,7 +69,7 @@ class _HomeViewState extends State<HomeView> {
   final CollectionReference postCollection = FirebaseFirestore.instance.collection("Posts");
 
 
-  var currentUser = OurUser(follower: [], following: [], posts: [], userId: "", username: "", email: "", private: false, fullName: "", bio: "", bookmark: [], notifications: [], method: "", profilePic: "");
+  var currentUser = OurUser(followRequests: [], follower: [], following: [], posts: [], userId: "", username: "", email: "", private: false, fullName: "", bio: "", bookmark: [], notifications: [], method: "", profilePic: "");
   final user = FirebaseAuth.instance.currentUser!;
   final CollectionReference userCollection = FirebaseFirestore.instance.collection('Users');
   Future<void> getData() async {
@@ -244,10 +246,15 @@ class _HomeViewState extends State<HomeView> {
                         child: CircleAvatar(
                           radius: 60,
                           child: ClipOval(
-                            child: Image.network(
-                              currentUser.profilePic,
-                              fit: BoxFit.fill,
-                              width: SizeConfig.screenWidth/3,
+                            child: GestureDetector(
+                              onTap: (){
+                                Navigator.push(context, MaterialPageRoute(builder: (context) =>  ZoomedProfilePicture(data: currentUser.profilePic)));
+                              },
+                              child: Image.network(
+                                currentUser.profilePic,
+                                fit: BoxFit.fill,
+                                width: SizeConfig.screenWidth/3,
+                              ),
                             ),
                           ),
                         ),
@@ -344,9 +351,11 @@ class _HomeViewState extends State<HomeView> {
                                     borderRadius: BorderRadius.circular(80),
                                     child: FlatButton(
                                       color: AppColors.mainColor,
-                                      onPressed: () {},
+                                      onPressed: () {
+                                        _goSettingPage;
+                                      },
                                       child: Text(
-                                        "Follow",
+                                        "Edit Profile",
                                         style: loginTextStyle,
 
                                       ),
@@ -376,11 +385,11 @@ class _HomeViewState extends State<HomeView> {
                         card(postsList[i],
                             currentUser.username,
                             "",
-                            postsList[i].postingTime,
+                            postsList[i].category,
                             postsList[i].location,
                             postsList[i].caption,
                             postsList[i].picture, (){Navigator.push(context, MaterialPageRoute(builder: (context) => AddComment(data: postsList[i],)));},
-                            context, setState)
+                            context, (){setState((){});}, currentUser, (){Navigator.push(context, MaterialPageRoute(builder: (context) => EditPost(data: postsList[i],)));})
 
                     ]
                 ),

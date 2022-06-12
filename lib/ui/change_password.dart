@@ -29,7 +29,6 @@ class _ChangePasswordState extends State<ChangePassword> {
   Widget build(BuildContext context) {
     setCurrentScreen(analytics, "Change Password Page", "change_password.dart") ;
     SizeConfig().init(context);
-    FirebaseCrashlytics.instance.crash();
     return Scaffold(
       appBar: welcomeBar("Settings"),
       body: SafeArea(

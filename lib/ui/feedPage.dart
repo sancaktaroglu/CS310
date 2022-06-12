@@ -13,6 +13,7 @@ import 'package:untitled2/ui/profile.dart';
 import 'package:untitled2/util/appBar.dart';
 import '../model/user.dart';
 import '../util/colors.dart';
+import 'bottom_map.dart';
 import 'explore_screen.dart';
 import 'package:untitled2/classes/post.dart';
 import "package:untitled2/services/analytics.dart";
@@ -39,13 +40,14 @@ class _FeedPageState extends State<FeedPage> {
   List<String> userPostIDList = [];
   final CollectionReference postCollection = FirebaseFirestore.instance.collection("Posts");
 
-  var currentUser = OurUser(follower: [], following: [], posts: [], userId: "", username: "", email: "", private: false, fullName: "", bio: "", bookmark: [], notifications: [], method: "", profilePic: "");
+  var currentUser = OurUser(followRequests: [], follower: [], following: [], posts: [], userId: "", username: "", email: "", private: false, fullName: "", bio: "", bookmark: [], notifications: [], method: "", profilePic: "");
   final user = FirebaseAuth.instance.currentUser!;
   final CollectionReference userCollection = FirebaseFirestore.instance.collection('Users');
   Future<void> getData() async {
     // Get docs from collection reference
     DocumentSnapshot snapshot = await userCollection.doc(user.uid).get();
     // Get data from docs and convert map to List
+    currentUser.followRequests = List<String>.from(snapshot.get('FollowRequests'));
     currentUser.userId = snapshot.get('id');
     currentUser.fullName = snapshot.get('fullname');
     currentUser.email = snapshot.get('email');
@@ -107,6 +109,7 @@ class _FeedPageState extends State<FeedPage> {
       );
       DocumentSnapshot snapshot3 = await userCollection.doc(snapshot2.get('userid')).get();
       final thatUser =OurUser(
+          followRequests: List<String>.from(snapshot3.get('FollowRequests')),
           userId: snapshot3.get('id'),
           fullName: snapshot3.get('fullname'),
           email: snapshot3.get('email'),
@@ -173,7 +176,7 @@ class _FeedPageState extends State<FeedPage> {
         }
         else if(index == 2)
         {
-          Navigator.pushNamedAndRemoveUntil(context, EditPost.routeName, (route) => false);
+          Navigator.pushNamed(context, BottomMap.routeName);
 
         }
         else if(index == 3)
@@ -197,12 +200,12 @@ class _FeedPageState extends State<FeedPage> {
 
                     card(postsList[i],
                         usersList[i].username,
-                        postsList[i].date,
-                        postsList[i].postingTime,
+                        "",
+                        postsList[i].category,
                         postsList[i].location,
                         postsList[i].caption,
                         postsList[i].picture, (){Navigator.push(context, MaterialPageRoute(builder: (context) => AddComment(data: postsList[i],)));},
-                        context, (){setState((){});})
+                        context, (){setState((){});}, usersList[i], (){})
 
 
                 ]
