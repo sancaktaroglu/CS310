@@ -13,6 +13,9 @@ import 'package:untitled2/ui/profile_edit.dart';
 import 'package:untitled2/ui/explore_screen.dart';
 import 'package:untitled2/ui/feedPage.dart';
 
+import 'bottom_map.dart';
+import 'create_post_text.dart';
+
 
 class Notifications extends StatefulWidget {
   const Notifications({Key? key}) : super(key: key);
@@ -74,11 +77,12 @@ class _NotificationsState extends State<Notifications> {
         }
         else if(index == 2)
         {
-          Navigator.pushNamedAndRemoveUntil(context, ProfileEdit.routeName, (route) => false);
+          Navigator.pushNamed(context, BottomMap.routeName);
+
         }
         else if(index == 3)
         {
-
+          Navigator.pushNamedAndRemoveUntil(context, CreatePostText.routeName, (route) => false);
         }
         else if(index == 4)
         {

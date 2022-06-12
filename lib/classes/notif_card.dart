@@ -40,9 +40,15 @@ class _notifCardState extends State<notifCard> {
     setState( () {});
   }
 
+
+  bool check = true;
+
   @override
   Widget build(BuildContext context) {
-    getInfo();
+    if(check){
+      getInfo();
+      check = false;
+    }
     if (widget.x.notifType == 'like') {
       link = like;
       sentence = chat_name + " liked your post!";
