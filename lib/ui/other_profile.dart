@@ -4,10 +4,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:untitled2/model/chat.dart';
 import 'package:untitled2/model/notif.dart';
 import 'package:untitled2/services/analytics.dart';
 import 'package:untitled2/services/authentication.dart';
 import 'package:untitled2/ui/explore_screen.dart';
+import 'package:untitled2/ui/message_screen.dart';
 import 'package:untitled2/ui/profile.dart';
 import 'package:untitled2/ui/profile_edit.dart';
 import 'package:untitled2/util/colors.dart';
@@ -41,20 +43,7 @@ class _OtherProfilePageState extends State<OtherProfilePage> {
   bool follows = false;
   bool requestSent = false;
   String notifID = "";
-  final x =Post(caption: 'Starbucks',
-    date: 'January 20',
-    likes: ["aasd", "asdfas"],
-    dislikes: ["saldf", "asdfasd"],
-    comments: ["asdfas", "asdf"],
-    location: "Kadıköy",
-    picture: "link",
-    category: "asdfa",
-    postId: "asdasd",
-    userId: "asdfasd",
-    postingTime: "sadfsd",
-    title: "sdfdsg",
 
-  );
   final user = FirebaseAuth.instance.currentUser!;
   final CollectionReference postCollection = FirebaseFirestore.instance.collection("Posts");
   final CollectionReference notifCollection = FirebaseFirestore.instance.collection("Notifications");
@@ -261,6 +250,67 @@ class _OtherProfilePageState extends State<OtherProfilePage> {
 
     setState((){});
   }
+  List <Chat> chats = [];
+  String messager = "";
+  List <String> message = [];
+  List <bool> who_send = [];
+  String id_doc = "";
+  String last_message = "";
+  bool is_user1 = true;
+
+  Future<void> Message() async{
+    final CollectionReference messageCollection = FirebaseFirestore.instance.collection('Messages');
+
+    QuerySnapshot querySnapshot = await messageCollection.get();
+    DocumentReference ref = FirebaseFirestore.instance.collection('Messages').doc();
+
+    bool control = true;
+
+    final chat = querySnapshot.docs.forEach((element) {
+      if (element['user_id1'] == user.uid && element['user_id2'] == widget.data!['id']) {
+        control = false;
+        id_doc = element['id'];
+        messager = element['user_id2'];
+        for (int i = 0; i < element['Messages'].length; i++) {
+          message.add(element['Messages'][i]);
+        }
+        for (int i = 0; i < element['user1_send'].length; i++) {
+          who_send.add(element['user1_send'][i]);
+        }
+        chats.add(Chat(name: widget.data!['fullname'], id: messager, messages: message, image: widget.data!['profilepic'], doc_id: id_doc, who_send: who_send, is_user1: is_user1));
+      }
+
+      else if (element['user_id2'] == user.uid && element['user_id1'] == widget.data!['id']){
+        control = false;
+        id_doc = element['id'];
+        messager = element['user_id1'];
+        is_user1 = false;
+        for (int i = 0; i < element['Messages'].length; i++){
+          message.add(element['Messages'][i]);
+        }
+        for (int i = 0; i < element['user1_send'].length; i++) {
+          who_send.add(element['user1_send'][i]);
+        }
+        chats.add(Chat(name: widget.data!['fullname'], id: messager, messages: message, image: widget.data!['profilepic'], doc_id: id_doc, who_send: who_send, is_user1: is_user1));
+      }
+
+
+      
+    });
+
+    if (control == true){
+      ref.set(
+          {"Messages": message,
+            "user1_send": who_send,
+            "user_id1":user.uid,
+            "user_id2":widget.data!['id'],
+            "id":ref.id
+          }
+      );
+      chats.add(Chat(name: widget.data!['fullname'], id: widget.data!['id'], messages: message, image: widget.data!['profilepic'], doc_id: ref.id, who_send: who_send, is_user1: true ));
+      setState( () {});
+    }
+  }
   @override
   void initState() {
     super.initState();
@@ -268,12 +318,16 @@ class _OtherProfilePageState extends State<OtherProfilePage> {
     getData();
     getPosts();
     followStatus();
+    Message();
+
 
   }
 
+
+
   @override
   Widget build(BuildContext context) {
-
+    setCurrentScreen(analytics, "Other Profile", "other_profile.dart");
     int selectedIndex = 0;
     //final snapshot = FirebaseFirestore.instance.collection('customers').doc(user.uid).get();
     //OurUser? currentUser = Provider.of<OurUser?>(context);
@@ -320,7 +374,7 @@ class _OtherProfilePageState extends State<OtherProfilePage> {
                 )
             ),
           ),
-          
+
         ),
         body: SingleChildScrollView(
           child: SafeArea(
@@ -417,28 +471,53 @@ class _OtherProfilePageState extends State<OtherProfilePage> {
                             Row(
                               children: [
                                 if(follows == true)
-                                  Padding(
-                                    padding: EdgeInsets.only(top: SizeConfig.blockSizeVertical*2),
-                                    child: Container(
-                                      height: SizeConfig.screenHeight/20,
-                                      width: SizeConfig.screenWidth/2,
-                                      margin: EdgeInsets.only(top:SizeConfig.blockSizeVertical*2),
-                                      child: ClipRRect(
-                                        borderRadius: BorderRadius.circular(80),
-                                        child: FlatButton(
-                                          color: AppColors.mainColor,
-                                          onPressed: () {
-                                            unFollow();
-                                          },
-                                          child:
-                                          Text(
-                                            "Following",
-                                            style: loginTextStyle,
+                                  Column(
+                                    children: [
+                                      Padding(
+                                        padding: EdgeInsets.only(top: SizeConfig.blockSizeVertical*2),
+                                        child: Container(
+                                          height: SizeConfig.screenHeight/20,
+                                          width: SizeConfig.screenWidth/2,
+                                          margin: EdgeInsets.only(top:SizeConfig.blockSizeVertical*2),
+                                          child: ClipRRect(
+                                            borderRadius: BorderRadius.circular(80),
+                                            child: FlatButton(
+                                              color: AppColors.mainColor,
+                                              onPressed: () {
+                                                unFollow();
+                                              },
+                                              child:
+                                              Text(
+                                                "Following",
+                                                style: loginTextStyle,
 
+                                              ),
+                                            ),
                                           ),
                                         ),
                                       ),
-                                    ),
+                                      Container(
+                                        height: SizeConfig.screenHeight/20,
+                                        width: SizeConfig.screenWidth/2,
+                                        margin: EdgeInsets.only(top:SizeConfig.blockSizeVertical),
+                                        child: ClipRRect(
+                                          borderRadius: BorderRadius.circular(80),
+                                          child: FlatButton(
+                                            color: AppColors.mainColor,
+                                            onPressed: () {
+
+                                              Navigator.push(context, MaterialPageRoute(builder: (context) => message_screen(data : chats[0])));
+                                            },
+                                            child:
+                                            Text(
+                                              "Message",
+                                              style: loginTextStyle,
+
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
                                   )
                                 else if (follows == false && widget.data!['privateAccount'] == true && requestSent == true)
                                   Padding(

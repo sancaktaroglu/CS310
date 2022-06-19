@@ -20,8 +20,8 @@ class Login extends StatefulWidget {
 class _LoginState extends State<Login> {
 
   final _formKey = GlobalKey<FormState>();
-  String email = "";
-  String password = "";
+  String? email;
+  String? password;
 
 
 
@@ -76,7 +76,8 @@ class _LoginState extends State<Login> {
                               }
                             },
                             onSaved: (value){
-                              email = value ?? '';
+                              //email = value ?? '';
+                              email = value;
                             },
                           ),
                         )
@@ -120,7 +121,8 @@ class _LoginState extends State<Login> {
                             }
                           },
                           onSaved: (value) {
-                            password = value ?? '';
+                            //password = value ?? '';
+                            password = value;
                           },
                         ),
                       ),
@@ -140,17 +142,10 @@ class _LoginState extends State<Login> {
                         onPressed: () {
                           if (_formKey.currentState!.validate()) {
                             _formKey.currentState!.save();
-                            AuthService().loginWithMailandPass(email, password);
+                            AuthService().loginWithMailandPass(email!, password!);
+
                             Navigator.pushNamedAndRemoveUntil(context, FeedPage.routeName, (route) => false);
                           }
-
-
-
-                          /*if(_formKey.currentState!.validate()) {
-                            _formKey.currentState!.save();
-
-                            //database check
-                          }*/
 
                         },
                         child: Text("Login",

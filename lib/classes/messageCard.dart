@@ -18,52 +18,54 @@ class Message extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
-    return Row(
-      mainAxisAlignment:
-      message.sender == user ? MainAxisAlignment.end : MainAxisAlignment.start,
-      children: [
-        if (message.sender != user) ...[
-          CircleAvatar(
-            radius: 12,
-            child: Image.network(image_url),
+    return Container(
+      child: Row(
+        mainAxisAlignment:
+        message.sender == user ? MainAxisAlignment.end : MainAxisAlignment.start,
+        children: [
+          if (message.sender != user) ...[
+            CircleAvatar(
+              radius: 12,
+              child: Image.network(image_url),
+            ),
+          ],
+          SizedBox(
+            width: SizeConfig.blockSizeHorizontal/2,
           ),
-        ],
-        SizedBox(
-          width: SizeConfig.blockSizeHorizontal/2,
-        ),
-        Container(
-          margin: message.sender == user ?
-          EdgeInsets.fromLTRB(
-            SizeConfig.blockSizeHorizontal*4,
-            SizeConfig.blockSizeVertical*3,
-            SizeConfig.blockSizeHorizontal*2,
-            0,
-          ) :
-          EdgeInsets.fromLTRB(
-            SizeConfig.blockSizeHorizontal*2,
-            SizeConfig.blockSizeVertical*3,
-            SizeConfig.blockSizeHorizontal*3,
-            0,
-          ),
-          padding: EdgeInsets.symmetric(
-            horizontal: SizeConfig.blockSizeHorizontal*3,
-            vertical: SizeConfig.blockSizeVertical,
-          ),
-          decoration: BoxDecoration(
-            color: message.sender == user ? AppColors.inputColor.withOpacity(0.8) : AppColors.buttonColor.withOpacity(0.2),
-            borderRadius: BorderRadius.circular(40),
-          ),
+          Container(
+            margin: message.sender == user ?
+            EdgeInsets.fromLTRB(
+              SizeConfig.blockSizeHorizontal*4,
+              SizeConfig.blockSizeVertical*3,
+              SizeConfig.blockSizeHorizontal*2,
+              0,
+            ) :
+            EdgeInsets.fromLTRB(
+              SizeConfig.blockSizeHorizontal*2,
+              SizeConfig.blockSizeVertical*3,
+              SizeConfig.blockSizeHorizontal*3,
+              0,
+            ),
+            padding: EdgeInsets.symmetric(
+              horizontal: SizeConfig.blockSizeHorizontal*3,
+              vertical: SizeConfig.blockSizeVertical,
+            ),
+            decoration: BoxDecoration(
+              color: message.sender == user ? AppColors.inputColor.withOpacity(0.8) : AppColors.buttonColor.withOpacity(0.2),
+              borderRadius: BorderRadius.circular(40),
+            ),
 
-          child: Flexible(
-            child: Text(
-              message.text,
-              style: chatTextStyle,
-              softWrap: false,
-              maxLines: 4,
+            child: Flexible(
+              child: Text(
+                message.text,
+                style: chatTextStyle,
+                softWrap: false,
+                maxLines: 4,
+              ),
             ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

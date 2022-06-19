@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:untitled2/model/Posts.dart';
+import 'package:untitled2/services/analytics.dart';
 import 'package:untitled2/util/colors.dart';
 import 'package:untitled2/util/styles.dart';
 import 'package:untitled2/util/dimen.dart';
@@ -15,6 +16,7 @@ class PostCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    setCurrentScreen(analytics, "Post Card", "post_card.dart");
     SizeConfig().init(context);
     return Card(
       color: AppColors.headingColor,

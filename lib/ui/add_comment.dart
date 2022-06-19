@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:untitled2/classes/notif_card.dart';
 import 'package:untitled2/model/notif.dart';
 import 'package:untitled2/model/user.dart';
+import 'package:untitled2/services/analytics.dart';
 import 'package:untitled2/util/colors.dart';
 import 'package:untitled2/util/appBar.dart';
 import 'package:untitled2/util/dimen.dart';
@@ -96,11 +97,9 @@ class _AddCommentState extends State<AddComment> {
   @override
   Widget build(BuildContext context) {
 
-
+    setCurrentScreen(analytics, "Add Comment", "add_comment.dart") ;
     SizeConfig().init(context);
-    String like = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSLudBUAQNGPerdvGD3gHqObUr1mYm7lk383w&usqp=CAU';
-    String comment = 'https://www.nicepng.com/png/detail/207-2078186_comment-free-icon-comment-free-download.png';
-    
+
     return Scaffold(
       appBar: welcomeBar("Comments"),
       body: StreamBuilder<QuerySnapshot>(
@@ -114,7 +113,6 @@ class _AddCommentState extends State<AddComment> {
                   itemCount: snapshots.data!.docs.length,
                   itemBuilder: (context, index){
                     var data = snapshots.data!.docs[index].data() as Map<String, dynamic>;
-                    print(data['id']);
                     getUserCredentials(data['id']);
                     if(data['post_id'] == widget.data.postId) {
                       return ListTile(

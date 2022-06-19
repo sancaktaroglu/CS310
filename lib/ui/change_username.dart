@@ -6,6 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:untitled2/classes/notif_card.dart';
 import 'package:untitled2/model/notif.dart';
+import 'package:untitled2/services/analytics.dart';
 import 'package:untitled2/util/colors.dart';
 import 'package:untitled2/util/appBar.dart';
 import 'package:untitled2/util/dimen.dart';
@@ -102,6 +103,7 @@ class _ChangeUsernameState extends State<ChangeUsername> {
   }
   @override
   Widget build(BuildContext context) {
+    setCurrentScreen(analytics, "Change Username", "change_username.dart");
     return Scaffold(
       appBar: welcomeBar("Change Username"),
       body: Form(

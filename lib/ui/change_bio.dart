@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:untitled2/classes/notif_card.dart';
 import 'package:untitled2/model/notif.dart';
+import 'package:untitled2/services/analytics.dart';
 import 'package:untitled2/util/colors.dart';
 import 'package:untitled2/util/appBar.dart';
 import 'package:untitled2/util/dimen.dart';
@@ -26,6 +27,7 @@ class ChangeBio extends StatefulWidget {
 
 class _ChangeBioState extends State<ChangeBio> {
 
+
   final _formKey = GlobalKey<FormState>();
   String bioDone = "";
   final user = FirebaseAuth.instance.currentUser!;
@@ -39,6 +41,7 @@ class _ChangeBioState extends State<ChangeBio> {
   }
   @override
   Widget build(BuildContext context) {
+    setCurrentScreen(analytics, "Change Bio", "change_bio.dart");
     return Scaffold(
       appBar: welcomeBar("Change Bio"),
       body: Form(

@@ -7,6 +7,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:untitled2/services/analytics.dart';
 import 'package:untitled2/ui/profile.dart';
 import 'package:untitled2/ui/profile_edit.dart';
 import 'package:untitled2/util/appBar.dart';
@@ -206,6 +207,7 @@ class _CreatePostPhotoState extends State<CreatePostPhoto> {
   }
   @override
   Widget build(BuildContext context) {
+    setCurrentScreen(analytics, "Create post photo", "create_post_photo.dart");
     return Scaffold(appBar: pageBar(context),
         body: SingleChildScrollView(
           child: Column(

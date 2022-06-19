@@ -148,20 +148,6 @@ class _FeedPageState extends State<FeedPage> {
   @override
   Widget build(BuildContext context) {
     int selectedIndex = 0;
-    final x =Post(caption: 'Starbucks',
-        date: 'January 20',
-        likes: ["aasd", "asdfas"],
-        dislikes: ["saldf", "asdfasd"],
-        comments: ["asdfas", "asdf"],
-        location: "Kadıköy",
-        picture: "link",
-        category: "asdfa",
-        userId: "asdfasd",
-        postId: "asdfasd",
-        postingTime: "sadfsd",
-        title: "asdasd"
-
-    );
 
     void onTap(index) {
       setState(() {

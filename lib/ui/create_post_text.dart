@@ -6,6 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:untitled2/services/analytics.dart';
 import 'package:untitled2/ui/choose_location.dart';
 import 'package:untitled2/ui/profile.dart';
 import 'package:untitled2/ui/profile_edit.dart';
@@ -128,7 +129,7 @@ class _CreatePostTextState extends State<CreatePostText> {
 
   @override
   Widget build(BuildContext context) {
-
+    setCurrentScreen(analytics, "Create post text", "create_post_text.dart");
     return Scaffold(appBar: pageBar(context),
         body: SingleChildScrollView(
           child: Form(key: _formKey,

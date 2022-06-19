@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:untitled2/services/analytics.dart';
 
 import 'package:untitled2/ui/profile.dart';
 import 'package:untitled2/ui/profile_edit.dart';
@@ -114,6 +115,7 @@ class _CreatePostLocationState extends State<CreatePostLocation> {
   var long;
   @override
   Widget build(BuildContext context) {
+    setCurrentScreen(analytics, "Choose Location", "choose_location.dart");
     return Scaffold(appBar: welcomeBar("Select A Location"),body: Stack(
       children: [GoogleMap(
         onTap: _handleTap,

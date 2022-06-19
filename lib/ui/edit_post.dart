@@ -6,6 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:untitled2/services/analytics.dart';
 import 'package:untitled2/ui/choose_location.dart';
 import 'package:untitled2/ui/profile.dart';
 import 'package:untitled2/ui/profile_edit.dart';
@@ -300,7 +301,7 @@ class _EditPostState extends State<EditPost> {
   bool firstLoad = true;
   @override
   Widget build(BuildContext context) {
-
+    setCurrentScreen(analytics, "Edit Post", "edit_post.dart");
     return Scaffold(appBar: pageBar(context),
         body: SingleChildScrollView(
           child: Form(key: _formKey,

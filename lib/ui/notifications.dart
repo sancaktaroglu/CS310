@@ -39,28 +39,34 @@ class _NotificationsState extends State<Notifications> {
 
     QuerySnapshot querySnapshot = await notifCollection.get();
 
-    final chat = querySnapshot.docs.forEach((element) {
+    final chat = querySnapshot.docs.forEach((element) async {
 
       if(element['user_id'] == uid){
-        print(element['notif_type']);
-        notifs.add(Notif(userId: uid, otherUserId: element['other_user_id'], notifType: element['notif_type'], postId: element['post_id'], doc_id: element['id']));
+        DocumentSnapshot snapshot =  await userCollection.doc(element['other_user_id']).get();
+        String name = snapshot.get('fullname');
+        notifs.add(Notif(userId: uid, otherUserId: element['other_user_id'], notifType: element['notif_type'], postId: element['post_id'], doc_id: element['id'], name: name));
+        setState( () {});
       }
     });
 
-    setState( () {});
 
   }
 
   bool check = true;
 
   @override
+  void initState(){
+
+    super.initState();
+    getNotif();
+    print("init");
+  }
+
+  @override
   Widget build(BuildContext context) {
     int _selectedIndex = 0;
 
-    if (check) {
-      getNotif();
-      check = false;
-    }
+
 
 
 
@@ -92,13 +98,14 @@ class _NotificationsState extends State<Notifications> {
     }
     SizeConfig().init(context);
     setCurrentScreen(analytics, "Notification Page", "notifications.dart") ;
-
     return Scaffold(
       backgroundColor: AppColors.mainColor,
       appBar: welcomeBar("Notifications"),
       body: ListView.builder(
         itemCount: notifs.length,
-          itemBuilder: (context, index) => notifCard(notifs[index]),
+        itemBuilder: (context, index){
+
+          return notifCard(notifs[index]);},
       ),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _selectedIndex,

@@ -3,6 +3,7 @@ import 'dart:ffi';
 import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:untitled2/services/analytics.dart';
 
 import '../util/appBar.dart';
 
@@ -18,6 +19,7 @@ class BottomMap extends StatefulWidget {
 class _BottomMapState extends State<BottomMap> {
   @override
   Widget build(BuildContext context) {
+    setCurrentScreen(analytics, "Bottom Map", "bottom_map.dart") ;
     return Scaffold(
       appBar: welcomeBar("Map"),
       body: GoogleMap(initialCameraPosition: CameraPosition(

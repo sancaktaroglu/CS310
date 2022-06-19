@@ -17,67 +17,65 @@ String follow_request = 'https://www.clipartmax.com/png/middle/319-3196434_reque
 
 String sentence = '';
 String link = '';
-String chat_name = '';
+
 
 class notifCard extends StatefulWidget {
   notifCard(
       this.x,
+
       {Key? key}) : super(key: key);
 
 
   Notif x;
+
+
+
 
   @override
   State<notifCard> createState() => _notifCardState();
 }
 
 class _notifCardState extends State<notifCard> {
-  final CollectionReference userCollection = FirebaseFirestore.instance.collection('Users');
-
-  void getInfo() async {
-    DocumentSnapshot snapshot = await userCollection.doc(widget.x.otherUserId).get();
-    chat_name = snapshot.get('fullname');
-    setState( () {});
-  }
 
 
-  bool check = true;
+
+
+
+
 
   @override
   Widget build(BuildContext context) {
-    if(check){
-      getInfo();
-      check = false;
-    }
+
     if (widget.x.notifType == 'like') {
       link = like;
-      sentence = chat_name + " liked your post!";
+      sentence = widget.x.name + " liked your post!";
     }
 
     else if(widget.x.notifType == 'dislike'){
       link = dislike;
-      sentence = chat_name + " disliked your post!";
+      sentence = widget.x.name  + " disliked your post!";
     }
 
     else if (widget.x.notifType == 'comment') {
       link = comment;
-      sentence = chat_name + " commented on your post!";
+      sentence = widget.x.name  + " commented on your post!";
     }
 
     else if (widget.x.notifType == 'share'){
       link = share;
-      sentence = chat_name + " shared your post!";
+      sentence = widget.x.name  + " shared your post!";
     }
 
     else if (widget.x.notifType == 'follow'){
       link = follow;
-      sentence = chat_name + " followed you!";
+      sentence = widget.x.name  + " followed you!";
     }
 
     else if (widget.x.notifType == "follow_request"){
       link = follow_request;
-      sentence = chat_name + " has requested to follow you!";
+      sentence = widget.x.name  + " has requested to follow you!";
     }
+
 
 
     return Card(

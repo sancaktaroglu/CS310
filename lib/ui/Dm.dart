@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:untitled2/classes/chatCard.dart';
 import 'package:untitled2/model/chat.dart';
+import 'package:untitled2/services/analytics.dart';
 import 'package:untitled2/ui/create_post_text.dart';
 import 'package:untitled2/ui/edit_post.dart';
 import 'package:untitled2/ui/explore_screen.dart';
@@ -33,15 +34,6 @@ String? uid = user?.uid;
 class _DmState extends State<Dm> {
 
   List <Chat> chats = [
-    Chat(
-      name: "Jenny Wilson",
-      id : "asdfsad",
-      messages: ["Hope you are doing well..."],
-      image: "assets/images/user.png",
-      who_send: [true],
-      doc_id: "a",
-      is_user1: true,
-    ),
   ];
 
 
@@ -53,18 +45,25 @@ class _DmState extends State<Dm> {
   String id_doc = "";
   String last_message = "";
   bool is_user1 = true;
+  String image_url = "";
+  String chat_name = "";
+
+  bool find = false;
 
   Future<void> getMessages() async {
 
    QuerySnapshot querySnapshot = await messageCollection.get();
-
-   final chat = querySnapshot.docs.forEach((element) {
+   QuerySnapshot querySnapshot2 = await userCollection.get();
+   final chat = querySnapshot.docs.forEach((element){
      if (element['user_id1'] == uid){
+
+       find = true;
        id_doc = element['id'];
        messager = element['user_id2'];
        for (int i = 0; i < element['Messages'].length; i++){
          message.add(element['Messages'][i]);
        }
+       last_message = message.last;
        for (int i = 0; i < element['user1_send'].length; i++){
          who_send.add(element['user1_send'][i]);
        }
@@ -72,24 +71,44 @@ class _DmState extends State<Dm> {
 
      }
      else if (element['user_id2'] == uid){
+       find = true;
        id_doc = element['id'];
        messager = element['user_id1'];
        is_user1 = false;
        for (int i = 0; i < element['Messages'].length; i++){
          message.add(element['Messages'][i]);
        }
+       last_message = message.last;
        for (int i = 0; i < element['user1_send'].length; i++) {
          who_send.add(element['user1_send'][i]);
        }
+
      }
-     last_message = message.last;
+     if (find){
+
+       final chat2 = querySnapshot2.docs.forEach((element2){
+         if (messager == element2['id']){
+           image_url = element2['profilepic'];
+           chat_name = element2['fullname'];
+
+         }
+       });
+       print(message);
+       chats.add(Chat(name: chat_name,id: messager, messages: message, image: image_url, doc_id: id_doc, who_send: who_send, is_user1: is_user1));
+       find = false;
+       messager = "";
+       message = [];
+       who_send = [];
+
+       id_doc = "";
+       last_message = "";
+       is_user1 = true;
+       image_url = "";
+       chat_name = "";
+     }
+
    });
 
-   DocumentSnapshot snapshot =  await userCollection.doc(messager).get();
-   String image_url = snapshot.get('profilepic');
-   String chat_name = snapshot.get('fullname');
-
-   chats.add(Chat(name: chat_name,id: messager, messages: message, image: image_url, doc_id: id_doc, who_send: who_send, is_user1: is_user1));
    setState( () {});
  }
 
@@ -97,6 +116,7 @@ class _DmState extends State<Dm> {
 
   @override
   Widget build(BuildContext context) {
+    setCurrentScreen(analytics, "DM", "Dm.dart");
     int selectedIndex = 0;
 
     void onTap(index) {
@@ -129,6 +149,8 @@ class _DmState extends State<Dm> {
       getMessages();
       check = false;
     }
+
+
     return Scaffold(
       appBar: pageBar(context),
 
